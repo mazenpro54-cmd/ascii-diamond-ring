@@ -93,9 +93,122 @@ BAND_P, BAND_N = band()
 GEM_P, GEM_N, GEM_F = diamond()
 PRONG_P, PRONG_N = prongs()
 
-# Formation tracking metadata
+
+# Formation tracking metadata for Reel mode
 BAND_T = np.abs(np.pi - (np.arctan2(BAND_P[:, 0], BAND_P[:, 1]) % TAU))
 PRONG_U = np.tile(np.repeat(np.linspace(0, 1, 40), 16), 4)
+
+# ==============================================================================
+# REALISTIC JEWELER RING MODEL (Cathedral Shank, Gallery Wire, Claws, 57-Facet Cut)
+# ==============================================================================
+def init_real_ring():
+    # 1. Comfort-fit shank with cathedral tapered shoulders
+    band_pts, band_nrms, band_t = [], [], []
+    nT, nP = 220, 36
+    for i in range(nT):
+        t = (i / nT) * TAU
+        sx, sy = math.sin(t), math.cos(t)
+        angle_from_bot = abs(math.pi - t)
+        
+        top_f = max(0.0, (angle_from_bot - 2.1) / (math.pi - 2.1))
+        r_band = 1.05 + 0.07 * (top_f ** 2)
+        r_tube_x = 0.16 + 0.05 * top_f
+        r_tube_z = 0.19 + 0.05 * top_f
+        
+        for j in range(nP):
+            p = (j / nP) * TAU
+            cp, sp = math.cos(p), math.sin(p)
+            rad_offset = (cp * 0.82 if cp < 0 else cp * 1.18) * r_tube_x
+            px = (r_band + rad_offset) * sx
+            py = (r_band + rad_offset) * sy
+            pz = sp * r_tube_z
+            band_pts.append([px, py, pz])
+            band_nrms.append([cp * sx, cp * sy, sp])
+            band_t.append(angle_from_bot)
+
+    # 2. Under-bezel gallery rail (collar bracing the prongs)
+    gal_pts, gal_nrms = [], []
+    for t in np.linspace(0, TAU, 90, endpoint=False):
+        gx, gz = 0.38 * math.cos(t), 0.38 * math.sin(t)
+        for p in np.linspace(0, TAU, 10, endpoint=False):
+            cp, sp = math.cos(p), math.sin(p)
+            gal_pts.append([gx + 0.024 * cp * math.cos(t), 1.25 + 0.024 * sp, gz + 0.024 * cp * math.sin(t)])
+            gal_nrms.append([cp * math.cos(t), sp, cp * math.sin(t)])
+
+    # 3. 4 Claw prongs with inward curving tips
+    prong_pts, prong_nrms, prong_u = [], [], []
+    for i in range(4):
+        a = TAU * (i + 0.5) / 4
+        ca, sa = math.cos(a), math.sin(a)
+        for u in np.linspace(0, 1, 38):
+            if u < 0.65:
+                tu = u / 0.65
+                r = 0.14 + tu * (0.58 - 0.14)
+                y = 1.05 + tu * (1.36 - 1.05)
+            else:
+                tu = (u - 0.65) / 0.35
+                r = 0.58 - tu * 0.10
+                y = 1.36 + tu * 0.22
+            
+            for phi in np.linspace(0, TAU, 14, endpoint=False):
+                cp, sp = math.cos(phi), math.sin(phi)
+                th = 0.026 * (1.0 - 0.25 * u)
+                px = r * ca - sa * th * cp
+                pz = r * sa + ca * th * cp
+                py = y + th * sp
+                prong_pts.append([px, py, pz])
+                prong_nrms.append([-sa * cp, sp, ca * cp])
+                prong_u.append(u)
+
+    # 4. Brilliant cut faceted diamond (57-facet geometry)
+    gem_pts, gem_nrms, gem_ids = [], [], []
+    # Table facet
+    for r in np.linspace(0.01, 0.35, 14):
+        for t in np.linspace(0, TAU, 36, endpoint=False):
+            gem_pts.append([r * math.cos(t), 1.62, r * math.sin(t)])
+            gem_nrms.append([0.0, 1.0, 0.0])
+            gem_ids.append(0)
+
+    # Star & Kite facets (crown)
+    for k in range(8):
+        a0 = TAU * k / 8
+        a1 = TAU * (k + 1) / 8
+        amid = 0.5 * (a0 + a1)
+        v0 = np.array([0.35 * math.cos(a0), 1.62, 0.35 * math.sin(a0)])
+        v1 = np.array([0.35 * math.cos(a1), 1.62, 0.35 * math.sin(a1)])
+        v_star = np.array([0.45 * math.cos(amid), 1.50, 0.45 * math.sin(amid)])
+        n_star = np.cross(v1 - v0, v_star - v0)
+        n_star /= np.linalg.norm(n_star)
+        for u in np.linspace(0.1, 0.9, 6):
+            for v in np.linspace(0.1, 0.9 - u, 6):
+                gem_pts.append((1 - u - v) * v0 + u * v1 + v * v_star)
+                gem_nrms.append(n_star)
+                gem_ids.append(k + 1)
+
+    # Pavilion main facets
+    culet = np.array([0.0, 1.08, 0.0])
+    for k in range(8):
+        a0 = TAU * k / 8
+        a1 = TAU * (k + 1) / 8
+        v0 = np.array([0.56 * math.cos(a0), 1.36, 0.56 * math.sin(a0)])
+        v1 = np.array([0.56 * math.cos(a1), 1.36, 0.56 * math.sin(a1)])
+        n_pav = np.cross(v1 - v0, culet - v0)
+        n_pav /= np.linalg.norm(n_pav)
+        for u in np.linspace(0.05, 0.95, 8):
+            for v in np.linspace(0.05, 0.95 - u, 8):
+                gem_pts.append((1 - u - v) * v0 + u * v1 + v * culet)
+                gem_nrms.append(n_pav)
+                gem_ids.append(k + 9)
+
+    return (np.array(band_pts), np.array(band_nrms), np.array(band_t)), \
+           (np.array(gal_pts), np.array(gal_nrms)), \
+           (np.array(prong_pts), np.array(prong_nrms), np.array(prong_u)), \
+           (np.array(gem_pts), np.array(gem_nrms), np.array(gem_ids))
+
+(REAL_BAND_P, REAL_BAND_N, REAL_BAND_T), \
+(REAL_GAL_P, REAL_GAL_N), \
+(REAL_PRONG_P, REAL_PRONG_N, REAL_PRONG_U), \
+(REAL_GEM_P, REAL_GEM_N, REAL_GEM_F) = init_real_ring()
 
 # Set up background elements: atomic orbits and ambient glints
 def init_orbits():
@@ -185,17 +298,17 @@ THEMES = {
 }
 
 
-def render_frame(rot_y_deg, elapsed_sec, width=64, height=34, duration=8.07, message="@jin_22ee · 2026", color_mode=False, theme_name="cyan"):
+def render_frame(rot_y_deg, elapsed_sec, width=64, height=34, duration=8.07, message="@jin_22ee · 2026", color_mode=False, theme_name="cyan", style="real"):
     rot_y = math.radians(rot_y_deg)
-    tilt_x = math.radians(12.0)
+    tilt_x = math.radians(24.0 if style == "real" else 12.0)
 
     cos_y, sin_y = math.cos(rot_y), math.sin(rot_y)
     cos_x, sin_x = math.cos(tilt_x), math.sin(tilt_x)
 
-    def transform(pts, normals=None):
-        x = pts[:, 0]
-        y = pts[:, 1]
-        z = pts[:, 2]
+    def transform(points, normals=None):
+        x = points[:, 0]
+        y = points[:, 1]
+        z = points[:, 2]
 
         y1 = y * cos_x - z * sin_x
         z1 = y * sin_x + z * cos_x
@@ -218,15 +331,49 @@ def render_frame(rot_y_deg, elapsed_sec, width=64, height=34, duration=8.07, mes
             return (x2, y2, z2), (nx2, ny2, nz2)
         return (x2, y2, z2)
 
-    # Formation Progression
+    # Formation Progression & Stages
+    stage_tag = ""
     if duration > 0.0:
         norm_t = min(1.0, elapsed_sec / duration)
-        band_p = min(1.0, max(0.0, norm_t / 0.40))
-        prong_p = min(1.0, max(0.0, (norm_t - 0.35) / 0.30))
-        gem_p = min(1.0, max(0.0, (norm_t - 0.62) / 0.28))
-        flare_p = min(1.0, max(0.0, (norm_t - 0.88) / 0.12))
+        if style == "real":
+            # Realistic Jeweler Formation
+            band_p = min(1.0, max(0.0, norm_t / 0.35))
+            basket_p = min(1.0, max(0.0, (norm_t - 0.30) / 0.25))
+            gem_p = min(1.0, max(0.0, (norm_t - 0.50) / 0.25))
+            crimp_p = min(1.0, max(0.0, (norm_t - 0.72) / 0.14))
+            flare_p = min(1.0, max(0.0, (norm_t - 0.85) / 0.15))
+
+            if norm_t < 0.32:
+                stage_tag = "[1/5 FORGING SHANK]"
+            elif norm_t < 0.52:
+                stage_tag = "[2/5 MOUNTING BASKET]"
+            elif norm_t < 0.72:
+                stage_tag = "[3/5 SETTING GEMSTONE]"
+            elif norm_t < 0.85:
+                stage_tag = "[4/5 CRIMPING CLAWS]"
+            else:
+                stage_tag = "[5/5 BRILLIANCE LOCKED]"
+        else:
+            # Viral Reel Progression
+            band_p = min(1.0, max(0.0, norm_t / 0.40))
+            basket_p = min(1.0, max(0.0, (norm_t - 0.35) / 0.30))
+            gem_p = min(1.0, max(0.0, (norm_t - 0.62) / 0.28))
+            crimp_p = 1.0
+            flare_p = min(1.0, max(0.0, (norm_t - 0.88) / 0.12))
+            stage_tag = "[REEL MODE]"
     else:
-        band_p = prong_p = gem_p = flare_p = 1.0
+        band_p = basket_p = gem_p = crimp_p = flare_p = 1.0
+        stage_tag = "[CRAFTED]"
+
+    # Select geometry
+    if style == "real":
+        B_P, B_N, B_T = REAL_BAND_P, REAL_BAND_N, REAL_BAND_T
+        P_P, P_N, P_U = REAL_PRONG_P, REAL_PRONG_N, REAL_PRONG_U
+        G_P, G_N, G_F = REAL_GEM_P, REAL_GEM_N, REAL_GEM_F
+    else:
+        B_P, B_N, B_T = BAND_P, BAND_N, BAND_T
+        P_P, P_N, P_U = PRONG_P, PRONG_N, PRONG_U
+        G_P, G_N, G_F = GEM_P, GEM_N, GEM_F
 
     # Framebuffers
     zbuf = np.full((height, width), -9999.0)
@@ -240,7 +387,7 @@ def render_frame(rot_y_deg, elapsed_sec, width=64, height=34, duration=8.07, mes
     Kx = 56.0
     Ky = 28.0
     cx = width / 2.0
-    cy = height / 2.0 + 1.2
+    cy = height / 2.0 + (0.8 if style == "real" else 1.2)
 
     hx, hy, hz = LIGHT[0], LIGHT[1], LIGHT[2] - 1.0
     hlen = math.sqrt(hx*hx + hy*hy + hz*hz)
@@ -248,10 +395,10 @@ def render_frame(rot_y_deg, elapsed_sec, width=64, height=34, duration=8.07, mes
 
     # 1. Band
     if band_p > 0.0:
-        band_mask = BAND_T <= (band_p * np.pi)
+        band_mask = B_T <= (band_p * np.pi)
         if np.any(band_mask):
-            sub_P = BAND_P[band_mask]
-            sub_N = BAND_N[band_mask]
+            sub_P = B_P[band_mask]
+            sub_N = B_N[band_mask]
             (bx, by, bz), (bnx, bny, bnz) = transform(sub_P, sub_N)
             ooz = 1.0 / (bz + dist)
             xp = (cx + Kx * bx * ooz).astype(int)
@@ -272,12 +419,39 @@ def render_frame(rot_y_deg, elapsed_sec, width=64, height=34, duration=8.07, mes
                     col = palette["spec"] if sp > 0.6 else palette["band"]
                     colbuf[y_i, x_i] = [min(255, max(0, int(c * lum))) for c in col]
 
-    # 2. Prongs
-    if prong_p > 0.0:
-        prong_mask = PRONG_U <= prong_p
+    # 2. Gallery Rail (Real mode under-bezel collar)
+    if style == "real" and basket_p > 0.2:
+        (gal_x, gal_y, gal_z), (gal_nx, gal_ny, gal_nz) = transform(REAL_GAL_P, REAL_GAL_N)
+        ooz = 1.0 / (gal_z + dist)
+        xp = (cx + Kx * gal_x * ooz).astype(int)
+        yp = (cy - Ky * gal_y * ooz).astype(int)
+        diff = gal_nx * LIGHT[0] + gal_ny * LIGHT[1] + gal_nz * LIGHT[2]
+        valid = (xp >= 0) & (xp < width) & (yp >= 0) & (yp < height)
+        for i in np.where(valid)[0]:
+            x_i, y_i = xp[i], yp[i]
+            oz = ooz[i]
+            if oz > zbuf[y_i, x_i]:
+                zbuf[y_i, x_i] = oz
+                df = max(0.0, diff[i])
+                lum = 0.35 + 0.60 * df
+                idx = min(len(RAMP) - 1, max(1, int(lum * (len(RAMP) - 1))))
+                charbuf[y_i, x_i] = RAMP[idx]
+                colbuf[y_i, x_i] = palette["prong"]
+
+    # 3. Prongs & Claws
+    if basket_p > 0.0:
+        prong_mask = P_U <= basket_p
         if np.any(prong_mask):
-            sub_P = PRONG_P[prong_mask]
-            sub_N = PRONG_N[prong_mask]
+            sub_P = P_P[prong_mask].copy()
+            sub_N = P_N[prong_mask].copy()
+
+            # In real mode, claw tips bend inward over crown during crimp stage
+            if style == "real" and crimp_p > 0.0:
+                is_tip = sub_P[:, 1] > 1.38
+                if np.any(is_tip):
+                    sub_P[is_tip, 0] *= (1.0 - 0.08 * crimp_p)
+                    sub_P[is_tip, 2] *= (1.0 - 0.08 * crimp_p)
+
             (px, py, pz), (pnx, pny, pnz) = transform(sub_P, sub_N)
             ooz = 1.0 / (pz + dist)
             xp = (cx + Kx * px * ooz).astype(int)
@@ -297,19 +471,33 @@ def render_frame(rot_y_deg, elapsed_sec, width=64, height=34, duration=8.07, mes
                     charbuf[y_i, x_i] = RAMP[idx]
                     colbuf[y_i, x_i] = palette["prong"]
 
-    # 3. Diamond
+    # 4. Gemstone (Descends into prongs in real mode)
     if gem_p > 0.0:
-        gem_y_cutoff = CULET_Y + (TABLE_Y - CULET_Y) * gem_p
-        gem_mask = GEM_P[:, 1] <= gem_y_cutoff
-        if np.any(gem_mask):
-            sub_P = GEM_P[gem_mask]
-            sub_N = GEM_N[gem_mask]
+        if style == "real":
+            # Diamond descends from above into the basket seat
+            descent_y = (1.0 - gem_p) * 1.5
+            sub_P = G_P.copy()
+            sub_P[:, 1] += descent_y
+            sub_N = G_N
+            sub_F = G_F
+            gem_visible = True
+        else:
+            # Diamond crystallizes from culet to table
+            gem_y_cutoff = CULET_Y + (TABLE_Y - CULET_Y) * gem_p
+            gem_mask = G_P[:, 1] <= gem_y_cutoff
+            gem_visible = np.any(gem_mask)
+            if gem_visible:
+                sub_P = G_P[gem_mask]
+                sub_N = G_N[gem_mask]
+                sub_F = G_F[gem_mask]
+
+        if gem_visible:
             (gx, gy, gz), (gnx, gny, gnz) = transform(sub_P, sub_N)
             ooz = 1.0 / (gz + dist)
             xp = (cx + Kx * gx * ooz).astype(int)
             yp = (cy - Ky * gy * ooz).astype(int)
             diff = gnx * LIGHT[0] + gny * LIGHT[1] + gnz * LIGHT[2]
-            spec = gnx * hx + gny * hy + gnz * hz
+            spec_g = (gnx * hx + gny * hy + gnz * hz)
 
             valid = (xp >= 0) & (xp < width) & (yp >= 0) & (yp < height)
             for i in np.where(valid)[0]:
@@ -317,72 +505,91 @@ def render_frame(rot_y_deg, elapsed_sec, width=64, height=34, duration=8.07, mes
                 oz = ooz[i]
                 if oz > zbuf[y_i, x_i]:
                     zbuf[y_i, x_i] = oz
-                    sp = max(0.0, spec[i]) ** 14
-                    df = max(0.0, diff[i])
-                    if sp > 0.48:
-                        charbuf[y_i, x_i] = "*" if sp < 0.78 else "#"
+                    sp = max(0.0, spec_g[i])
+                    fid = sub_F[i]
+                    f_sparkle = math.sin(rot_y * 4.0 + fid * 1.618)
+                    is_sparkle = (sp > 0.72) and (f_sparkle > 0.2)
+                    is_super = (sp > 0.88) and (f_sparkle > 0.6)
+
+                    if is_super:
+                        charbuf[y_i, x_i] = "@"
                         colbuf[y_i, x_i] = palette["spec"]
+                    elif is_sparkle:
+                        charbuf[y_i, x_i] = "%"
+                        colbuf[y_i, x_i] = palette["gem"]
                     else:
-                        lum = 0.35 + 0.55 * df + 0.30 * sp
+                        df = max(0.0, diff[i])
+                        lum = 0.35 + 0.65 * df
                         idx = min(len(RAMP) - 1, max(2, int(lum * (len(RAMP) - 1))))
                         charbuf[y_i, x_i] = RAMP[idx]
                         colbuf[y_i, x_i] = palette["gem"]
 
-    # 4. Flare
+    # 5. Vertical Flare Beam
     if flare_p > 0.0:
-        max_flare_y = TABLE_Y + 0.90 * flare_p
-        steps = max(2, int(16 * flare_p))
-        for vy in np.linspace(TABLE_Y + 0.04, max_flare_y, steps):
-            for vx in [-0.05, -0.02, 0.0, 0.02, 0.05]:
-                t_pt = np.array([[vx, vy, 0.0]])
-                (tx, ty, tz) = transform(t_pt)
-                oz = 1.0 / (tz[0] + dist)
-                t_xp = int(cx + Kx * tx[0] * oz)
-                t_yp = int(cy - Ky * ty[0] * oz)
-                if 0 <= t_xp < width and 0 <= t_yp < height:
-                    if oz > zbuf[t_yp, t_xp] - 0.02:
-                        charbuf[t_yp, t_xp] = "|" if abs(vx) < 0.01 else (":" if abs(vx) < 0.03 else ".")
-                        colbuf[t_yp, t_xp] = palette["flare"]
+        table_world = np.array([[0.0, TABLE_Y + 0.05, 0.0]])
+        (fx, fy, fz) = transform(table_world)
+        ooz = 1.0 / (fz[0] + dist)
+        fl_x = int(cx + Kx * fx[0] * ooz)
+        fl_y = int(cy - Ky * fy[0] * ooz)
 
-    # 5. Orbits
-    (ox, oy, oz_pts) = transform(ORBIT_PTS)
-    ooz_o = 1.0 / (oz_pts + dist)
-    xp_o = (cx + Kx * ox * ooz_o).astype(int)
-    yp_o = (cy - Ky * oy * ooz_o).astype(int)
-    valid_o = (xp_o >= 0) & (xp_o < width) & (yp_o >= 0) & (yp_o < height)
-    for i in np.where(valid_o)[0]:
-        x_i, y_i = xp_o[i], yp_o[i]
-        if zbuf[y_i, x_i] <= 0:
-            charbuf[y_i, x_i] = "." if i % 2 == 0 else "'"
+        flare_reach = int(14 * flare_p)
+        for dy in range(1, flare_reach):
+            y_pos = fl_y - dy
+            if 0 <= y_pos < height and 0 <= fl_x < width:
+                if ooz > zbuf[y_pos, fl_x]:
+                    zbuf[y_pos, fl_x] = ooz
+                    charbuf[y_pos, fl_x] = ":" if dy % 2 == 0 else "."
+                    colbuf[y_pos, fl_x] = palette["flare"]
+            if dy % 3 == 0:
+                for off in [-1, 1]:
+                    nx_pos = fl_x + off
+                    if 0 <= y_pos < height and 0 <= nx_pos < width:
+                        if ooz > zbuf[y_pos, nx_pos] and charbuf[y_pos, nx_pos] == " ":
+                            charbuf[y_pos, nx_pos] = "."
+                            colbuf[y_pos, nx_pos] = palette["flare"]
+
+    # 6. Twin Atomic Orbits
+    (ox, oy, oz) = transform(ORBIT_PTS)
+    ooz = 1.0 / (oz + dist)
+    xp = (cx + Kx * ox * ooz).astype(int)
+    yp = (cy - Ky * oy * ooz).astype(int)
+    valid = (xp >= 0) & (xp < width) & (yp >= 0) & (yp < height)
+    for i in np.where(valid)[0]:
+        x_i, y_i = xp[i], yp[i]
+        oz_val = ooz[i]
+        if oz_val > zbuf[y_i, x_i] and charbuf[y_i, x_i] == " ":
+            charbuf[y_i, x_i] = "."
             colbuf[y_i, x_i] = palette["orbit"]
 
-    # 6. Glints
+    # 7. 272 Ambient Glints
     active_glints = 0
+    (gx, gy, gz) = transform(np.column_stack([GLINT_X, GLINT_Y, GLINT_Z]))
+    ooz = 1.0 / (gz + dist)
+    xp = (cx + Kx * gx * ooz).astype(int)
+    yp = (cy - Ky * gy * ooz).astype(int)
+    phases = np.sin(elapsed_sec * glint_speeds + glint_phases)
     for i in range(GLINT_COUNT):
-        twinkle = math.sin(elapsed_sec * glint_speeds[i] + glint_phases[i])
-        if twinkle > 0.15:
+        p_val = phases[i]
+        if p_val > 0.45:
             active_glints += 1
-            gpt = np.array([[GLINT_X[i], GLINT_Y[i], GLINT_Z[i]]])
-            (gx_i, gy_i, gz_i) = transform(gpt)
-            oz = 1.0 / (gz_i[0] + dist)
-            g_xp = int(cx + Kx * gx_i[0] * oz)
-            g_yp = int(cy - Ky * gy_i[0] * oz)
-            if 0 <= g_xp < width and 0 <= g_yp < height:
-                if oz > zbuf[g_yp, g_xp]:
-                    charbuf[g_yp, g_xp] = "+" if twinkle > 0.82 else "."
-                    colbuf[g_yp, g_xp] = palette["glint"]
+            x_i, y_i = xp[i], yp[i]
+            if 0 <= x_i < width and 0 <= y_i < height:
+                if ooz[i] > zbuf[y_i, x_i] and charbuf[y_i, x_i] == " ":
+                    charbuf[y_i, x_i] = "+" if p_val > 0.88 else "."
+                    colbuf[y_i, x_i] = palette["glint"]
 
-    non_space_count = int(np.count_nonzero(charbuf != " "))
+    # Count non-space characters
+    non_space_count = int(np.sum(charbuf != " "))
 
-    # HUD Elements
+    # Overlay HUD
     timer_str = f"•f {elapsed_sec:05.2f}s"
     t_start = width - len(timer_str) - 2
     if t_start >= 0:
         for idx, ch in enumerate(timer_str):
             charbuf[1, t_start + idx] = ch
 
-    hud1 = message[:width - 4]
-    hud2 = f"rotation {rot_y_deg % 360.0:06.2f}°   glints {active_glints}"
+    hud1 = f"{message[:24]}  {stage_tag}"[:width - 4]
+    hud2 = f"rot {rot_y_deg % 360.0:05.1f}°  glints {active_glints}  style {style.upper()}"
     hud3 = f"letters {non_space_count:,}"
 
     for idx, ch in enumerate(hud1):
@@ -422,7 +629,8 @@ def render_frame(rot_y_deg, elapsed_sec, width=64, height=34, duration=8.07, mes
 
 def main():
     import argparse
-    parser = argparse.ArgumentParser(description="3D ASCII Diamond Ring - @jin_22ee Recreation")
+    parser = argparse.ArgumentParser(description="3D ASCII Diamond Ring - @jin_22ee Recreation & Realistic Jeweler")
+    parser.add_argument("--style", choices=["real", "reel"], default="real", help="Ring style: 'real' (realistic engagement ring & forge) or 'reel' (exact Instagram reel)")
     parser.add_argument("--color", action="store_true", help="Enable 24-bit TrueColor ANSI output")
     parser.add_argument("--theme", choices=["classic", "cyan", "matrix", "gold", "rose"], default="cyan", help="Color theme")
     parser.add_argument("--duration", type=float, default=8.07, help="Formation duration in seconds (default: 8.07, 0 for instant)")
@@ -436,27 +644,26 @@ def main():
             sys.stdout.reconfigure(encoding='utf-8')
         except Exception:
             pass
-    os.system("")
+
     sys.stdout.write("\033[?25l\033[2J")
     sys.stdout.flush()
 
-    # Try non-blocking input setup
     is_windows = (os.name == "nt")
     if is_windows:
         import msvcrt
 
-    start_time = time.time()
     rot = 56.0
     fps = max(10, min(60, args.fps))
     frame_duration = 1.0 / fps
     color_mode = args.color
     theme_name = args.theme
     speed_mult = args.speed
+    style_mode = args.style
     is_paused = False
     anim_time = 0.0
 
-    print("Starting 3D ASCII Diamond Ring... Press Space to pause, R to replay, C to switch theme, Q to quit.")
-    time.sleep(0.3)
+    print(f"Starting 3D ASCII Diamond Ring [{style_mode.upper()}]... Space: Pause | R: Replay | M: Style | C: Theme | Q: Quit")
+    time.sleep(0.4)
 
     last_clock = time.time()
     try:
@@ -465,7 +672,6 @@ def main():
             dt = t_now - last_clock
             last_clock = t_now
 
-            # Check keyboard input
             if is_windows and msvcrt.kbhit():
                 key = msvcrt.getch()
                 if key in (b"q", b"Q", b"\x1b"):
@@ -475,6 +681,8 @@ def main():
                 elif key in (b"r", b"R"):
                     anim_time = 0.0
                     rot = 56.0
+                elif key in (b"m", b"M"):
+                    style_mode = "reel" if style_mode == "real" else "real"
                 elif key in (b"c", b"C"):
                     themes_list = list(THEMES.keys())
                     curr_idx = themes_list.index(theme_name) if theme_name in themes_list else 0
@@ -489,7 +697,14 @@ def main():
                 anim_time += dt * speed_mult
                 rot += 1.25 * speed_mult
 
-            frame_text = render_frame(rot, anim_time, duration=args.duration, message=args.message, color_mode=color_mode, theme_name=theme_name)
+            frame_text = render_frame(
+                rot, anim_time,
+                duration=args.duration,
+                message=args.message,
+                color_mode=color_mode,
+                theme_name=theme_name,
+                style=style_mode
+            )
             sys.stdout.write("\033[H" + frame_text)
             sys.stdout.flush()
 

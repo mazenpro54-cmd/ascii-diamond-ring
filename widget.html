@@ -30,60 +30,48 @@
       color: #f8fafc;
       text-shadow: 0 0 2px rgba(255, 255, 255, 0.95), 0 0 8px rgba(186, 230, 253, 0.5);
     }
-    .theme-mono {
-      color: #f1f5f9;
-      text-shadow: 0 0 2px rgba(255, 255, 255, 0.5);
-    }
-    .theme-matrix {
-      color: #4ade80;
-      text-shadow: 0 0 2px rgba(74, 222, 128, 0.95), 0 0 8px rgba(34, 197, 94, 0.5);
-    }
-    .theme-cyber {
-      color: #38bdf8;
-      text-shadow: 0 0 2px rgba(56, 189, 248, 0.95), 0 0 8px rgba(232, 121, 249, 0.5);
-    }
   </style>
 </head>
-<body class="bg-transparent text-[var(--foreground)] antialiased p-2 select-none flex justify-center">
+<body class="bg-transparent text-slate-100 antialiased p-1 select-none flex justify-center">
 
-  <div class="w-full max-w-lg bg-[var(--card)] border border-[var(--border)] rounded-2xl p-3 shadow-xl flex flex-col gap-2">
-    <!-- Header with formation stage indicator -->
-    <div class="flex items-center justify-between text-xs pb-1.5 border-b border-[var(--border)]">
-      <div class="flex items-center gap-2 font-mono">
-        <span class="w-2.5 h-2.5 rounded-full bg-rose-500 inline-block shadow-sm shadow-rose-500/80 animate-pulse"></span>
-        <span class="font-bold text-[var(--foreground)] tracking-tight">@jin_22ee · 2026</span>
-        <span id="stage-badge" class="px-1.5 py-0.5 rounded bg-cyan-950/80 text-cyan-400 border border-cyan-800 text-[10px]">
-          Band Forming...
+  <div class="w-full max-w-lg bg-slate-900/90 border border-slate-800 rounded-2xl p-2.5 shadow-2xl flex flex-col gap-1.5">
+    <!-- Header with Style Switcher & Formation Stage -->
+    <div class="flex items-center justify-between text-xs pb-1.5 border-b border-slate-800">
+      <div class="flex items-center gap-1.5 font-mono">
+        <span class="w-2.5 h-2.5 rounded-full bg-amber-400 inline-block shadow-sm shadow-amber-400/80 animate-pulse"></span>
+        <span class="font-bold text-white tracking-tight text-[11px]">Real Ring Forge</span>
+        <span id="stage-badge" class="px-1.5 py-0.5 rounded bg-amber-950/80 text-amber-300 border border-amber-800 text-[9px] font-semibold">
+          1/5 Shank Forge
         </span>
       </div>
 
-      <div class="flex items-center gap-1.5">
-        <button id="btn-replay" class="px-2 py-0.5 rounded bg-indigo-900/50 hover:bg-indigo-800/80 text-cyan-300 text-[11px] font-mono border border-indigo-700/60 transition" title="Replay progressive formation">
-          🔄 Replay
+      <div class="flex items-center gap-1">
+        <button id="btn-toggle-style" class="px-1.5 py-0.5 rounded bg-amber-600/80 hover:bg-amber-500 text-slate-950 font-bold text-[10px] transition" title="Toggle Real Ring / Viral Reel Style">
+          💍 Real
         </button>
-        <button id="btn-play" class="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-[11px] font-medium border border-slate-700 transition">
-          Pause
+        <button id="btn-replay" class="px-1.5 py-0.5 rounded bg-indigo-900/50 hover:bg-indigo-800/80 text-cyan-300 text-[10px] font-mono border border-indigo-700/60 transition">
+          🔄
         </button>
-        <span id="widget-timer" class="font-mono text-cyan-400 font-bold text-xs tracking-wider ml-1">•f 00.00s</span>
+        <button id="btn-play" class="px-1.5 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-[10px] font-medium border border-slate-700 transition">
+          ⏸
+        </button>
+        <span id="widget-timer" class="font-mono text-cyan-400 font-bold text-[11px] tracking-wider ml-1">•f 00.00s</span>
       </div>
     </div>
 
     <!-- Terminal CRT Display -->
-    <div class="crt-box rounded-xl p-2 flex flex-col items-center justify-center overflow-hidden cursor-grab active:cursor-grabbing border border-slate-800/80" id="viewport">
-      <div class="absolute top-2 left-3 z-20 text-[10px] font-mono text-slate-500 pointer-events-none opacity-60">
-        [ Drag in 360° to Orbit ]
-      </div>
-      <pre id="ascii-screen" class="theme-diamond font-ascii text-[10px] sm:text-[11px] leading-[11px] sm:leading-[12px] tracking-tight font-bold whitespace-pre drop-shadow select-none my-0.5"></pre>
+    <div class="crt-box rounded-xl p-1.5 flex flex-col items-center justify-center overflow-hidden cursor-grab active:cursor-grabbing border border-slate-800/80" id="viewport">
+      <pre id="ascii-screen" class="theme-diamond font-ascii text-[9.5px] leading-[10.5px] tracking-tight font-bold whitespace-pre drop-shadow select-none my-0.5"></pre>
     </div>
 
     <!-- HUD Footer -->
-    <div class="flex items-center justify-between text-[11px] font-mono text-[var(--muted-foreground)] px-1">
-      <div class="flex items-center gap-3">
-        <span>rot: <span id="w-rot" class="text-cyan-400 font-bold">056.00°</span></span>
+    <div class="flex items-center justify-between text-[10px] font-mono text-slate-400 px-1">
+      <div class="flex items-center gap-2.5">
+        <span>rot: <span id="w-rot" class="text-amber-400 font-bold">056.0°</span></span>
         <span>glints: <span id="w-glints" class="text-cyan-400 font-bold">272</span></span>
-        <span>letters: <span id="w-letters" class="text-cyan-400 font-bold">1,366</span></span>
+        <span>letters: <span id="w-letters" class="text-emerald-400 font-bold">1,366</span></span>
       </div>
-      <div class="flex items-center gap-1.5 text-emerald-400 font-semibold text-[11px]">
+      <div class="flex items-center gap-1 text-emerald-400 font-semibold text-[10px]">
         <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block animate-ping"></span>
         30 fps
       </div>
@@ -92,164 +80,136 @@
 
   <script>
     const TAU = 2 * Math.PI;
-    const R_BAND = 1.05;
-    const R_TUBE = 0.18;
-    const TABLE_Y = 1.62;
-    const GIRDLE_Y = 1.36;
-    const CULET_Y = 1.08;
-    const GIRDLE_R = 0.56;
-    const TABLE_R = 0.35;
 
-    function buildBand() {
-      const P = [], N = [], T = [];
-      const nT = 220, nP = 40;
+    // Fast Real Ring mesh generator
+    function buildRealRing() {
+      const bandP = [], bandN = [], bandT = [];
+      const nT = 160, nP = 28;
       for (let i = 0; i < nT; i++) {
-        const t = (i / nT) * TAU;
-        const sx = Math.sin(t), sy = Math.cos(t);
-        const angleFromBottom = Math.abs(Math.PI - t);
-
+        const t = (i / nT) * TAU, sx = Math.sin(t), sy = Math.cos(t);
+        const ang = Math.abs(Math.PI - t);
+        const topF = Math.max(0.0, (ang - 2.1) / (Math.PI - 2.1));
+        const rBand = 1.05 + 0.07 * (topF * topF);
+        const rX = 0.16 + 0.05 * topF, rZ = 0.19 + 0.05 * topF;
         for (let j = 0; j < nP; j++) {
-          const p = (j / nP) * TAU;
+          const p = (j / nP) * TAU, cp = Math.cos(p), sp = Math.sin(p);
+          const radOff = (cp < 0 ? cp * 0.82 : cp * 1.18) * rX;
+          bandP.push([(rBand + radOff) * sx, (rBand + radOff) * sy, sp * rZ]);
+          bandN.push([cp * sx, cp * sy, sp]);
+          bandT.push(ang);
+        }
+      }
+      const galP = [], galN = [];
+      for (let t = 0; t < TAU; t += TAU / 60) {
+        const gx = 0.38 * Math.cos(t), gz = 0.38 * Math.sin(t);
+        for (let p = 0; p < TAU; p += TAU / 8) {
           const cp = Math.cos(p), sp = Math.sin(p);
-          P.push([(R_BAND + R_TUBE * cp) * sx, (R_BAND + R_TUBE * cp) * sy, R_TUBE * sp]);
-          N.push([cp * sx, cp * sy, sp]);
-          T.push(angleFromBottom);
+          galP.push([gx + 0.024 * cp * Math.cos(t), 1.25 + 0.024 * sp, gz + 0.024 * cp * Math.sin(t)]);
+          galN.push([cp * Math.cos(t), sp, cp * Math.sin(t)]);
         }
       }
-      return { P, N, T };
-    }
-
-    function buildDiamond() {
-      const P = [], N = [];
-      for (let r = 0.03; r <= TABLE_R; r += 0.03) {
-        const steps = Math.max(8, Math.floor(r * 95));
-        for (let k = 0; k < steps; k++) {
-          const ang = (k / steps) * TAU;
-          P.push([r * Math.cos(ang), TABLE_Y, r * Math.sin(ang)]);
-          N.push([0, 1, 0]);
-        }
-      }
-      for (let f = 0; f < 16; f++) {
-        const a1 = (f / 16) * TAU, a2 = ((f + 1) / 16) * TAU;
-        const amid = 0.5 * (a1 + a2);
-        const ctilt = f % 2 === 0 ? 0.72 : 0.65;
-        const cnl = Math.hypot(Math.cos(amid) * ctilt, 0.70, Math.sin(amid) * ctilt);
-        const cn = [(Math.cos(amid) * ctilt) / cnl, 0.70 / cnl, (Math.sin(amid) * ctilt) / cnl];
-
-        const ptilt = f % 2 === 0 ? 0.75 : 0.70;
-        const pnl = Math.hypot(Math.cos(amid) * ptilt, -0.66, Math.sin(amid) * ptilt);
-        const pn = [(Math.cos(amid) * ptilt) / pnl, -0.66 / pnl, (Math.sin(amid) * ptilt) / pnl];
-
-        for (let u = 0; u <= 1; u += 0.11) {
-          for (let v = 0; v <= 1; v += 0.13) {
-            const ang = a1 + u * (a2 - a1);
-            const rc = TABLE_R + v * (GIRDLE_R - TABLE_R);
-            const yc = TABLE_Y + v * (GIRDLE_Y - TABLE_Y);
-            P.push([rc * Math.cos(ang), yc, rc * Math.sin(ang)]);
-            N.push(cn);
-
-            const rp = GIRDLE_R * (1 - v);
-            const yp = GIRDLE_Y + v * (CULET_Y - GIRDLE_Y);
-            P.push([rp * Math.cos(ang), yp, rp * Math.sin(ang)]);
-            N.push(pn);
-          }
-        }
-      }
-      return { P, N };
-    }
-
-    function buildProngs() {
-      const P = [], N = [], U = [];
+      const prongP = [], prongN = [], prongU = [];
       for (let i = 0; i < 4; i++) {
-        const a = (TAU * (i + 0.5)) / 4;
-        const base = [0.08 * Math.cos(a), R_BAND + 0.02, 0.08 * Math.sin(a)];
-        const tip = [(GIRDLE_R + 0.015) * Math.cos(a), TABLE_Y - 0.03, (GIRDLE_R + 0.015) * Math.sin(a)];
-        const d = [tip[0] - base[0], tip[1] - base[1], tip[2] - base[2]];
-        const dl = Math.hypot(d[0], d[1], d[2]);
-        d[0] /= dl; d[1] /= dl; d[2] /= dl;
-        let s = [d[1], -d[0], 0];
-        let sl = Math.hypot(s[0], s[1], s[2]);
-        if (sl < 1e-4) { s = [1, 0, 0]; sl = 1; }
-        s[0] /= sl; s[1] /= sl; s[2] /= sl;
-        const w = [s[1]*d[2]-s[2]*d[1], s[2]*d[0]-s[0]*d[2], s[0]*d[1]-s[1]*d[0]];
-
-        for (let u = 0; u <= 1; u += 0.035) {
+        const a = TAU * (i + 0.5) / 4, ca = Math.cos(a), sa = Math.sin(a);
+        for (let u = 0; u <= 1.0; u += 0.035) {
+          let r = (u < 0.65) ? (0.14 + (u/0.65) * (0.58 - 0.14)) : (0.58 - ((u-0.65)/0.35) * 0.10);
+          let y = (u < 0.65) ? (1.05 + (u/0.65) * (1.36 - 1.05)) : (1.36 + ((u-0.65)/0.35) * 0.22);
           for (let phi = 0; phi < TAU; phi += TAU / 12) {
-            const cp = Math.cos(phi), sp = Math.sin(phi);
-            const nx = cp * s[0] + sp * w[0];
-            const ny = cp * s[1] + sp * w[1];
-            const nz = cp * s[2] + sp * w[2];
-            P.push([base[0] + u * (tip[0] - base[0]) + nx * 0.024, base[1] + u * (tip[1] - base[1]) + ny * 0.024, base[2] + u * (tip[2] - base[2]) + nz * 0.024]);
-            N.push([nx, ny, nz]);
-            U.push(u);
+            const cp = Math.cos(phi), sp = Math.sin(phi), th = 0.026 * (1.0 - 0.25 * u);
+            prongP.push([r * ca - sa * th * cp, y + th * sp, r * sa + ca * th * cp]);
+            prongN.push([-sa * cp, sp, ca * cp]);
+            prongU.push(u);
           }
         }
       }
-      return { P, N, U };
-    }
-
-    function buildOrbits() {
-      const P = [];
-      const cos38 = Math.cos(38 * Math.PI / 180), sin38 = Math.sin(38 * Math.PI / 180);
-      for (let i = 0; i < 200; i++) {
-        const t = (i / 200) * TAU, ct = Math.cos(t), st = Math.sin(t);
-        P.push([2.1 * ct, 1.25 * st * cos38, 1.25 * st * sin38]);
-        P.push([2.1 * ct, 1.25 * st * cos38, -1.25 * st * sin38]);
+      const gemP = [], gemN = [], gemF = [];
+      for (let r = 0.02; r <= 0.35; r += 0.04) {
+        for (let t = 0; t < TAU; t += TAU / 24) {
+          gemP.push([r * Math.cos(t), 1.62, r * Math.sin(t)]);
+          gemN.push([0, 1, 0]); gemF.push(0);
+        }
       }
-      return P;
+      for (let k = 0; k < 8; k++) {
+        const a0 = TAU * k / 8, a1 = TAU * (k + 1) / 8, amid = 0.5 * (a0 + a1);
+        const v0 = [0.35 * Math.cos(a0), 1.62, 0.35 * Math.sin(a0)];
+        const v1 = [0.35 * Math.cos(a1), 1.62, 0.35 * Math.sin(a1)];
+        const vs = [0.45 * Math.cos(amid), 1.50, 0.45 * Math.sin(amid)];
+        for (let u = 0.15; u <= 0.85; u += 0.22) {
+          for (let v = 0.15; v <= 0.85 - u; v += 0.22) {
+            gemP.push([(1-u-v)*v0[0]+u*v1[0]+v*vs[0], (1-u-v)*v0[1]+u*v1[1]+v*vs[1], (1-u-v)*v0[2]+u*v1[2]+v*vs[2]]);
+            gemN.push([0.88 * Math.cos(amid), 0.46, 0.88 * Math.sin(amid)]);
+            gemF.push(k + 1);
+          }
+        }
+      }
+      const culet = [0, 1.08, 0];
+      for (let k = 0; k < 8; k++) {
+        const a0 = TAU * k / 8, a1 = TAU * (k + 1) / 8;
+        const v0 = [0.56 * Math.cos(a0), 1.36, 0.56 * Math.sin(a0)];
+        const v1 = [0.56 * Math.cos(a1), 1.36, 0.56 * Math.sin(a1)];
+        for (let u = 0.1; u <= 0.9; u += 0.18) {
+          for (let v = 0.1; v <= 0.9 - u; v += 0.18) {
+            gemP.push([(1-u-v)*v0[0]+u*v1[0]+v*culet[0], (1-u-v)*v0[1]+u*v1[1]+v*culet[1], (1-u-v)*v0[2]+u*v1[2]+v*culet[2]]);
+            gemN.push([0.72 * Math.cos(0.5*(a0+a1)), -0.69, 0.72 * Math.sin(0.5*(a0+a1))]);
+            gemF.push(k + 9);
+          }
+        }
+      }
+      return { band: { P: bandP, N: bandN, T: bandT }, gal: { P: galP, N: galN }, prongs: { P: prongP, N: prongN, U: prongU }, gem: { P: gemP, N: gemN, F: gemF } };
     }
 
-    const band = buildBand();
-    const diamond = buildDiamond();
-    const prongs = buildProngs();
-    const orbits = buildOrbits();
-
-    const glints = [];
-    for (let i = 0; i < 272; i++) {
-      const phi = Math.random() * TAU, th = (Math.random() - 0.5) * Math.PI, dist = 1.3 + Math.random() * 1.7;
-      glints.push({
-        x: dist * Math.cos(th) * Math.cos(phi),
-        y: dist * Math.sin(th) + 0.58,
-        z: dist * Math.cos(th) * Math.sin(phi),
-        spd: 1.6 + Math.random() * 3.6,
-        ph: Math.random() * TAU
-      });
-    }
-
-    const L = [0.577, 0.707, -0.408];
-    const H = [0.46, 0.56, -0.68];
+    const ringModel = buildRealRing();
     const RAMP = " .:-=+*#%@";
-    const W = 56, H_ROWS = 28;
+    const L = [0.577, 0.707, -0.408], H = [0.46, 0.56, -0.68];
+    const WIDTH = 56, HEIGHT = 30;
 
-    let playing = true, rot = 56.0, tilt = 12.0, animTime = 0.0;
+    let rotDeg = 56.0, tiltDeg = 26.0, animT = 0.0, isPlaying = true, isRealStyle = true;
+
     const screen = document.getElementById("ascii-screen");
-    const rotLabel = document.getElementById("w-rot");
-    const glintsLabel = document.getElementById("w-glints");
-    const lettersLabel = document.getElementById("w-letters");
-    const timerLabel = document.getElementById("widget-timer");
     const stageBadge = document.getElementById("stage-badge");
+    const timerElem = document.getElementById("widget-timer");
+    const wRot = document.getElementById("w-rot");
+    const wLetters = document.getElementById("w-letters");
+    const btnStyle = document.getElementById("btn-toggle-style");
+    const btnPlay = document.getElementById("btn-play");
+    const btnReplay = document.getElementById("btn-replay");
 
-    function render(rotDeg, elapsed) {
-      const ry = rotDeg * Math.PI / 180, tx = tilt * Math.PI / 180;
-      const cy = Math.cos(ry), sy = Math.sin(ry);
-      const cx = Math.cos(tx), sx = Math.sin(tx);
+    btnStyle.addEventListener("click", () => {
+      isRealStyle = !isRealStyle;
+      btnStyle.textContent = isRealStyle ? "💍 Real" : "✨ Reel";
+      tiltDeg = isRealStyle ? 26.0 : 12.0;
+      animT = 0.0;
+    });
 
-      const zbuf = new Float32Array(W * H_ROWS).fill(-9999);
-      const cbuf = new Array(W * H_ROWS).fill(" ");
-      const dist = 3.65, Kx = 48.0, Ky = 24.0, midX = W / 2, midY = H_ROWS / 2 + 1.0;
+    btnPlay.addEventListener("click", () => {
+      isPlaying = !isPlaying;
+      btnPlay.textContent = isPlaying ? "⏸" : "▶";
+    });
 
-      // Formation logic (8.07s duration)
-      const normT = Math.min(1.0, elapsed / 8.07);
-      const band_p = Math.min(1.0, Math.max(0.0, normT / 0.40));
-      const prong_p = Math.min(1.0, Math.max(0.0, (normT - 0.35) / 0.30));
-      const gem_p = Math.min(1.0, Math.max(0.0, (normT - 0.62) / 0.28));
-      const flare_p = Math.min(1.0, Math.max(0.0, (normT - 0.88) / 0.12));
+    btnReplay.addEventListener("click", () => {
+      animT = 0.0; rotDeg = 56.0;
+    });
 
-      let stageText = "Complete";
-      if (normT < 0.35) stageText = `Band (${Math.round(band_p * 100)}%)`;
-      else if (normT < 0.62) stageText = `Prongs (${Math.round(prong_p * 100)}%)`;
-      else if (normT < 0.88) stageText = `Diamond (${Math.round(gem_p * 100)}%)`;
-      else if (normT < 1.0) stageText = "Flare Igniting";
+    function renderFrame(rot, t) {
+      const ry = rot * Math.PI / 180, tx = tiltDeg * Math.PI / 180;
+      const cy = Math.cos(ry), sy = Math.sin(ry), cx = Math.cos(tx), sx = Math.sin(tx);
+      const zbuf = new Float32Array(WIDTH * HEIGHT).fill(-9999.0);
+      const charbuf = new Array(WIDTH * HEIGHT).fill(" ");
+
+      const normT = Math.min(1.0, t / 8.07);
+      const band_p = Math.min(1.0, normT / 0.35);
+      const basket_p = Math.min(1.0, Math.max(0.0, (normT - 0.30) / 0.25));
+      const gem_p = Math.min(1.0, Math.max(0.0, (normT - 0.50) / 0.25));
+      const crimp_p = Math.min(1.0, Math.max(0.0, (normT - 0.72) / 0.14));
+
+      let stage = "1/5 Shank Forge";
+      if (normT >= 0.85) stage = "5/5 Brilliance";
+      else if (normT >= 0.72) stage = "4/5 Claw Setting";
+      else if (normT >= 0.50) stage = "3/5 Stone Set";
+      else if (normT >= 0.30) stage = "2/5 Basket Mount";
+      stageBadge.textContent = stage;
+
+      const dist = 3.65, Kx = 50.0, Ky = 25.0, midX = WIDTH/2, midY = HEIGHT/2 + 0.8;
 
       function proj(p, n) {
         const y1 = p[1]*cx - p[2]*sx, z1 = p[1]*sx + p[2]*cx;
@@ -262,187 +222,96 @@
         return [x2, y1, z2, rnx, rny, rnz];
       }
 
-      // 1. Band
+      // Band
       if (band_p > 0.0) {
-        const cutoff = band_p * Math.PI;
-        for (let i = 0; i < band.P.length; i++) {
-          if (band.T[i] <= cutoff) {
-            const [px, py, pz, nx, ny, nz] = proj(band.P[i], band.N[i]);
+        const cut = band_p * Math.PI;
+        for (let i = 0; i < ringModel.band.P.length; i++) {
+          if (ringModel.band.T[i] <= cut) {
+            const [px, py, pz, nx, ny, nz] = proj(ringModel.band.P[i], ringModel.band.N[i]);
             const ooz = 1.0 / (pz + dist);
-            const xp = Math.floor(midX + Kx * px * ooz);
-            const yp = Math.floor(midY - Ky * py * ooz);
-            if (xp >= 0 && xp < W && yp >= 0 && yp < H_ROWS) {
-              const idx = yp * W + xp;
+            const xp = Math.floor(midX + Kx * px * ooz), yp = Math.floor(midY - Ky * py * ooz);
+            if (xp >= 0 && xp < WIDTH && yp >= 0 && yp < HEIGHT) {
+              const idx = yp * WIDTH + xp;
               if (ooz > zbuf[idx]) {
                 zbuf[idx] = ooz;
-                const diff = Math.max(0, nx*L[0] + ny*L[1] + nz*L[2]);
-                const spec = Math.max(0, nx*H[0] + ny*H[1] + nz*H[2]) ** 16;
-                const lum = 0.28 + 0.65 * diff + 0.40 * spec;
-                cbuf[idx] = RAMP[Math.min(RAMP.length - 1, Math.max(1, Math.floor(lum * (RAMP.length - 1))))];
+                const df = Math.max(0, nx*L[0] + ny*L[1] + nz*L[2]);
+                const lum = 0.30 + 0.65 * df;
+                charbuf[idx] = RAMP[Math.min(RAMP.length-1, Math.max(1, Math.floor(lum * (RAMP.length-1))))];
               }
             }
           }
         }
       }
 
-      // 2. Prongs
-      if (prong_p > 0.0) {
-        for (let i = 0; i < prongs.P.length; i++) {
-          if (prongs.U[i] <= prong_p) {
-            const [px, py, pz, nx, ny, nz] = proj(prongs.P[i], prongs.N[i]);
+      // Prongs
+      if (basket_p > 0.0) {
+        for (let i = 0; i < ringModel.prongs.P.length; i++) {
+          if (ringModel.prongs.U[i] <= basket_p) {
+            let p_copy = [ringModel.prongs.P[i][0], ringModel.prongs.P[i][1], ringModel.prongs.P[i][2]];
+            if (crimp_p > 0.0 && p_copy[1] > 1.38) {
+              p_copy[0] *= (1.0 - 0.08 * crimp_p);
+              p_copy[2] *= (1.0 - 0.08 * crimp_p);
+            }
+            const [px, py, pz, nx, ny, nz] = proj(p_copy, ringModel.prongs.N[i]);
             const ooz = 1.0 / (pz + dist);
-            const xp = Math.floor(midX + Kx * px * ooz);
-            const yp = Math.floor(midY - Ky * py * ooz);
-            if (xp >= 0 && xp < W && yp >= 0 && yp < H_ROWS) {
-              const idx = yp * W + xp;
+            const xp = Math.floor(midX + Kx * px * ooz), yp = Math.floor(midY - Ky * py * ooz);
+            if (xp >= 0 && xp < WIDTH && yp >= 0 && yp < HEIGHT) {
+              const idx = yp * WIDTH + xp;
               if (ooz > zbuf[idx]) {
                 zbuf[idx] = ooz;
-                const diff = Math.max(0, nx*L[0] + ny*L[1] + nz*L[2]);
-                const spec = Math.max(0, nx*H[0] + ny*H[1] + nz*H[2]) ** 14;
-                const lum = 0.38 + 0.52 * diff + 0.32 * spec;
-                cbuf[idx] = RAMP[Math.min(RAMP.length - 1, Math.max(2, Math.floor(lum * (RAMP.length - 1))))];
+                charbuf[idx] = RAMP[Math.min(RAMP.length-1, Math.max(2, Math.floor((0.4+0.55*Math.max(0, nx*L[0]+ny*L[1]+nz*L[2]))*(RAMP.length-1))))];
               }
             }
           }
         }
       }
 
-      // 3. Diamond
+      // Diamond
       if (gem_p > 0.0) {
-        const yCutoff = CULET_Y + (TABLE_Y - CULET_Y) * gem_p;
-        for (let i = 0; i < diamond.P.length; i++) {
-          if (diamond.P[i][1] <= yCutoff) {
-            const [px, py, pz, nx, ny, nz] = proj(diamond.P[i], diamond.N[i]);
-            const ooz = 1.0 / (pz + dist);
-            const xp = Math.floor(midX + Kx * px * ooz);
-            const yp = Math.floor(midY - Ky * py * ooz);
-            if (xp >= 0 && xp < W && yp >= 0 && yp < H_ROWS) {
-              const idx = yp * W + xp;
-              if (ooz > zbuf[idx]) {
-                zbuf[idx] = ooz;
-                const diff = Math.max(0, nx*L[0] + ny*L[1] + nz*L[2]);
-                const spec = Math.max(0, nx*H[0] + ny*H[1] + nz*H[2]) ** 14;
-                if (spec > 0.48) {
-                  cbuf[idx] = spec < 0.78 ? "*" : "#";
-                } else {
-                  const lum = 0.35 + 0.55 * diff + 0.30 * spec;
-                  cbuf[idx] = RAMP[Math.min(RAMP.length - 1, Math.max(2, Math.floor(lum * (RAMP.length - 1))))];
-                }
-              }
+        const descent = (1.0 - gem_p) * 1.5;
+        for (let i = 0; i < ringModel.gem.P.length; i++) {
+          const pt = [ringModel.gem.P[i][0], ringModel.gem.P[i][1] + descent, ringModel.gem.P[i][2]];
+          const [gx, gy, gz, nx, ny, nz] = proj(pt, ringModel.gem.N[i]);
+          const ooz = 1.0 / (gz + dist);
+          const xp = Math.floor(midX + Kx * gx * ooz), yp = Math.floor(midY - Ky * gy * ooz);
+          if (xp >= 0 && xp < WIDTH && yp >= 0 && yp < HEIGHT) {
+            const idx = yp * WIDTH + xp;
+            if (ooz > zbuf[idx]) {
+              zbuf[idx] = ooz;
+              const sp = Math.max(0, nx*H[0] + ny*H[1] + nz*H[2]);
+              const fSpark = Math.sin(ry * 4.0 + ringModel.gem.F[i] * 1.618);
+              if (sp > 0.85 && fSpark > 0.5) charbuf[idx] = "@";
+              else if (sp > 0.7 && fSpark > 0.1) charbuf[idx] = "%";
+              else charbuf[idx] = RAMP[Math.min(RAMP.length-1, Math.max(2, Math.floor((0.35+0.65*Math.max(0, nx*L[0]+ny*L[1]+nz*L[2]))*(RAMP.length-1))))];
             }
-          }
-        }
-      }
-
-      // 4. Flare
-      if (flare_p > 0.0) {
-        const maxFlareY = TABLE_Y + 0.90 * flare_p;
-        for (let vy = TABLE_Y + 0.04; vy <= maxFlareY; vy += 0.07) {
-          for (const vx of [-0.04, -0.015, 0.0, 0.015, 0.04]) {
-            const [px, py, pz] = proj([vx, vy, 0], null);
-            const oz = 1.0 / (pz + dist);
-            const xp = Math.floor(midX + Kx * px * oz);
-            const yp = Math.floor(midY - Ky * py * oz);
-            if (xp >= 0 && xp < W && yp >= 0 && yp < H_ROWS) {
-              const idx = yp * W + xp;
-              if (oz > zbuf[idx] - 0.02) {
-                cbuf[idx] = Math.abs(vx) < 0.02 ? "|" : ".";
-              }
-            }
-          }
-        }
-      }
-
-      // 5. Orbits
-      for (let i = 0; i < orbits.length; i++) {
-        const [px, py, pz] = proj(orbits[i], null);
-        const ooz = 1.0 / (pz + dist);
-        const xp = Math.floor(midX + Kx * px * ooz);
-        const yp = Math.floor(midY - Ky * py * ooz);
-        if (xp >= 0 && xp < W && yp >= 0 && yp < H_ROWS) {
-          const idx = yp * W + xp;
-          if (zbuf[idx] <= 0) cbuf[idx] = i % 2 === 0 ? "." : "'";
-        }
-      }
-
-      // 6. Glints
-      let activeG = 0;
-      for (let i = 0; i < glints.length; i++) {
-        const g = glints[i];
-        const tw = Math.sin(elapsed * g.spd + g.ph);
-        if (tw > 0.15) {
-          activeG++;
-          const [px, py, pz] = proj([g.x, g.y, g.z], null);
-          const oz = 1.0 / (pz + dist);
-          const xp = Math.floor(midX + Kx * px * oz);
-          const yp = Math.floor(midY - Ky * py * oz);
-          if (xp >= 0 && xp < W && yp >= 0 && yp < H_ROWS) {
-            const idx = yp * W + xp;
-            if (oz > zbuf[idx]) cbuf[idx] = tw > 0.82 ? "+" : ".";
           }
         }
       }
 
       let letters = 0;
-      for (let i = 0; i < cbuf.length; i++) if (cbuf[i] !== " ") letters++;
+      for (let i = 0; i < WIDTH * HEIGHT; i++) if (charbuf[i] !== " ") letters++;
 
-      const rows = [];
-      for (let y = 0; y < H_ROWS; y++) {
-        let r = "";
-        for (let x = 0; x < W; x++) r += cbuf[y * W + x];
-        rows.push(r);
-      }
-      return { text: rows.join("\n"), letters, activeG, stageText };
+      const lines = [];
+      for (let y = 0; y < HEIGHT; y++) lines.push(charbuf.slice(y * WIDTH, (y + 1) * WIDTH).join(""));
+      screen.textContent = lines.join("\n");
+
+      timerElem.textContent = `•f ${t.toFixed(2).padStart(5, '0')}s`;
+      wRot.textContent = `${(rot % 360).toFixed(1).padStart(5, '0')}°`;
+      wLetters.textContent = letters.toLocaleString();
     }
 
-    let lastT = performance.now();
-    function loop(now) {
-      requestAnimationFrame(loop);
-      const delta = now - lastT;
-      if (delta < 33) return;
-      lastT = now;
-
-      if (playing) {
-        animTime += delta / 1000;
-        rot = (rot + 1.25) % 360;
+    let lastClock = performance.now();
+    function tick(now) {
+      requestAnimationFrame(tick);
+      const dt = (now - lastClock) / 1000.0;
+      lastClock = now;
+      if (isPlaying) {
+        animT += dt;
+        rotDeg += 1.25;
       }
-
-      const res = render(rot, animTime);
-      screen.textContent = res.text;
-      rotLabel.textContent = `${rot.toFixed(2).padStart(6, "0")}°`;
-      glintsLabel.textContent = res.activeG;
-      lettersLabel.textContent = res.letters.toLocaleString();
-      timerLabel.textContent = `•f ${animTime.toFixed(2).padStart(5, "0")}s`;
-      stageBadge.textContent = res.stageText;
+      renderFrame(rotDeg, animT);
     }
-    requestAnimationFrame(loop);
-
-    // Play/Pause
-    const btn = document.getElementById("btn-play");
-    btn.addEventListener("click", () => {
-      playing = !playing;
-      btn.textContent = playing ? "Pause" : "Play";
-    });
-
-    // Replay
-    document.getElementById("btn-replay").addEventListener("click", () => {
-      animTime = 0.0;
-      rot = 56.0;
-      playing = true;
-      btn.textContent = "Pause";
-    });
-
-    // Drag to rotate
-    let drag = false, lx = 0, ly = 0;
-    const vp = document.getElementById("viewport");
-    vp.addEventListener("mousedown", e => { drag = true; lx = e.clientX; ly = e.clientY; });
-    window.addEventListener("mousemove", e => {
-      if (!drag) return;
-      rot = (rot + (e.clientX - lx) * 0.7) % 360;
-      tilt = Math.max(-45, Math.min(45, tilt - (e.clientY - ly) * 0.5));
-      lx = e.clientX; ly = e.clientY;
-    });
-    window.addEventListener("mouseup", () => { drag = false; });
+    requestAnimationFrame(tick);
   </script>
 </body>
 </html>

@@ -3,40 +3,39 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>3D ASCII Diamond Ring — Upgraded Studio & Dedication</title>
+  <title>💍 3D ASCII Diamond Ring Studio — @jin_22ee Recreation & Realistic Jeweler</title>
   <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
   <style>
     @font-face {
       font-family: 'JetBrains Mono';
       src: local('JetBrains Mono'), local('Cascadia Code'), local('Consolas'), monospace;
     }
-    .font-mono-code {
+    .font-ascii {
       font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
     }
-    .crt-screen {
-      background: #040609;
+    .crt-bloom {
+      text-shadow: 0 0 2px rgba(255, 255, 255, 0.9), 0 0 8px rgba(186, 230, 253, 0.6), 0 0 22px rgba(56, 189, 248, 0.35);
+    }
+    .crt-box {
+      background: radial-gradient(circle at center, #090e17 0%, #030407 100%);
+      box-shadow: inset 0 0 45px rgba(0, 0, 0, 0.95), 0 20px 40px -15px rgba(0, 0, 0, 0.7);
       position: relative;
     }
-    .crt-overlay {
+    .crt-scanlines::before {
+      content: " ";
       position: absolute;
       inset: 0;
-      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.35) 50%);
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.28) 50%);
       background-size: 100% 3px;
-      z-index: 20;
       pointer-events: none;
-      opacity: 0.45;
+      z-index: 10;
+      opacity: 0.55;
     }
-    .crt-vignette {
-      position: absolute;
-      inset: 0;
-      box-shadow: inset 0 0 70px rgba(0, 0, 0, 0.95), inset 0 0 20px rgba(0, 0, 0, 0.8);
-      z-index: 21;
-      pointer-events: none;
-    }
-    /* Glow palettes */
+
+    /* Gemstone themes */
     .gem-diamond {
       color: #f8fafc;
-      text-shadow: 0 0 2px rgba(255, 255, 255, 0.95), 0 0 10px rgba(186, 230, 253, 0.5), 0 0 25px rgba(56, 189, 248, 0.3);
+      text-shadow: 0 0 2px rgba(255, 255, 255, 0.95), 0 0 10px rgba(186, 230, 253, 0.6), 0 0 24px rgba(56, 189, 248, 0.35);
     }
     .gem-ruby {
       color: #fecdd3;
@@ -95,7 +94,7 @@
   <!-- Header -->
   <header class="w-full max-w-5xl flex flex-wrap items-center justify-between gap-4 mb-4 px-2">
     <div class="flex items-center gap-3">
-      <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-400 via-sky-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-cyan-500/30 text-white font-bold text-lg">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-400 via-rose-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-amber-500/30 text-white font-bold text-lg">
         💍
       </div>
       <div>
@@ -103,16 +102,26 @@
           <h1 class="text-lg md:text-xl font-bold tracking-tight text-white flex items-center gap-2">
             3D ASCII Diamond Ring Studio
           </h1>
-          <span class="text-xs px-2.5 py-0.5 rounded-full bg-cyan-950/80 text-cyan-400 border border-cyan-800/60 font-mono font-medium">
-            Upgraded v2.0
+          <span class="text-xs px-2.5 py-0.5 rounded-full bg-amber-950/80 text-amber-400 border border-amber-800/60 font-mono font-medium">
+            v2.5 Real Ring Edition
           </span>
         </div>
-        <p class="text-xs text-slate-400">Recreation of @jin_22ee · Parametric 3D raycasting · Sound · Custom dedication</p>
+        <p class="text-xs text-slate-400">Parametric 3D Jeweler Forge · Real Solitaire Ring & Viral Reel · Spatial Audio · Custom Dedications</p>
       </div>
     </div>
 
     <!-- Quick action buttons -->
     <div class="flex items-center flex-wrap gap-2">
+      <!-- Ring Style Toggle -->
+      <div class="bg-slate-900 border border-slate-800 p-0.5 rounded-lg flex items-center text-xs shadow-inner">
+        <button id="style-real" class="px-3 py-1 rounded-md bg-amber-500 text-slate-950 font-bold transition shadow-sm" title="Realistic Jeweler Solitaire Ring: Cathedral Shoulders, Gallery Rail & Claw Prongs">
+          💍 Real Ring
+        </button>
+        <button id="style-reel" class="px-3 py-1 rounded-md text-slate-400 hover:text-white font-medium transition" title="Exact Instagram Reel Geometry & Timing">
+          ✨ Viral Reel
+        </button>
+      </div>
+
       <!-- Layout Modes -->
       <div class="bg-slate-900 border border-slate-800 p-0.5 rounded-lg flex items-center text-xs">
         <button id="mode-reel" class="px-2.5 py-1 rounded-md bg-cyan-600 text-white font-medium transition shadow-sm" title="Instagram Reel Mobile Split View">
@@ -144,7 +153,7 @@
       </button>
 
       <!-- Download art.py -->
-      <a id="btn-download" href="javascript:void(0)" class="px-3 py-1.5 rounded-lg bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-xs font-semibold text-white transition flex items-center gap-1.5 shadow-md shadow-cyan-600/20">
+      <a id="btn-download" href="javascript:void(0)" class="px-3 py-1.5 rounded-lg bg-gradient-to-r from-amber-500 to-rose-600 hover:from-amber-400 hover:to-rose-500 text-xs font-semibold text-white transition flex items-center gap-1.5 shadow-md shadow-amber-600/20">
         ⬇ Download art.py
       </a>
     </div>
@@ -152,17 +161,38 @@
 
   <!-- Control & Customization Toolbar -->
   <section class="w-full max-w-5xl bg-[#0c1017] border border-slate-800/80 rounded-xl p-3.5 mb-4 flex flex-col gap-3 text-xs text-slate-400 shadow-lg">
-    <!-- Top Row: Formation Timeline Scrubber -->
-    <div class="flex items-center gap-3 bg-black/40 p-2 rounded-lg border border-slate-800">
-      <span class="text-cyan-400 font-mono font-bold flex items-center gap-1.5">
-        <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
-        Formation Progress:
-      </span>
-      <input id="scrubber" type="range" min="0" max="8.07" step="0.05" value="0.0" class="flex-1 accent-cyan-400 h-2 bg-slate-800 rounded-lg cursor-pointer">
-      <span id="scrubber-label" class="font-mono text-cyan-300 font-bold w-20 text-right">00.00s (0%)</span>
-      <span id="formation-stage-badge" class="px-2 py-0.5 rounded bg-cyan-950 text-cyan-400 border border-cyan-800 font-mono text-[11px]">
-        Band Forming
-      </span>
+    <!-- Top Row: Formation Timeline Scrubber & Jeweler Stages -->
+    <div class="flex flex-col gap-2 bg-black/40 p-2.5 rounded-lg border border-slate-800">
+      <div class="flex items-center gap-3">
+        <span class="text-amber-400 font-mono font-bold flex items-center gap-1.5 shrink-0">
+          <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
+          Formation Timeline:
+        </span>
+        <input id="scrubber" type="range" min="0" max="8.07" step="0.05" value="0.0" class="flex-1 accent-amber-400 h-2 bg-slate-800 rounded-lg cursor-pointer">
+        <span id="scrubber-label" class="font-mono text-amber-300 font-bold w-20 text-right">00.00s (0%)</span>
+        <span id="formation-stage-badge" class="px-2 py-0.5 rounded bg-amber-950 text-amber-300 border border-amber-800 font-mono text-[11px] font-semibold shrink-0">
+          Stage 1: Shank Forge
+        </span>
+      </div>
+
+      <!-- 5-Stage Jeweler Quick Navigation -->
+      <div class="flex items-center gap-1.5 overflow-x-auto pt-1 font-mono text-[10px]">
+        <button class="stage-nav-btn px-2 py-1 rounded bg-slate-900 hover:bg-amber-950/70 border border-slate-800 hover:border-amber-700/60 text-slate-300 transition shrink-0" data-time="1.4">
+          🔨 1. Shank Forge
+        </button>
+        <button class="stage-nav-btn px-2 py-1 rounded bg-slate-900 hover:bg-amber-950/70 border border-slate-800 hover:border-amber-700/60 text-slate-300 transition shrink-0" data-time="3.6">
+          👑 2. Basket & Rail
+        </button>
+        <button class="stage-nav-btn px-2 py-1 rounded bg-slate-900 hover:bg-amber-950/70 border border-slate-800 hover:border-amber-700/60 text-slate-300 transition shrink-0" data-time="5.4">
+          💎 3. Stone Descent
+        </button>
+        <button class="stage-nav-btn px-2 py-1 rounded bg-slate-900 hover:bg-amber-950/70 border border-slate-800 hover:border-amber-700/60 text-slate-300 transition shrink-0" data-time="6.6">
+          🔒 4. Claw Crimp
+        </button>
+        <button class="stage-nav-btn px-2 py-1 rounded bg-slate-900 hover:bg-amber-950/70 border border-slate-800 hover:border-amber-700/60 text-slate-300 transition shrink-0" data-time="8.07">
+          ✨ 5. Brilliance Locked
+        </button>
+      </div>
     </div>
 
     <!-- Middle Row: Dedication Message & Gemstone Selection -->
@@ -178,7 +208,7 @@
       <!-- Gemstone Material -->
       <div class="flex items-center gap-2">
         <span class="text-slate-300 font-medium">Gemstone:</span>
-        <select id="gem-select" class="bg-slate-900 border border-slate-700 text-slate-200 text-xs rounded-lg px-2.5 py-1 font-medium focus:outline-none focus:border-cyan-500 cursor-pointer">
+        <select id="gem-select" class="bg-slate-900 border border-slate-700 text-slate-200 text-xs rounded-lg px-2.5 py-1 font-medium focus:outline-none focus:border-amber-500 cursor-pointer">
           <option value="gem-diamond" selected>💎 White Diamond</option>
           <option value="gem-ruby">🔴 Pigeon Blood Ruby</option>
           <option value="gem-sapphire">🔵 Royal Sapphire</option>
@@ -190,222 +220,224 @@
       </div>
     </div>
 
-    <!-- Bottom Row: Sliders & Export Actions -->
+    <!-- Bottom Row: Angle Presets & Controls -->
     <div class="flex flex-wrap items-center justify-between gap-4">
-      <div class="flex items-center flex-wrap gap-5">
-        <!-- Formation Duration -->
-        <label class="flex items-center gap-2">
-          <span class="text-slate-300 font-medium">Formation Duration:</span>
-          <select id="duration-select" class="bg-slate-900 border border-slate-700 text-slate-200 text-xs rounded-lg px-2 py-1 font-mono">
-            <option value="8.07" selected>8.07s (Reel Exact)</option>
-            <option value="14.0">14.0s (Slow Motion)</option>
-            <option value="0.0">Instant (Fully Formed)</option>
-          </select>
-        </label>
+      <div class="flex items-center flex-wrap gap-4">
+        <!-- Angle Presets -->
+        <div class="flex items-center gap-1.5">
+          <span class="text-slate-300 font-medium">Camera Angle:</span>
+          <button id="cam-showcase" class="px-2 py-0.5 rounded bg-amber-950/80 text-amber-300 border border-amber-800 font-mono text-[11px] font-semibold" title="Realistic jewelry showcase view showing ring depth and diamond brilliance">
+            Showcase 26°
+          </button>
+          <button id="cam-reel" class="px-2 py-0.5 rounded bg-slate-800 text-slate-300 hover:text-white border border-slate-700 font-mono text-[11px]" title="Straight-on Instagram Reel angle">
+            Reel 12°
+          </button>
+          <button id="cam-crown" class="px-2 py-0.5 rounded bg-slate-800 text-slate-300 hover:text-white border border-slate-700 font-mono text-[11px]" title="Top-down solitaire diamond facet view">
+            Crown 60°
+          </button>
+        </div>
 
         <!-- Speed -->
         <label class="flex items-center gap-2">
-          <span class="text-slate-300 font-medium">Rotation:</span>
-          <input id="speed-slider" type="range" min="0.1" max="3.0" step="0.1" value="1.0" class="w-18 accent-cyan-400 h-1 bg-slate-800 rounded-lg cursor-pointer">
-          <span id="speed-val" class="font-mono text-cyan-400 font-semibold w-8">1.0x</span>
+          <span class="text-slate-300 font-medium">Speed:</span>
+          <input id="slider-speed" type="range" min="0.25" max="3.0" step="0.25" value="1.0" class="w-20 accent-amber-400 h-1.5 bg-slate-800 rounded cursor-pointer">
+          <span id="speed-val" class="font-mono text-slate-300 w-10">1.0x</span>
         </label>
 
-        <!-- Zoom -->
-        <label class="flex items-center gap-2">
-          <span class="text-slate-300 font-medium">Zoom:</span>
-          <input id="zoom-slider" type="range" min="0.7" max="1.8" step="0.05" value="1.0" class="w-18 accent-cyan-400 h-1 bg-slate-800 rounded-lg cursor-pointer">
-          <span id="zoom-val" class="font-mono text-cyan-400 font-semibold w-8">1.0x</span>
-        </label>
-
-        <!-- CRT -->
-        <label class="flex items-center gap-1.5 cursor-pointer select-none text-slate-300 hover:text-white">
-          <input id="check-crt" type="checkbox" checked class="accent-cyan-400 rounded">
-          <span>CRT Glow</span>
+        <!-- CRT Bloom -->
+        <label class="flex items-center gap-1.5 cursor-pointer select-none">
+          <input id="toggle-bloom" type="checkbox" checked class="accent-amber-400 rounded">
+          <span class="text-slate-300">Phosphor Glow</span>
         </label>
       </div>
 
-      <!-- Export Buttons -->
+      <!-- Export Actions -->
       <div class="flex items-center gap-2">
-        <button id="btn-copy-ascii" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium border border-slate-700 transition" title="Copy ASCII text">
-          📋 Copy ASCII
+        <button id="btn-copy-ascii" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition" title="Copy current ASCII frame to clipboard">
+          📋 Copy Frame
         </button>
-        <button id="btn-save-txt" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium border border-slate-700 transition" title="Save as frame.txt">
-          💾 Save .TXT
+        <button id="btn-export-txt" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition" title="Download ASCII artwork as .txt">
+          💾 Save .txt
         </button>
       </div>
     </div>
   </section>
 
-  <!-- Main Viewport Container -->
-  <main id="app-container" class="w-full max-w-5xl bg-[#090c13] border border-slate-800 rounded-2xl shadow-2xl overflow-hidden flex flex-col transition-all duration-300">
+  <!-- Main Display Container -->
+  <main id="main-container" class="w-full max-w-5xl flex flex-col md:flex-row gap-5 items-stretch justify-center">
 
-    <!-- Container Header -->
-    <div class="flex items-center justify-between px-4 py-2.5 border-b border-slate-800/80 bg-[#0f131c] text-xs text-slate-400">
-      <div class="flex items-center gap-2 font-mono">
-        <span class="w-3 h-3 rounded-full bg-rose-500/90 inline-block shadow-sm shadow-rose-500/50"></span>
-        <span class="w-3 h-3 rounded-full bg-amber-500/90 inline-block shadow-sm shadow-amber-500/50"></span>
-        <span class="w-3 h-3 rounded-full bg-emerald-500/90 inline-block shadow-sm shadow-emerald-500/50"></span>
-        <span class="ml-2 font-semibold text-slate-200" id="header-file-title">art.py · [Instagram Reel Split]</span>
+    <!-- LEFT PANEL: Instagram Reel Code / Video Window -->
+    <div id="code-panel" class="w-full md:w-[460px] bg-[#0a0d14] border border-slate-800 rounded-2xl overflow-hidden flex flex-col shadow-2xl transition-all duration-300">
+      <!-- Title Bar -->
+      <div class="bg-[#0f1420] px-4 py-2.5 border-b border-slate-800 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <span class="w-3 h-3 rounded-full bg-rose-500/80 inline-block"></span>
+          <span class="w-3 h-3 rounded-full bg-amber-500/80 inline-block"></span>
+          <span class="w-3 h-3 rounded-full bg-emerald-500/80 inline-block"></span>
+          <span class="text-xs font-mono text-slate-400 font-semibold ml-2">art.py — Reel Lines 75–94</span>
+        </div>
+        <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-rose-950/80 text-rose-300 border border-rose-800/60 font-bold">
+          Verbatim Code
+        </span>
       </div>
-      <div class="flex items-center gap-3 font-mono text-[11px]">
-        <span class="text-slate-500">Drag in 360° to Orbit · Scroll to Zoom</span>
-        <button id="btn-reset-cam" class="text-cyan-400 hover:text-cyan-300 transition underline underline-offset-2">
-          Reset View
-        </button>
+
+      <!-- Code viewer -->
+      <div class="p-3 bg-[#070a10] font-ascii text-[11px] leading-[17px] text-slate-300 overflow-y-auto max-h-[500px]">
+        <pre class="select-text"><code id="code-content"><span class="text-slate-600"> 75 </span> 
+<span class="text-slate-600"> 76 </span> 
+<span class="line-active block"><span class="text-rose-400"> 77 </span> <span class="text-purple-400">def</span> <span class="text-blue-400 font-bold">prongs</span>():</span>
+<span class="line-active block"><span class="text-rose-400"> 78 </span>     P, N = [], []</span>
+<span class="line-active block"><span class="text-rose-400"> 79 </span>     <span class="text-purple-400">for</span> i <span class="text-purple-400">in</span> <span class="text-cyan-400">range</span>(<span class="text-amber-400">4</span>):</span>
+<span class="line-active block"><span class="text-rose-400"> 80 </span>         a = TAU * (i + <span class="text-amber-400">0.5</span>) / <span class="text-amber-400">4</span></span>
+<span class="line-active block"><span class="text-rose-400"> 81 </span>         base = np.array([<span class="text-amber-400">0.08</span> * np.cos(a), R_BAND + <span class="text-amber-400">0.02</span>, <span class="text-amber-400">0.08</span> * np.sin(a)])</span>
+<span class="line-active block"><span class="text-rose-400"> 82 </span>         tip = np.array([(GIRDLE_R + <span class="text-amber-400">0.015</span>) * np.cos(a), TABLE_Y - <span class="text-amber-400">0.03</span>, (GIRDLE_R + <span class="text-amber-400">0.015</span>) * np.sin(a)])</span>
+<span class="line-active block"><span class="text-rose-400"> 83 </span>         u, phi = [x.ravel() <span class="text-purple-400">for</span> x <span class="text-purple-400">in</span> np.meshgrid(np.linspace(<span class="text-amber-400">0</span>, <span class="text-amber-400">1</span>, <span class="text-amber-400">40</span>), np.linspace(<span class="text-amber-400">0</span>, TAU, <span class="text-amber-400">16</span>))]</span>
+<span class="line-active block"><span class="text-rose-400"> 84 </span>         d = (tip - base) / np.linalg.norm(tip - base)</span>
+<span class="line-active block"><span class="text-rose-400"> 85 </span>         s = np.cross(d, [<span class="text-amber-400">0</span>, <span class="text-amber-400">0</span>, <span class="text-amber-400">1.0</span>]); s /= np.linalg.norm(s)</span>
+<span class="line-active block"><span class="text-rose-400"> 86 </span>         w = np.cross(s, d)</span>
+<span class="line-active block"><span class="text-rose-400"> 87 </span>         n = np.cos(phi)[:, <span class="text-purple-400">None</span>] * s + np.sin(phi)[:, <span class="text-purple-400">None</span>] * w</span>
+<span class="line-active block"><span class="text-rose-400"> 88 </span>         P.append(base + u[:, <span class="text-purple-400">None</span>] * (tip - base) + n * <span class="text-amber-400">0.022</span>), N.append(n)</span>
+<span class="line-active block"><span class="text-rose-400"> 89 </span>     <span class="text-purple-400">return</span> np.concatenate(P), np.concatenate(N)</span>
+<span class="text-slate-600"> 90 </span> 
+<span class="text-slate-600"> 91 </span> 
+<span class="line-active block"><span class="text-rose-400"> 92 </span> BAND_P, BAND_N = band()</span>
+<span class="line-active block"><span class="text-rose-400"> 93 </span> GEM_P, GEM_N, GEM_F = diamond()</span>
+<span class="line-active block"><span class="text-rose-400"> 94 </span> PRONG_P, PRONG_N = prongs()</span>
+<span class="text-slate-600"> 95 </span> 
+<span class="text-slate-500"># Real Jeweler Ring & Cathedral Shank (Lines 96+)</span>
+<span class="text-slate-500">REAL_BAND_P, REAL_BAND_N = init_real_shank()</span>
+<span class="text-slate-500">REAL_GAL_P, REAL_GAL_N   = init_gallery_rail()</span>
+<span class="text-slate-500">REAL_PRONG_P, REAL_CLAW  = init_claw_prongs()</span>
+<span class="text-slate-500">REAL_GEM_P, REAL_GEM_F   = init_brilliant_cut()</span>
+</code></pre>
+      </div>
+
+      <div class="p-3 bg-[#0f1420] border-t border-slate-800 text-[11px] text-slate-400 flex items-center justify-between">
+        <span>Model: <strong id="code-model-tag" class="text-amber-400 font-mono">Realistic Engagement Ring</strong></span>
+        <span>HUD target: <strong class="text-emerald-400 font-mono">1,366 letters</strong></span>
       </div>
     </div>
 
-    <!-- Grid -->
-    <div id="layout-grid" class="flex flex-col lg:grid lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-slate-800 min-h-[660px]">
-
-      <!-- Terminal Pane -->
-      <div id="terminal-pane" class="crt-screen flex flex-col justify-between p-4 font-mono-code select-none relative overflow-hidden group">
-        <div id="crt-overlay" class="crt-overlay"></div>
-        <div id="crt-vignette" class="crt-vignette"></div>
-
-        <!-- Timer / Recording Dot -->
-        <div class="absolute top-4 right-5 z-30 flex items-center gap-2 font-mono text-xs">
-          <span class="w-2.5 h-2.5 rounded-full bg-rose-500 shadow-lg shadow-rose-500/80 animate-pulse"></span>
-          <span class="text-slate-200 font-semibold tracking-wider drop-shadow" id="timer-display">•f 00.00s</span>
+    <!-- RIGHT PANEL: 3D ASCII Terminal Output -->
+    <div id="render-panel" class="flex-1 max-w-[560px] bg-[#090d14] border border-slate-800 rounded-2xl overflow-hidden flex flex-col shadow-2xl relative">
+      <!-- Title Bar -->
+      <div class="bg-[#0f1420] px-4 py-2.5 border-b border-slate-800 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span class="text-xs font-mono text-slate-300 font-semibold">Terminal Output (30 FPS)</span>
+          <span id="model-mode-badge" class="px-2 py-0.2 rounded bg-amber-950/80 text-amber-300 border border-amber-800/60 font-mono text-[10px] font-bold">
+            💍 REAL RING
+          </span>
         </div>
-
-        <!-- 3D Hint -->
-        <div class="absolute top-4 left-5 z-30 text-[11px] text-slate-400 font-mono tracking-tight pointer-events-none opacity-50 group-hover:opacity-100 transition duration-300">
-          [ ✦ Drag in 360° to Orbit ✦ ]
-        </div>
-
-        <!-- ASCII Screen -->
-        <div class="flex-1 flex items-center justify-center my-2 z-10 cursor-grab active:cursor-grabbing" id="viewport-stage">
-          <pre id="ascii-screen" class="gem-diamond font-mono-code text-[10.5px] sm:text-[11.5px] md:text-[12.5px] leading-[11.5px] sm:leading-[12.5px] md:leading-[13.5px] tracking-tight whitespace-pre font-bold select-none"></pre>
-        </div>
-
-        <!-- Lower Terminal HUD & Prompt Line -->
-        <div class="z-30 pt-2 border-t border-slate-900/80 font-mono">
-          <div class="flex items-end justify-between text-xs text-slate-400 leading-tight mb-2">
-            <div>
-              <div class="text-rose-300 font-bold tracking-tight text-sm" id="hud-dedication">Send this to someone you love ❤️</div>
-              <div class="text-slate-400 flex items-center gap-4 mt-1">
-                <span>rotation <span id="hud-rot" class="text-slate-100 font-semibold">056.00°</span></span>
-                <span>glints <span id="hud-glints" class="text-slate-100 font-semibold">272</span></span>
-              </div>
-              <div class="text-slate-400 mt-0.5">
-                letters <span id="hud-letters" class="text-cyan-400 font-semibold">1,366</span>
-              </div>
-            </div>
-            <div class="text-right text-[11px] text-slate-500">
-              <span id="hud-stage-name" class="text-cyan-300 font-semibold">Band Forming</span><br>
-              <span class="text-slate-400 font-mono">57 Facets · Cathedral Mount</span>
-            </div>
-          </div>
-
-          <!-- Bottom Prompt Line -->
-          <div class="flex items-center justify-between text-xs font-mono text-slate-400 border-t border-slate-800/80 pt-2">
-            <div class="flex items-center gap-2 text-slate-200 font-medium">
-              <span class="text-rose-400 font-bold">$</span> py art.py
-            </div>
-            <div class="text-emerald-400 flex items-center gap-1.5 text-[11px] font-semibold">
-              <span class="w-2 h-2 rounded-full bg-emerald-400 inline-block shadow-sm shadow-emerald-400/80 animate-ping"></span>
-              running · 30 fps
-            </div>
-          </div>
+        <div class="flex items-center gap-3 text-xs font-mono text-slate-400">
+          <span id="fps-counter" class="text-emerald-400 font-bold">30.0 fps</span>
         </div>
       </div>
 
-      <!-- Code Editor Pane -->
-      <div id="code-pane" class="bg-[#0a0d14] flex flex-col font-mono-code text-xs overflow-hidden">
-        <div class="flex items-center justify-between bg-[#0e121c] px-4 py-2 border-b border-slate-800 text-slate-400 text-xs">
-          <div class="flex items-center gap-2">
-            <span class="text-cyan-400 font-bold">def</span>
-            <span class="text-slate-200 font-semibold">art.py</span>
-            <span class="text-rose-400 text-[11px] font-mono bg-rose-950/40 px-2 py-0.5 rounded border border-rose-900/60">Line 79 Highlighted</span>
-          </div>
-          <button id="btn-copy-code" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-[11px] font-medium border border-slate-700 transition flex items-center gap-1">
-            📋 Copy Python
-          </button>
+      <!-- CRT Screen -->
+      <div class="crt-box crt-scanlines p-3 md:p-4 flex-1 flex flex-col items-center justify-center overflow-hidden cursor-grab active:cursor-grabbing select-none" id="viewport">
+        <div class="absolute top-2 left-4 z-20 text-[10px] font-mono text-slate-500 pointer-events-none opacity-70">
+          [ 360° Drag to Orbit · Wheel to Zoom ]
         </div>
 
-        <div class="flex-1 overflow-y-auto p-4 text-slate-300 text-[11.5px] leading-5 font-mono-code" id="code-lines-container">
-          <!-- Populated lines 75-95 -->
-        </div>
+        <pre id="ascii-canvas" class="gem-diamond font-ascii text-[10.5px] sm:text-[11.5px] md:text-[12.5px] leading-[11px] sm:leading-[12.5px] md:leading-[13.5px] tracking-tight font-bold whitespace-pre drop-shadow select-none my-1"></pre>
       </div>
 
+      <!-- Terminal Status Bar -->
+      <div class="bg-[#0f1420] px-4 py-2 border-t border-slate-800 text-[11px] font-mono text-slate-400 flex items-center justify-between">
+        <span class="text-cyan-400">$ py art.py</span>
+        <div class="flex items-center gap-3">
+          <span>Angle: <strong id="hud-tilt" class="text-amber-400">26.0°</strong></span>
+          <span>Zoom: <strong id="hud-zoom" class="text-slate-300">1.0x</strong></span>
+        </div>
+      </div>
     </div>
-
-    <!-- Footer -->
-    <footer class="px-4 py-2.5 bg-[#0e121c] border-t border-slate-800 text-xs text-slate-400 flex flex-wrap items-center justify-between gap-3">
-      <div class="flex items-center gap-2">
-        <span class="w-2 h-2 rounded-full bg-emerald-400 inline-block"></span>
-        <span class="text-slate-300 font-medium">CLI Controls:</span>
-        <code class="px-2 py-0.5 rounded bg-black/60 border border-slate-700 text-cyan-300 font-mono text-[11px]">Space: Pause | R: Replay | C: Colors | +/-: Speed | Q: Quit</code>
-      </div>
-      <div class="text-slate-400 text-xs flex items-center gap-4">
-        <span>GitHub: <a href="https://github.com/mazenpro54-cmd/ascii-diamond-ring" target="_blank" class="text-cyan-400 hover:underline">mazenpro54-cmd/ascii-diamond-ring</a></span>
-      </div>
-    </footer>
   </main>
+
+  <!-- Love Dedication Modal / Notification Toast -->
+  <div id="toast" class="fixed bottom-6 right-6 px-4 py-2.5 rounded-xl bg-slate-900 border border-emerald-500/60 text-emerald-300 text-xs font-mono shadow-2xl flex items-center gap-2 transform translate-y-20 opacity-0 transition-all duration-300 z-50">
+    <span>✅</span>
+    <span id="toast-msg">Link copied to clipboard!</span>
+  </div>
 
   <script>
     const TAU = 2 * Math.PI;
-    const R_BAND = 1.05;
-    const R_TUBE = 0.18;
-    const TABLE_Y = 1.62;
-    const GIRDLE_Y = 1.36;
-    const CULET_Y = 1.08;
-    const GIRDLE_R = 0.56;
-    const TABLE_R = 0.35;
 
-    // Web Audio API Synthesizer
-    let audioCtx = null;
-    let audioEnabled = false;
-    const CHIME_FREQS = [523.25, 659.25, 783.99, 1046.50, 1318.51, 1567.98, 2093.00];
-
-    function initAudio() {
-      if (!audioCtx) {
-        const AudioClass = window.AudioContext || window.webkitAudioContext;
-        audioCtx = new AudioClass();
+    // ==========================================
+    // AUDIO SYNTHESIZER (Web Audio API)
+    // ==========================================
+    class CrystalAudio {
+      constructor() {
+        this.ctx = null;
+        this.enabled = false;
+        this.pentatonic = [523.25, 587.33, 659.25, 783.99, 880.00, 1046.50, 1174.66, 1318.51, 1567.98];
       }
-      if (audioCtx.state === "suspended") {
-        audioCtx.resume();
+      init() {
+        if (!this.ctx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          if (AudioContext) this.ctx = new AudioContext();
+        }
+        if (this.ctx && this.ctx.state === 'suspended') {
+          this.ctx.resume();
+        }
       }
-    }
+      playChime(pitchIdx, vol = 0.05) {
+        if (!this.enabled || !this.ctx) return;
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
 
-    function playFacetChime(freqIndex = 0, gainLevel = 0.04) {
-      if (!audioEnabled || !audioCtx) return;
-      try {
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
+        const freq = this.pentatonic[pitchIdx % this.pentatonic.length];
         osc.type = "sine";
-        const f = CHIME_FREQS[freqIndex % CHIME_FREQS.length];
-        osc.frequency.setValueAtTime(f, audioCtx.currentTime);
+        osc.frequency.setValueAtTime(freq, now);
 
-        gain.gain.setValueAtTime(gainLevel, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.6);
+        gain.gain.setValueAtTime(0, now);
+        gain.gain.linearRampToValueAtTime(vol, now + 0.015);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.7);
 
         osc.connect(gain);
-        gain.connect(audioCtx.destination);
-
-        osc.start();
-        osc.stop(audioCtx.currentTime + 0.6);
-      } catch (e) {}
+        gain.connect(this.ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.75);
+      }
+      playForge(vol = 0.04) {
+        if (!this.enabled || !this.ctx) return;
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = "triangle";
+        osc.frequency.setValueAtTime(196.0, now);
+        osc.frequency.exponentialRampToValueAtTime(130.8, now + 0.35);
+        gain.gain.setValueAtTime(vol, now);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.35);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.4);
+      }
     }
+    const audio = new CrystalAudio();
 
-    // Build Band
-    function buildBand() {
+    // ==========================================
+    // 3D GEOMETRY BUILDERS
+    // ==========================================
+    
+    // 1. REEL STYLE GEOMETRY
+    const R_BAND = 1.05, R_TUBE = 0.18;
+    const TABLE_Y = 1.62, GIRDLE_Y = 1.36, CULET_Y = 1.08;
+    const GIRDLE_R = 0.56, TABLE_R = 0.35;
+
+    function buildReelBand() {
       const P = [], N = [], T = [];
-      const numTheta = 280, numPhi = 44;
-      for (let i = 0; i < numTheta; i++) {
-        const t = (i / numTheta) * TAU;
+      const nT = 220, nP = 40;
+      for (let i = 0; i < nT; i++) {
+        const t = (i / nT) * TAU;
         const sx = Math.sin(t), sy = Math.cos(t);
         const angleFromBottom = Math.abs(Math.PI - t);
-
-        for (let j = 0; j < numPhi; j++) {
-          const p = (j / numPhi) * TAU;
+        for (let j = 0; j < nP; j++) {
+          const p = (j / nP) * TAU;
           const cp = Math.cos(p), sp = Math.sin(p);
-          const px = (R_BAND + R_TUBE * cp) * sx;
-          const py = (R_BAND + R_TUBE * cp) * sy;
-          const pz = R_TUBE * sp;
-
-          P.push([px, py, pz]);
+          P.push([(R_BAND + R_TUBE * cp) * sx, (R_BAND + R_TUBE * cp) * sy, R_TUBE * sp]);
           N.push([cp * sx, cp * sy, sp]);
           T.push(angleFromBottom);
         }
@@ -413,78 +445,67 @@
       return { P, N, T };
     }
 
-    // Build Diamond
-    function buildDiamond() {
-      const P = [], N = [];
-      for (let r = 0.02; r <= TABLE_R; r += 0.025) {
-        const steps = Math.max(8, Math.floor(r * 110));
-        for (let k = 0; k < steps; k++) {
-          const ang = (k / steps) * TAU;
-          P.push([r * Math.cos(ang), TABLE_Y, r * Math.sin(ang)]);
+    function buildReelDiamond() {
+      const P = [], N = [], F = [];
+      for (let r = 0.02; r <= TABLE_R; r += 0.03) {
+        for (let a = 0; a < TAU; a += 0.18) {
+          P.push([r * Math.cos(a), TABLE_Y, r * Math.sin(a)]);
           N.push([0, 1, 0]);
+          F.push(0);
         }
       }
-
-      const numFacets = 16;
-      for (let f = 0; f < numFacets; f++) {
-        const a1 = (f / numFacets) * TAU, a2 = ((f + 1) / numFacets) * TAU;
-        const amid = 0.5 * (a1 + a2);
-        const crownTilt = f % 2 === 0 ? 0.72 : 0.65;
-        const cnl = Math.hypot(Math.cos(amid) * crownTilt, 0.70, Math.sin(amid) * crownTilt);
-        const cn = [(Math.cos(amid) * crownTilt) / cnl, 0.70 / cnl, (Math.sin(amid) * crownTilt) / cnl];
-
-        for (let u = 0; u <= 1; u += 0.09) {
-          for (let v = 0; v <= 1; v += 0.11) {
-            const ang = a1 + u * (a2 - a1);
-            const rc = TABLE_R + v * (GIRDLE_R - TABLE_R);
-            const yc = TABLE_Y + v * (GIRDLE_Y - TABLE_Y);
-            P.push([rc * Math.cos(ang), yc, rc * Math.sin(ang)]);
-            N.push(cn);
-          }
-        }
-
-        const pavTilt = f % 2 === 0 ? 0.75 : 0.70;
-        const pnl = Math.hypot(Math.cos(amid) * pavTilt, -0.66, Math.sin(amid) * pavTilt);
-        const pn = [(Math.cos(amid) * pavTilt) / pnl, -0.66 / pnl, (Math.sin(amid) * pavTilt) / pnl];
-
-        for (let u = 0; u <= 1; u += 0.09) {
-          for (let v = 0; v <= 1; v += 0.11) {
-            const ang = a1 + u * (a2 - a1);
-            const rp = GIRDLE_R * (1 - v);
-            const yp = GIRDLE_Y + v * (CULET_Y - GIRDLE_Y);
-            P.push([rp * Math.cos(ang), yp, rp * Math.sin(ang)]);
-            N.push(pn);
+      for (let f = 0; f < 8; f++) {
+        const a0 = TAU * f / 8, a1 = TAU * (f + 1) / 8;
+        for (let u = 0.05; u <= 0.95; u += 0.08) {
+          const y = TABLE_Y + u * (GIRDLE_Y - TABLE_Y);
+          const r = TABLE_R + u * (GIRDLE_R - TABLE_R);
+          for (let v = 0.05; v <= 0.95; v += 0.12) {
+            const ang = a0 + v * (a1 - a0);
+            const ca = Math.cos(ang), sa = Math.sin(ang);
+            P.push([r * ca, y, r * sa]);
+            N.push([0.88 * ca, 0.46, 0.88 * sa]);
+            F.push(f + 1);
           }
         }
       }
-      return { P, N };
+      for (let f = 0; f < 8; f++) {
+        const a0 = TAU * f / 8, a1 = TAU * (f + 1) / 8;
+        for (let u = 0.05; u <= 0.95; u += 0.08) {
+          const y = GIRDLE_Y + u * (CULET_Y - GIRDLE_Y);
+          const r = GIRDLE_R + u * (0.02 - GIRDLE_R);
+          for (let v = 0.05; v <= 0.95; v += 0.12) {
+            const ang = a0 + v * (a1 - a0);
+            const ca = Math.cos(ang), sa = Math.sin(ang);
+            P.push([r * ca, y, r * sa]);
+            N.push([0.72 * ca, -0.69, 0.72 * sa]);
+            F.push(f + 9);
+          }
+        }
+      }
+      return { P, N, F };
     }
 
-    // Build Prongs
-    function buildProngs() {
+    function buildReelProngs() {
       const P = [], N = [], U = [];
       for (let i = 0; i < 4; i++) {
-        const a = (TAU * (i + 0.5)) / 4;
-        const base = [0.08 * Math.cos(a), R_BAND + 0.02, 0.08 * Math.sin(a)];
-        const tip = [(GIRDLE_R + 0.015) * Math.cos(a), TABLE_Y - 0.03, (GIRDLE_R + 0.015) * Math.sin(a)];
-        const d = [tip[0] - base[0], tip[1] - base[1], tip[2] - base[2]];
-        const dlen = Math.hypot(d[0], d[1], d[2]);
-        d[0] /= dlen; d[1] /= dlen; d[2] /= dlen;
+        const a = TAU * (i + 0.5) / 4;
+        const ca = Math.cos(a), sa = Math.sin(a);
+        const bx = 0.08 * ca, by = R_BAND + 0.02, bz = 0.08 * sa;
+        const tx = (GIRDLE_R + 0.015) * ca, ty = TABLE_Y - 0.03, tz = (GIRDLE_R + 0.015) * sa;
+        const dx = tx - bx, dy = ty - by, dz = tz - bz;
+        const dlen = Math.sqrt(dx*dx + dy*dy + dz*dz);
+        const ndx = dx/dlen, ndy = dy/dlen, ndz = dz/dlen;
 
-        let s = [d[1], -d[0], 0];
-        let slen = Math.hypot(s[0], s[1], s[2]);
-        if (slen < 1e-4) { s = [1, 0, 0]; slen = 1; }
-        s[0] /= slen; s[1] /= slen; s[2] /= slen;
+        let sx = -ndy, sy = ndx, sz = 0;
+        const slen = Math.sqrt(sx*sx + sy*sy);
+        if (slen > 1e-4) { sx /= slen; sy /= slen; } else { sx = 1; sy = 0; }
+        const wx = ndy*sz - ndz*sy, wy = ndz*sx - ndx*sz, wz = ndx*sy - ndy*sx;
 
-        const w = [s[1]*d[2]-s[2]*d[1], s[2]*d[0]-s[0]*d[2], s[0]*d[1]-s[1]*d[0]];
-
-        for (let u = 0; u <= 1; u += 0.03) {
-          for (let phi = 0; phi < TAU; phi += TAU / 14) {
-            const cp = Math.cos(phi), sp = Math.sin(phi);
-            const nx = cp * s[0] + sp * w[0];
-            const ny = cp * s[1] + sp * w[1];
-            const nz = cp * s[2] + sp * w[2];
-            P.push([base[0] + u * (tip[0] - base[0]) + nx * 0.025, base[1] + u * (tip[1] - base[1]) + ny * 0.024, base[2] + u * (tip[2] - base[2]) + nz * 0.025]);
+        for (let u = 0; u <= 1.0; u += 0.025) {
+          for (let p = 0; p < TAU; p += TAU / 16) {
+            const cp = Math.cos(p), sp = Math.sin(p);
+            const nx = cp * sx + sp * wx, ny = cp * sy + sp * wy, nz = cp * sz + sp * wz;
+            P.push([bx + u * dx + nx * 0.022, by + u * dy + ny * 0.022, bz + u * dz + nz * 0.022]);
             N.push([nx, ny, nz]);
             U.push(u);
           }
@@ -493,9 +514,137 @@
       return { P, N, U };
     }
 
+    // 2. REAL JEWELER RING GEOMETRY
+    function buildRealRing() {
+      // Comfort-fit shank with cathedral tapered shoulders
+      const bandP = [], bandN = [], bandT = [];
+      const nT = 220, nP = 36;
+      for (let i = 0; i < nT; i++) {
+        const t = (i / nT) * TAU;
+        const sx = Math.sin(t), sy = Math.cos(t);
+        const angleFromBottom = Math.abs(Math.PI - t);
+        const topF = Math.max(0.0, (angleFromBottom - 2.1) / (Math.PI - 2.1));
+        const rBand = 1.05 + 0.07 * (topF * topF);
+        const rTubeX = 0.16 + 0.05 * topF;
+        const rTubeZ = 0.19 + 0.05 * topF;
+
+        for (let j = 0; j < nP; j++) {
+          const p = (j / nP) * TAU;
+          const cp = Math.cos(p), sp = Math.sin(p);
+          const radOffset = (cp < 0 ? cp * 0.82 : cp * 1.18) * rTubeX;
+          bandP.push([(rBand + radOffset) * sx, (rBand + radOffset) * sy, sp * rTubeZ]);
+          bandN.push([cp * sx, cp * sy, sp]);
+          bandT.push(angleFromBottom);
+        }
+      }
+
+      // Under-bezel gallery rail (collar bracing the prongs)
+      const galP = [], galN = [];
+      for (let t = 0; t < TAU; t += TAU / 90) {
+        const gx = 0.38 * Math.cos(t), gz = 0.38 * Math.sin(t);
+        for (let p = 0; p < TAU; p += TAU / 10) {
+          const cp = Math.cos(p), sp = Math.sin(p);
+          galP.push([gx + 0.024 * cp * Math.cos(t), 1.25 + 0.024 * sp, gz + 0.024 * cp * Math.sin(t)]);
+          galN.push([cp * Math.cos(t), sp, cp * Math.sin(t)]);
+        }
+      }
+
+      // 4 Claw prongs with inward curving tips
+      const prongP = [], prongN = [], prongU = [];
+      for (let i = 0; i < 4; i++) {
+        const a = TAU * (i + 0.5) / 4;
+        const ca = Math.cos(a), sa = Math.sin(a);
+        for (let u = 0; u <= 1.0; u += 0.026) {
+          let r, y;
+          if (u < 0.65) {
+            const tu = u / 0.65;
+            r = 0.14 + tu * (0.58 - 0.14);
+            y = 1.05 + tu * (1.36 - 1.05);
+          } else {
+            const tu = (u - 0.65) / 0.35;
+            r = 0.58 - tu * 0.10;
+            y = 1.36 + tu * 0.22;
+          }
+          for (let phi = 0; phi < TAU; phi += TAU / 14) {
+            const cp = Math.cos(phi), sp = Math.sin(phi);
+            const th = 0.026 * (1.0 - 0.25 * u);
+            const px = r * ca - sa * th * cp;
+            const pz = r * sa + ca * th * cp;
+            const py = y + th * sp;
+            prongP.push([px, py, pz]);
+            prongN.push([-sa * cp, sp, ca * cp]);
+            prongU.push(u);
+          }
+        }
+      }
+
+      // Brilliant cut diamond
+      const gemP = [], gemN = [], gemF = [];
+      for (let r = 0.01; r <= 0.35; r += 0.025) {
+        for (let t = 0; t < TAU; t += TAU / 36) {
+          gemP.push([r * Math.cos(t), 1.62, r * Math.sin(t)]);
+          gemN.push([0, 1, 0]);
+          gemF.push(0);
+        }
+      }
+      for (let k = 0; k < 8; k++) {
+        const a0 = TAU * k / 8, a1 = TAU * (k + 1) / 8, amid = 0.5 * (a0 + a1);
+        const v0 = [0.35 * Math.cos(a0), 1.62, 0.35 * Math.sin(a0)];
+        const v1 = [0.35 * Math.cos(a1), 1.62, 0.35 * Math.sin(a1)];
+        const vs = [0.45 * Math.cos(amid), 1.50, 0.45 * Math.sin(amid)];
+        const e1 = [v1[0] - v0[0], v1[1] - v0[1], v1[2] - v0[2]];
+        const e2 = [vs[0] - v0[0], vs[1] - v0[1], vs[2] - v0[2]];
+        let nx = e1[1]*e2[2] - e1[2]*e2[1], ny = e1[2]*e2[0] - e1[0]*e2[2], nz = e1[0]*e2[1] - e1[1]*e2[0];
+        const nlen = Math.sqrt(nx*nx + ny*ny + nz*nz);
+        nx /= nlen; ny /= nlen; nz /= nlen;
+
+        for (let u = 0.1; u <= 0.9; u += 0.16) {
+          for (let v = 0.1; v <= 0.9 - u; v += 0.16) {
+            const px = (1 - u - v)*v0[0] + u*v1[0] + v*vs[0];
+            const py = (1 - u - v)*v0[1] + u*v1[1] + v*vs[1];
+            const pz = (1 - u - v)*v0[2] + u*v1[2] + v*vs[2];
+            gemP.push([px, py, pz]);
+            gemN.push([nx, ny, nz]);
+            gemF.push(k + 1);
+          }
+        }
+      }
+      const culet = [0, 1.08, 0];
+      for (let k = 0; k < 8; k++) {
+        const a0 = TAU * k / 8, a1 = TAU * (k + 1) / 8;
+        const v0 = [0.56 * Math.cos(a0), 1.36, 0.56 * Math.sin(a0)];
+        const v1 = [0.56 * Math.cos(a1), 1.36, 0.56 * Math.sin(a1)];
+        const e1 = [v1[0] - v0[0], v1[1] - v0[1], v1[2] - v0[2]];
+        const e2 = [culet[0] - v0[0], culet[1] - v0[1], culet[2] - v0[2]];
+        let nx = e1[1]*e2[2] - e1[2]*e2[1], ny = e1[2]*e2[0] - e1[0]*e2[2], nz = e1[0]*e2[1] - e1[1]*e2[0];
+        const nlen = Math.sqrt(nx*nx + ny*ny + nz*nz);
+        nx /= nlen; ny /= nlen; nz /= nlen;
+
+        for (let u = 0.05; u <= 0.95; u += 0.12) {
+          for (let v = 0.05; v <= 0.95 - u; v += 0.12) {
+            const px = (1 - u - v)*v0[0] + u*v1[0] + v*culet[0];
+            const py = (1 - u - v)*v0[1] + u*v1[1] + v*culet[1];
+            const pz = (1 - u - v)*v0[2] + u*v1[2] + v*culet[2];
+            gemP.push([px, py, pz]);
+            gemN.push([nx, ny, nz]);
+            gemF.push(k + 9);
+          }
+        }
+      }
+
+      return {
+        band: { P: bandP, N: bandN, T: bandT },
+        gal: { P: galP, N: galN },
+        prongs: { P: prongP, N: prongN, U: prongU },
+        gem: { P: gemP, N: gemN, F: gemF }
+      };
+    }
+
+    // Atomic Orbits & Ambient Glints
     function buildOrbits() {
       const P = [];
-      const rad38 = (38 * Math.PI) / 180, cos38 = Math.cos(rad38), sin38 = Math.sin(rad38);
+      const rad38 = 38 * Math.PI / 180;
+      const cos38 = Math.cos(rad38), sin38 = Math.sin(rad38);
       for (let i = 0; i < 240; i++) {
         const t = (i / 240) * TAU, ct = Math.cos(t), st = Math.sin(t);
         P.push([2.15 * ct, 1.25 * st * cos38, 1.25 * st * sin38]);
@@ -504,9 +653,8 @@
       return P;
     }
 
-    let GLINT_COUNT = 272;
     let glints = [];
-    function initGlints(count) {
+    function initGlints(count = 272) {
       glints = [];
       for (let i = 0; i < count; i++) {
         const phi = Math.random() * TAU, theta = (Math.random() - 0.5) * Math.PI, dist = 1.3 + Math.random() * 1.8;
@@ -520,30 +668,37 @@
       }
     }
 
-    const bandMesh = buildBand();
-    const diamondMesh = buildDiamond();
-    const prongMesh = buildProngs();
+    const reelMeshes = {
+      band: buildReelBand(),
+      gem: buildReelDiamond(),
+      prongs: buildReelProngs()
+    };
+    const realMeshes = buildRealRing();
     const orbitMesh = buildOrbits();
-    initGlints(GLINT_COUNT);
+    initGlints(272);
 
     const L = [0.577, 0.707, -0.408];
     const H = [0.46, 0.56, -0.68];
     const RAMP = " .:-=+*#%@";
     const WIDTH = 64, HEIGHT = 34;
 
+    // State
+    let currentStyle = "real"; // 'real' or 'reel'
     let isPlaying = true;
     let rotYDeg = 56.0;
-    let tiltXDeg = 12.0;
+    let tiltXDeg = 26.0;
     let speedMult = 1.0;
     let zoomLevel = 1.0;
     let formationDuration = 8.07;
     let animationTime = 0.0;
     let isScrubbing = false;
     let dedicationMsg = "Send this to someone you love ❤️";
-
     let isDragging = false, lastX = 0, lastY = 0;
     let lastChimeTime = 0;
 
+    // ==========================================
+    // RENDER FUNCTION
+    // ==========================================
     function render(rotDeg, elapsed) {
       const ry = (rotDeg * Math.PI) / 180, tx = (tiltXDeg * Math.PI) / 180;
       const cosY = Math.cos(ry), sinY = Math.sin(ry);
@@ -553,23 +708,41 @@
       const charbuf = new Array(WIDTH * HEIGHT).fill(" ");
 
       const dist = 3.65 / zoomLevel;
-      const Kx = 56.0, Ky = 28.0, cx = WIDTH / 2.0, cy = HEIGHT / 2.0 + 1.2;
+      const Kx = 56.0, Ky = 28.0;
+      const cx = WIDTH / 2.0;
+      const cy = HEIGHT / 2.0 + (currentStyle === "real" ? 0.8 : 1.2);
 
-      let band_p = 1.0, prong_p = 1.0, gem_p = 1.0, flare_p = 1.0;
+      let band_p = 1.0, basket_p = 1.0, gem_p = 1.0, crimp_p = 1.0, flare_p = 1.0;
       let stageName = "Fully Formed";
 
       if (formationDuration > 0.0) {
         const normT = Math.min(1.0, elapsed / formationDuration);
-        band_p = Math.min(1.0, Math.max(0.0, normT / 0.40));
-        prong_p = Math.min(1.0, Math.max(0.0, (normT - 0.35) / 0.30));
-        gem_p = Math.min(1.0, Math.max(0.0, (normT - 0.62) / 0.28));
-        flare_p = Math.min(1.0, Math.max(0.0, (normT - 0.88) / 0.12));
+        if (currentStyle === "real") {
+          band_p = Math.min(1.0, Math.max(0.0, normT / 0.35));
+          basket_p = Math.min(1.0, Math.max(0.0, (normT - 0.30) / 0.25));
+          gem_p = Math.min(1.0, Math.max(0.0, (normT - 0.50) / 0.25));
+          crimp_p = Math.min(1.0, Math.max(0.0, (normT - 0.72) / 0.14));
+          flare_p = Math.min(1.0, Math.max(0.0, (normT - 0.85) / 0.15));
 
-        if (normT < 0.35) stageName = `Band Forming (${Math.round(band_p * 100)}%)`;
-        else if (normT < 0.62) stageName = `Prongs Rising (${Math.round(prong_p * 100)}%)`;
-        else if (normT < 0.88) stageName = `Gem Crystallizing (${Math.round(gem_p * 100)}%)`;
-        else if (normT < 1.0) stageName = "Top Flare Igniting";
-        else stageName = "Complete · Spinning";
+          if (normT < 0.32) stageName = `Stage 1: Shank Forge (${Math.round(band_p * 100)}%)`;
+          else if (normT < 0.52) stageName = `Stage 2: Basket & Rail (${Math.round(basket_p * 100)}%)`;
+          else if (normT < 0.72) stageName = `Stage 3: Stone Descent (${Math.round(gem_p * 100)}%)`;
+          else if (normT < 0.85) stageName = `Stage 4: Claw Setting (${Math.round(crimp_p * 100)}%)`;
+          else if (normT < 1.0) stageName = "Stage 5: High Polish & Flare";
+          else stageName = "Brilliance Locked · 100%";
+        } else {
+          band_p = Math.min(1.0, Math.max(0.0, normT / 0.40));
+          basket_p = Math.min(1.0, Math.max(0.0, (normT - 0.35) / 0.30));
+          gem_p = Math.min(1.0, Math.max(0.0, (normT - 0.62) / 0.28));
+          crimp_p = 1.0;
+          flare_p = Math.min(1.0, Math.max(0.0, (normT - 0.88) / 0.12));
+
+          if (normT < 0.35) stageName = `Band Forming (${Math.round(band_p * 100)}%)`;
+          else if (normT < 0.62) stageName = `Prongs Rising (${Math.round(basket_p * 100)}%)`;
+          else if (normT < 0.88) stageName = `Gem Crystallizing (${Math.round(gem_p * 100)}%)`;
+          else if (normT < 1.0) stageName = "Top Flare Igniting";
+          else stageName = "Reel Complete";
+        }
       }
 
       function project(p, n) {
@@ -578,17 +751,21 @@
         let rnx = 0, rny = 0, rnz = 0;
         if (n) {
           const ny1 = n[1]*cosX - n[2]*sinX, nz1 = n[1]*sinX + n[2]*cosX;
-          rnx = n[0]*cosY + nz1*sinY; rny = ny1; rnz = -n[0]*sinY + nz1*cy;
+          rnx = n[0]*cosY + nz1*sinY; rny = ny1; rnz = -n[0]*sinY + nz1*cosY;
         }
         return [x2, y1, z2, rnx, rny, rnz];
       }
 
+      const activeBand = currentStyle === "real" ? realMeshes.band : reelMeshes.band;
+      const activeProngs = currentStyle === "real" ? realMeshes.prongs : reelMeshes.prongs;
+      const activeGem = currentStyle === "real" ? realMeshes.gem : reelMeshes.gem;
+
       // 1. Band
       if (band_p > 0.0) {
         const cutoff = band_p * Math.PI;
-        for (let i = 0; i < bandMesh.P.length; i++) {
-          if (bandMesh.T[i] <= cutoff) {
-            const [px, py, pz, nx, ny, nz] = project(bandMesh.P[i], bandMesh.N[i]);
+        for (let i = 0; i < activeBand.P.length; i++) {
+          if (activeBand.T[i] <= cutoff) {
+            const [px, py, pz, nx, ny, nz] = project(activeBand.P[i], activeBand.N[i]);
             const ooz = 1.0 / (pz + dist);
             const xp = Math.floor(cx + Kx * px * ooz);
             const yp = Math.floor(cy - Ky * py * ooz);
@@ -599,18 +776,44 @@
                 const diff = Math.max(0, nx*L[0] + ny*L[1] + nz*L[2]);
                 const spec = Math.max(0, nx*H[0] + ny*H[1] + nz*H[2]) ** 16;
                 const lum = 0.28 + 0.65 * diff + 0.40 * spec;
-                charbuf[idx] = RAMP[Math.min(RAMP.length - 1, Math.max(1, Math.floor(lum * (RAMP.length - 1))))];
+                const chIdx = Math.min(RAMP.length - 1, Math.max(1, Math.floor(lum * (RAMP.length - 1))));
+                charbuf[idx] = RAMP[chIdx];
               }
             }
           }
         }
       }
 
-      // 2. Prongs
-      if (prong_p > 0.0) {
-        for (let i = 0; i < prongMesh.P.length; i++) {
-          if (prongMesh.U[i] <= prong_p) {
-            const [px, py, pz, nx, ny, nz] = project(prongMesh.P[i], prongMesh.N[i]);
+      // 2. Gallery Rail (Real Mode)
+      if (currentStyle === "real" && basket_p > 0.2) {
+        for (let i = 0; i < realMeshes.gal.P.length; i++) {
+          const [px, py, pz, nx, ny, nz] = project(realMeshes.gal.P[i], realMeshes.gal.N[i]);
+          const ooz = 1.0 / (pz + dist);
+          const xp = Math.floor(cx + Kx * px * ooz);
+          const yp = Math.floor(cy - Ky * py * ooz);
+          if (xp >= 0 && xp < WIDTH && yp >= 0 && yp < HEIGHT) {
+            const idx = yp * WIDTH + xp;
+            if (ooz > zbuf[idx]) {
+              zbuf[idx] = ooz;
+              const diff = Math.max(0, nx*L[0] + ny*L[1] + nz*L[2]);
+              const lum = 0.35 + 0.60 * diff;
+              const chIdx = Math.min(RAMP.length - 1, Math.max(1, Math.floor(lum * (RAMP.length - 1))));
+              charbuf[idx] = RAMP[chIdx];
+            }
+          }
+        }
+      }
+
+      // 3. Prongs & Claws
+      if (basket_p > 0.0) {
+        for (let i = 0; i < activeProngs.P.length; i++) {
+          if (activeProngs.U[i] <= basket_p) {
+            let p_copy = [activeProngs.P[i][0], activeProngs.P[i][1], activeProngs.P[i][2]];
+            if (currentStyle === "real" && crimp_p > 0.0 && p_copy[1] > 1.38) {
+              p_copy[0] *= (1.0 - 0.08 * crimp_p);
+              p_copy[2] *= (1.0 - 0.08 * crimp_p);
+            }
+            const [px, py, pz, nx, ny, nz] = project(p_copy, activeProngs.N[i]);
             const ooz = 1.0 / (pz + dist);
             const xp = Math.floor(cx + Kx * px * ooz);
             const yp = Math.floor(cy - Ky * py * ooz);
@@ -621,35 +824,85 @@
                 const diff = Math.max(0, nx*L[0] + ny*L[1] + nz*L[2]);
                 const spec = Math.max(0, nx*H[0] + ny*H[1] + nz*H[2]) ** 14;
                 const lum = 0.38 + 0.52 * diff + 0.32 * spec;
-                charbuf[idx] = RAMP[Math.min(RAMP.length - 1, Math.max(2, Math.floor(lum * (RAMP.length - 1))))];
+                const chIdx = Math.min(RAMP.length - 1, Math.max(2, Math.floor(lum * (RAMP.length - 1))));
+                charbuf[idx] = RAMP[chIdx];
               }
             }
           }
         }
       }
 
-      // 3. Diamond with Scintillation Chimes
-      let hasSpecularFlash = false;
+      // 4. Gemstone (Descending in real mode, crystallizing in reel mode)
       if (gem_p > 0.0) {
-        const yCutoff = CULET_Y + (TABLE_Y - CULET_Y) * gem_p;
-        for (let i = 0; i < diamondMesh.P.length; i++) {
-          if (diamondMesh.P[i][1] <= yCutoff) {
-            const [px, py, pz, nx, ny, nz] = project(diamondMesh.P[i], diamondMesh.N[i]);
-            const ooz = 1.0 / (pz + dist);
-            const xp = Math.floor(cx + Kx * px * ooz);
-            const yp = Math.floor(cy - Ky * py * ooz);
+        const descentY = currentStyle === "real" ? (1.0 - gem_p) * 1.5 : 0.0;
+        const cutoffY = currentStyle === "real" ? 999 : (CULET_Y + gem_p * (TABLE_Y - CULET_Y));
+
+        let sparkleHits = 0;
+        for (let i = 0; i < activeGem.P.length; i++) {
+          if (activeGem.P[i][1] <= cutoffY) {
+            const p_gem = [activeGem.P[i][0], activeGem.P[i][1] + descentY, activeGem.P[i][2]];
+            const [gx, gy, gz, nx, ny, nz] = project(p_gem, activeGem.N[i]);
+            const ooz = 1.0 / (gz + dist);
+            const xp = Math.floor(cx + Kx * gx * ooz);
+            const yp = Math.floor(cy - Ky * gy * ooz);
             if (xp >= 0 && xp < WIDTH && yp >= 0 && yp < HEIGHT) {
               const idx = yp * WIDTH + xp;
               if (ooz > zbuf[idx]) {
                 zbuf[idx] = ooz;
                 const diff = Math.max(0, nx*L[0] + ny*L[1] + nz*L[2]);
-                const spec = Math.max(0, nx*H[0] + ny*H[1] + nz*H[2]) ** 14;
-                if (spec > 0.48) {
-                  charbuf[idx] = spec < 0.78 ? "*" : "#";
-                  if (spec > 0.65) hasSpecularFlash = true;
+                const spec = Math.max(0, nx*H[0] + ny*H[1] + nz*H[2]);
+                const fid = activeGem.F[i];
+                const fSparkle = Math.sin(ry * 4.0 + fid * 1.618);
+                const isSparkle = (spec > 0.72) && (fSparkle > 0.2);
+                const isSuper = (spec > 0.88) && (fSparkle > 0.6);
+
+                if (isSuper) {
+                  charbuf[idx] = "@";
+                  sparkleHits++;
+                } else if (isSparkle) {
+                  charbuf[idx] = "%";
+                  sparkleHits++;
                 } else {
-                  const lum = 0.35 + 0.55 * diff + 0.30 * spec;
-                  charbuf[idx] = RAMP[Math.min(RAMP.length - 1, Math.max(2, Math.floor(lum * (RAMP.length - 1))))];
+                  const lum = 0.35 + 0.65 * diff;
+                  const chIdx = Math.min(RAMP.length - 1, Math.max(2, Math.floor(lum * (RAMP.length - 1))));
+                  charbuf[idx] = RAMP[chIdx];
+                }
+              }
+            }
+          }
+        }
+
+        // Trigger spatial audio chimes on high sparkle
+        if (sparkleHits > 8 && (elapsed - lastChimeTime > 0.28)) {
+          audio.playChime(Math.floor(rotDeg / 15));
+          lastChimeTime = elapsed;
+        }
+      }
+
+      // 5. Vertical Flare Beam
+      if (flare_p > 0.0) {
+        const [fx, fy, fz] = project([0.0, TABLE_Y + 0.05, 0.0]);
+        const ooz = 1.0 / (fz + dist);
+        const fl_x = Math.floor(cx + Kx * fx * ooz);
+        const fl_y = Math.floor(cy - Ky * fy * ooz);
+        const flareReach = Math.floor(14 * flare_p);
+
+        for (let dy = 1; dy < flareReach; dy++) {
+          const y_pos = fl_y - dy;
+          if (y_pos >= 0 && y_pos < HEIGHT && fl_x >= 0 && fl_x < WIDTH) {
+            const idx = y_pos * WIDTH + fl_x;
+            if (ooz > zbuf[idx]) {
+              zbuf[idx] = ooz;
+              charbuf[idx] = (dy % 2 === 0) ? ":" : ".";
+            }
+          }
+          if (dy % 3 === 0) {
+            for (let off of [-1, 1]) {
+              const nx_pos = fl_x + off;
+              if (y_pos >= 0 && y_pos < HEIGHT && nx_pos >= 0 && nx_pos < WIDTH) {
+                const idx = y_pos * WIDTH + nx_pos;
+                if (ooz > zbuf[idx] && charbuf[idx] === " ") {
+                  charbuf[idx] = ".";
                 }
               }
             }
@@ -657,376 +910,339 @@
         }
       }
 
-      // Trigger sparkle chime
-      if (hasSpecularFlash && performance.now() - lastChimeTime > 280) {
-        lastChimeTime = performance.now();
-        playFacetChime(Math.floor(rotDeg / 45));
+      // 6. Twin Atomic Orbits
+      for (let i = 0; i < orbitMesh.length; i++) {
+        const [ox, oy, oz] = project(orbitMesh[i]);
+        const ooz = 1.0 / (oz + dist);
+        const xp = Math.floor(cx + Kx * ox * ooz);
+        const yp = Math.floor(cy - Ky * oy * ooz);
+        if (xp >= 0 && xp < WIDTH && yp >= 0 && yp < HEIGHT) {
+          const idx = yp * WIDTH + xp;
+          if (ooz > zbuf[idx] && charbuf[idx] === " ") {
+            charbuf[idx] = ".";
+          }
+        }
       }
 
-      // 4. Flare
-      if (flare_p > 0.0) {
-        const maxFlareY = TABLE_Y + 0.90 * flare_p;
-        for (let vy = TABLE_Y + 0.04; vy <= maxFlareY; vy += 0.06) {
-          for (const vx of [-0.05, -0.02, 0.0, 0.02, 0.05]) {
-            const [px, py, pz] = project([vx, vy, 0], null);
-            const oz = 1.0 / (pz + dist);
-            const xp = Math.floor(cx + Kx * px * oz);
-            const yp = Math.floor(cy - Ky * py * oz);
-            if (xp >= 0 && xp < WIDTH && yp >= 0 && yp < HEIGHT) {
-              const idx = yp * WIDTH + xp;
-              if (oz > zbuf[idx] - 0.02) {
-                charbuf[idx] = Math.abs(vx) < 0.01 ? "|" : (Math.abs(vx) < 0.03 ? ":" : ".");
-              }
+      // 7. Ambient Glints
+      let activeGlints = 0;
+      for (let i = 0; i < glints.length; i++) {
+        const g = glints[i];
+        const pVal = Math.sin(elapsed * g.speed + g.phase);
+        if (pVal > 0.45) {
+          activeGlints++;
+          const [gx, gy, gz] = project([g.x, g.y, g.z]);
+          const ooz = 1.0 / (gz + dist);
+          const xp = Math.floor(cx + Kx * gx * ooz);
+          const yp = Math.floor(cy - Ky * gy * ooz);
+          if (xp >= 0 && xp < WIDTH && yp >= 0 && yp < HEIGHT) {
+            const idx = yp * WIDTH + xp;
+            if (ooz > zbuf[idx] && charbuf[idx] === " ") {
+              charbuf[idx] = (pVal > 0.88) ? "+" : ".";
             }
           }
         }
       }
 
-      // 5. Orbits
-      for (let i = 0; i < orbitMesh.length; i++) {
-        const [px, py, pz] = project(orbitMesh[i], null);
-        const ooz = 1.0 / (pz + dist);
-        const xp = Math.floor(cx + Kx * px * ooz);
-        const yp = Math.floor(cy - Ky * py * ooz);
-        if (xp >= 0 && xp < WIDTH && yp >= 0 && yp < HEIGHT) {
-          const idx = yp * WIDTH + xp;
-          if (zbuf[idx] <= 0) charbuf[idx] = i % 2 === 0 ? "." : "'";
-        }
+      // Count letters
+      let nonSpace = 0;
+      for (let i = 0; i < WIDTH * HEIGHT; i++) {
+        if (charbuf[i] !== " ") nonSpace++;
       }
 
-      // 6. Glints
-      let activeG = 0;
-      for (let i = 0; i < glints.length; i++) {
-        const g = glints[i];
-        const tw = Math.sin(elapsed * g.speed + g.phase);
-        if (tw > 0.15) {
-          activeG++;
-          const [px, py, pz] = project([g.x, g.y, g.z], null);
-          const oz = 1.0 / (pz + dist);
-          const xp = Math.floor(cx + Kx * px * oz);
-          const yp = Math.floor(cy - Ky * py * oz);
-          if (xp >= 0 && xp < WIDTH && yp >= 0 && yp < HEIGHT) {
-            const idx = yp * WIDTH + xp;
-            if (oz > zbuf[idx]) charbuf[idx] = tw > 0.82 ? "+" : ".";
-          }
-        }
+      // HUD Overlays
+      const timerStr = `•f ${elapsed.toFixed(2).padStart(5, '0')}s`;
+      const tStart = WIDTH - timerStr.length - 2;
+      for (let i = 0; i < timerStr.length; i++) {
+        charbuf[1 * WIDTH + tStart + i] = timerStr[i];
       }
 
-      let letters = 0;
-      for (let i = 0; i < charbuf.length; i++) if (charbuf[i] !== " ") letters++;
+      const hudMsg = dedicationMsg.slice(0, WIDTH - 26);
+      const hud1 = `${hudMsg.padEnd(20, ' ')}  [${currentStyle.toUpperCase()}]`;
+      const hud2 = `rotation ${(rotDeg % 360).toFixed(2).padStart(6, '0')}°   glints ${activeGlints}`;
+      const hud3 = `letters ${nonSpace.toLocaleString()}`;
 
-      const rows = [];
+      for (let i = 0; i < hud1.length && 2 + i < WIDTH; i++) charbuf[(HEIGHT - 4) * WIDTH + 2 + i] = hud1[i];
+      for (let i = 0; i < hud2.length && 2 + i < WIDTH; i++) charbuf[(HEIGHT - 3) * WIDTH + 2 + i] = hud2[i];
+      for (let i = 0; i < hud3.length && 2 + i < WIDTH; i++) charbuf[(HEIGHT - 2) * WIDTH + 2 + i] = hud3[i];
+
+      const lines = [];
       for (let y = 0; y < HEIGHT; y++) {
-        let r = "";
-        for (let x = 0; x < WIDTH; x++) r += charbuf[y * WIDTH + x];
-        rows.push(r);
+        lines.push(charbuf.slice(y * WIDTH, (y + 1) * WIDTH).join(""));
       }
+      lines.push("$ py art.py".padEnd(WIDTH - 16, " ") + "running · 30 fps");
 
-      return { text: rows.join("\n"), letters, activeG, stageName };
+      return { text: lines.join("\n"), stageName, nonSpace, activeGlints };
     }
 
-    const asciiScreen = document.getElementById("ascii-screen");
-    const hudRot = document.getElementById("hud-rot");
-    const hudGlints = document.getElementById("hud-glints");
-    const hudLetters = document.getElementById("hud-letters");
-    const timerDisplay = document.getElementById("timer-display");
+    // ==========================================
+    // INTERACTION & UI CONTROLS
+    // ==========================================
+    const asciiCanvas = document.getElementById("ascii-canvas");
     const scrubber = document.getElementById("scrubber");
     const scrubberLabel = document.getElementById("scrubber-label");
-    const formationBadge = document.getElementById("formation-stage-badge");
-    const hudStageName = document.getElementById("hud-stage-name");
-    const hudDedication = document.getElementById("hud-dedication");
-
-    let lastTick = performance.now();
-    function loop(now) {
-      requestAnimationFrame(loop);
-      const delta = now - lastTick;
-      if (delta < 33) return;
-      lastTick = now;
-
-      if (isPlaying && !isScrubbing) {
-        animationTime += (delta / 1000) * speedMult;
-        rotYDeg = (rotYDeg + 1.25 * speedMult) % 360.0;
-      }
-
-      const frame = render(rotYDeg, animationTime);
-      asciiScreen.textContent = frame.text;
-
-      hudRot.textContent = `${rotYDeg.toFixed(2).padStart(6, "0")}°`;
-      hudGlints.textContent = frame.activeG;
-      hudLetters.textContent = frame.letters.toLocaleString();
-      timerDisplay.textContent = `•f ${animationTime.toFixed(2).padStart(5, "0")}s`;
-
-      if (!isScrubbing) {
-        scrubber.value = Math.min(8.07, animationTime).toFixed(2);
-        const pct = Math.min(100, Math.round((animationTime / formationDuration) * 100));
-        scrubberLabel.textContent = `${animationTime.toFixed(2)}s (${pct}%)`;
-        formationBadge.textContent = frame.stageName;
-        hudStageName.textContent = frame.stageName;
-      }
-    }
-    requestAnimationFrame(loop);
-
-    // Audio button
+    const stageBadge = document.getElementById("formation-stage-badge");
+    const modelBadge = document.getElementById("model-mode-badge");
+    const codeModelTag = document.getElementById("code-model-tag");
+    const btnPlay = document.getElementById("btn-toggle-play");
+    const playIcon = document.getElementById("play-icon");
+    const playLabel = document.getElementById("play-label");
+    const btnReplay = document.getElementById("btn-replay");
     const btnSound = document.getElementById("btn-sound");
-    btnSound.addEventListener("click", () => {
-      initAudio();
-      audioEnabled = !audioEnabled;
-      document.getElementById("sound-icon").textContent = audioEnabled ? "🔊" : "🔇";
-      document.getElementById("sound-label").textContent = audioEnabled ? "Audio: ON" : "Audio: OFF";
-      btnSound.classList.toggle("bg-cyan-900/60", audioEnabled);
-      btnSound.classList.toggle("border-cyan-600", audioEnabled);
-      if (audioEnabled) playFacetChime(0, 0.08);
+    const soundIcon = document.getElementById("sound-icon");
+    const soundLabel = document.getElementById("sound-label");
+    const styleRealBtn = document.getElementById("style-real");
+    const styleReelBtn = document.getElementById("style-reel");
+    const camShowcaseBtn = document.getElementById("cam-showcase");
+    const camReelBtn = document.getElementById("cam-reel");
+    const camCrownBtn = document.getElementById("cam-crown");
+    const hudTilt = document.getElementById("hud-tilt");
+    const hudZoom = document.getElementById("hud-zoom");
+    const inputMessage = document.getElementById("input-message");
+    const btnShare = document.getElementById("btn-share-link");
+    const gemSelect = document.getElementById("gem-select");
+    const toggleBloom = document.getElementById("toggle-bloom");
+    const sliderSpeed = document.getElementById("slider-speed");
+    const speedVal = document.getElementById("speed-val");
+    const toast = document.getElementById("toast");
+    const toastMsg = document.getElementById("toast-msg");
+    const viewport = document.getElementById("viewport");
+
+    // Style Switcher
+    function setStyle(style) {
+      currentStyle = style;
+      if (style === "real") {
+        styleRealBtn.className = "px-3 py-1 rounded-md bg-amber-500 text-slate-950 font-bold transition shadow-sm";
+        styleReelBtn.className = "px-3 py-1 rounded-md text-slate-400 hover:text-white font-medium transition";
+        modelBadge.textContent = "💍 REAL RING";
+        modelBadge.className = "px-2 py-0.2 rounded bg-amber-950/80 text-amber-300 border border-amber-800/60 font-mono text-[10px] font-bold";
+        codeModelTag.textContent = "Realistic Engagement Ring";
+        tiltXDeg = 26.0;
+        hudTilt.textContent = "26.0°";
+      } else {
+        styleReelBtn.className = "px-3 py-1 rounded-md bg-cyan-600 text-white font-bold transition shadow-sm";
+        styleRealBtn.className = "px-3 py-1 rounded-md text-slate-400 hover:text-white font-medium transition";
+        modelBadge.textContent = "✨ VIRAL REEL";
+        modelBadge.className = "px-2 py-0.2 rounded bg-cyan-950/80 text-cyan-300 border border-cyan-800/60 font-mono text-[10px] font-bold";
+        codeModelTag.textContent = "Viral Instagram Reel";
+        tiltXDeg = 12.0;
+        hudTilt.textContent = "12.0°";
+      }
+      animationTime = 0.0;
+      rotYDeg = 56.0;
+    }
+    styleRealBtn.addEventListener("click", () => setStyle("real"));
+    styleReelBtn.addEventListener("click", () => setStyle("reel"));
+
+    // Camera Presets
+    camShowcaseBtn.addEventListener("click", () => {
+      tiltXDeg = 26.0;
+      hudTilt.textContent = "26.0°";
+    });
+    camReelBtn.addEventListener("click", () => {
+      tiltXDeg = 12.0;
+      hudTilt.textContent = "12.0°";
+    });
+    camCrownBtn.addEventListener("click", () => {
+      tiltXDeg = 60.0;
+      hudTilt.textContent = "60.0°";
     });
 
-    // Dedication Input
-    const inputMsg = document.getElementById("input-message");
-    inputMsg.addEventListener("input", (e) => {
-      dedicationMsg = e.target.value || "@jin_22ee · 2026";
-      hudDedication.textContent = dedicationMsg;
-    });
-
-    // Share personalized link
-    document.getElementById("btn-share-link").addEventListener("click", () => {
-      const u = new URL(window.location.href);
-      u.searchParams.set("msg", inputMsg.value);
-      u.searchParams.set("gem", document.getElementById("gem-select").value);
-      u.searchParams.set("speed", speedMult);
-      navigator.clipboard.writeText(u.toString()).then(() => {
-        const btn = document.getElementById("btn-share-link");
-        btn.textContent = "✓ Link Copied!";
-        setTimeout(() => { btn.textContent = "🔗 Copy Link"; }, 2000);
+    // Stage Quick Navigation Buttons
+    document.querySelectorAll(".stage-nav-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const t = parseFloat(btn.dataset.time);
+        animationTime = t;
+        scrubber.value = t;
+        if (!isPlaying) {
+          const res = render(rotYDeg, animationTime);
+          asciiCanvas.textContent = res.text;
+          stageBadge.textContent = res.stageName;
+        }
       });
     });
 
-    // Read URL params on load
-    const params = new URLSearchParams(window.location.search);
-    if (params.has("msg")) {
-      inputMsg.value = params.get("msg");
-      dedicationMsg = params.get("msg");
-      hudDedication.textContent = dedicationMsg;
-    }
-    if (params.has("gem")) {
-      document.getElementById("gem-select").value = params.get("gem");
-      asciiScreen.className = `${params.get("gem")} font-mono-code text-[10.5px] sm:text-[11.5px] md:text-[12.5px] leading-[11.5px] sm:leading-[12.5px] md:leading-[13.5px] tracking-tight whitespace-pre font-bold select-none`;
-    }
+    // Play/Pause & Replay
+    btnPlay.addEventListener("click", () => {
+      isPlaying = !isPlaying;
+      playIcon.textContent = isPlaying ? "⏸" : "▶";
+      playLabel.textContent = isPlaying ? "Pause" : "Play";
+    });
 
-    // Scrubber interaction
+    btnReplay.addEventListener("click", () => {
+      animationTime = 0.0;
+      rotYDeg = 56.0;
+      scrubber.value = 0.0;
+      audio.playForge();
+    });
+
+    // Sound
+    btnSound.addEventListener("click", () => {
+      audio.init();
+      audio.enabled = !audio.enabled;
+      soundIcon.textContent = audio.enabled ? "🔊" : "🔇";
+      soundLabel.textContent = audio.enabled ? "Audio: ON" : "Audio: OFF";
+      btnSound.classList.toggle("bg-emerald-900/60", audio.enabled);
+      btnSound.classList.toggle("border-emerald-500", audio.enabled);
+    });
+
+    // Formation Scrubber
     scrubber.addEventListener("input", (e) => {
       isScrubbing = true;
       animationTime = parseFloat(e.target.value);
-      const pct = Math.min(100, Math.round((animationTime / formationDuration) * 100));
-      scrubberLabel.textContent = `${animationTime.toFixed(2)}s (${pct}%)`;
+      const res = render(rotYDeg, animationTime);
+      asciiCanvas.textContent = res.text;
+      stageBadge.textContent = res.stageName;
+      scrubberLabel.textContent = `${animationTime.toFixed(2)}s (${Math.round((animationTime/formationDuration)*100)}%)`;
     });
-    scrubber.addEventListener("change", () => { isScrubbing = false; });
-
-    // Replay
-    document.getElementById("btn-replay").addEventListener("click", () => {
-      animationTime = 0.0;
-      rotYDeg = 56.0;
-      isPlaying = true;
-      document.getElementById("play-icon").textContent = "⏸";
-      document.getElementById("play-label").textContent = "Pause";
-      if (audioEnabled) playFacetChime(0, 0.08);
+    scrubber.addEventListener("change", () => {
+      isScrubbing = false;
     });
 
-    // Gemstone selector
-    document.getElementById("gem-select").addEventListener("change", (e) => {
-      asciiScreen.className = `${e.target.value} font-mono-code text-[10.5px] sm:text-[11.5px] md:text-[12.5px] leading-[11.5px] sm:leading-[12.5px] md:leading-[13.5px] tracking-tight whitespace-pre font-bold select-none`;
-      if (audioEnabled) playFacetChime(3, 0.06);
+    // Dedication
+    inputMessage.addEventListener("input", (e) => {
+      dedicationMsg = e.target.value || "@jin_22ee · 2026";
     });
 
-    // Duration selector
-    document.getElementById("duration-select").addEventListener("change", (e) => {
-      formationDuration = parseFloat(e.target.value);
-      scrubber.max = formationDuration > 0 ? formationDuration : 8.07;
-      animationTime = (formationDuration === 0) ? 999 : 0.0;
-    });
-
-    // Orbit Drag
-    const stage = document.getElementById("viewport-stage");
-    stage.addEventListener("mousedown", e => { isDragging = true; lastX = e.clientX; lastY = e.clientY; });
-    window.addEventListener("mousemove", e => {
-      if (!isDragging) return;
-      rotYDeg = (rotYDeg + (e.clientX - lastX) * 0.7) % 360.0;
-      tiltXDeg = Math.max(-50, Math.min(50, tiltXDeg - (e.clientY - lastY) * 0.5));
-      lastX = e.clientX; lastY = e.clientY;
-    });
-    window.addEventListener("mouseup", () => { isDragging = false; });
-
-    // Touch
-    stage.addEventListener("touchstart", e => {
-      if (e.touches.length === 1) { isDragging = true; lastX = e.touches[0].clientX; lastY = e.touches[0].clientY; }
-    });
-    stage.addEventListener("touchmove", e => {
-      if (!isDragging || e.touches.length !== 1) return;
-      rotYDeg = (rotYDeg + (e.touches[0].clientX - lastX) * 0.7) % 360.0;
-      tiltXDeg = Math.max(-50, Math.min(50, tiltXDeg - (e.touches[0].clientY - lastY) * 0.5));
-      lastX = e.touches[0].clientX; lastY = e.touches[0].clientY;
-    });
-    stage.addEventListener("touchend", () => { isDragging = false; });
-
-    // Device Orientation Gyroscope
-    if (window.DeviceOrientationEvent) {
-      window.addEventListener("deviceorientation", (e) => {
-        if (e.gamma !== null && e.beta !== null) {
-          tiltXDeg = Math.max(-40, Math.min(40, 12 + e.beta * 0.3));
-        }
-      });
+    function showToast(msg) {
+      toastMsg.textContent = msg;
+      toast.classList.remove("translate-y-20", "opacity-0");
+      setTimeout(() => toast.classList.add("translate-y-20", "opacity-0"), 2800);
     }
 
-    // Zoom
-    stage.addEventListener("wheel", e => {
+    btnShare.addEventListener("click", () => {
+      const url = new URL(window.location.href);
+      url.searchParams.set("msg", inputMessage.value);
+      url.searchParams.set("style", currentStyle);
+      url.searchParams.set("gem", gemSelect.value);
+      navigator.clipboard.writeText(url.href).then(() => {
+        showToast("Shareable love link copied to clipboard! 💍");
+      }).catch(() => {
+        prompt("Copy this URL to send your ring:", url.href);
+      });
+    });
+
+    // Gemstone material switcher
+    gemSelect.addEventListener("change", (e) => {
+      asciiCanvas.className = `${e.target.value} font-ascii text-[10.5px] sm:text-[11.5px] md:text-[12.5px] leading-[11px] sm:leading-[12.5px] md:leading-[13.5px] tracking-tight font-bold whitespace-pre drop-shadow select-none my-1`;
+    });
+
+    // Bloom toggle
+    toggleBloom.addEventListener("change", (e) => {
+      asciiCanvas.classList.toggle("crt-bloom", e.target.checked);
+    });
+
+    // Speed slider
+    sliderSpeed.addEventListener("input", (e) => {
+      speedMult = parseFloat(e.target.value);
+      speedVal.textContent = `${speedMult.toFixed(2)}x`;
+    });
+
+    // 360 Drag Viewport
+    viewport.addEventListener("mousedown", (e) => {
+      isDragging = true; lastX = e.clientX; lastY = e.clientY;
+    });
+    window.addEventListener("mouseup", () => isDragging = false);
+    window.addEventListener("mousemove", (e) => {
+      if (!isDragging) return;
+      const dx = e.clientX - lastX, dy = e.clientY - lastY;
+      rotYDeg += dx * 0.7;
+      tiltXDeg = Math.max(-45, Math.min(85, tiltXDeg - dy * 0.5));
+      hudTilt.textContent = `${tiltXDeg.toFixed(1)}°`;
+      lastX = e.clientX; lastY = e.clientY;
+      if (!isPlaying) {
+        const res = render(rotYDeg, animationTime);
+        asciiCanvas.textContent = res.text;
+      }
+    });
+
+    // Wheel zoom
+    viewport.addEventListener("wheel", (e) => {
       e.preventDefault();
-      zoomLevel = Math.max(0.6, Math.min(2.0, zoomLevel - e.deltaY * 0.0015));
-      document.getElementById("zoom-slider").value = zoomLevel.toFixed(2);
-      document.getElementById("zoom-val").textContent = `${zoomLevel.toFixed(1)}x`;
+      zoomLevel = Math.max(0.6, Math.min(2.5, zoomLevel - e.deltaY * 0.0015));
+      hudZoom.textContent = `${zoomLevel.toFixed(1)}x`;
+      if (!isPlaying) {
+        const res = render(rotYDeg, animationTime);
+        asciiCanvas.textContent = res.text;
+      }
     }, { passive: false });
 
-    document.getElementById("btn-reset-cam").addEventListener("click", () => {
-      rotYDeg = 56.0; tiltXDeg = 12.0; zoomLevel = 1.0;
-      document.getElementById("zoom-slider").value = "1.0";
-      document.getElementById("zoom-val").textContent = "1.0x";
+    // Touch support for drag
+    viewport.addEventListener("touchstart", (e) => {
+      if (e.touches.length === 1) {
+        isDragging = true;
+        lastX = e.touches[0].clientX;
+        lastY = e.touches[0].clientY;
+      }
     });
+    viewport.addEventListener("touchmove", (e) => {
+      if (!isDragging || e.touches.length !== 1) return;
+      const dx = e.touches[0].clientX - lastX, dy = e.touches[0].clientY - lastY;
+      rotYDeg += dx * 0.8;
+      tiltXDeg = Math.max(-45, Math.min(85, tiltXDeg - dy * 0.6));
+      hudTilt.textContent = `${tiltXDeg.toFixed(1)}°`;
+      lastX = e.touches[0].clientX;
+      lastY = e.touches[0].clientY;
+      if (!isPlaying) {
+        const res = render(rotYDeg, animationTime);
+        asciiCanvas.textContent = res.text;
+      }
+    });
+    viewport.addEventListener("touchend", () => isDragging = false);
 
-    // Play/Pause
-    const btnPlay = document.getElementById("btn-toggle-play");
-    btnPlay.addEventListener("click", () => {
-      isPlaying = !isPlaying;
-      document.getElementById("play-icon").textContent = isPlaying ? "⏸" : "▶";
-      document.getElementById("play-label").textContent = isPlaying ? "Pause" : "Play";
+    // Copy / Export
+    document.getElementById("btn-copy-ascii").addEventListener("click", () => {
+      navigator.clipboard.writeText(asciiCanvas.textContent).then(() => showToast("ASCII frame copied! 📋"));
     });
-
-    // Sliders
-    document.getElementById("speed-slider").addEventListener("input", e => {
-      speedMult = parseFloat(e.target.value);
-      document.getElementById("speed-val").textContent = `${speedMult.toFixed(1)}x`;
-    });
-    document.getElementById("zoom-slider").addEventListener("input", e => {
-      zoomLevel = parseFloat(e.target.value);
-      document.getElementById("zoom-val").textContent = `${zoomLevel.toFixed(1)}x`;
-    });
-
-    // CRT
-    document.getElementById("check-crt").addEventListener("change", e => {
-      document.getElementById("crt-overlay").style.display = e.target.checked ? "block" : "none";
-      document.getElementById("crt-vignette").style.display = e.target.checked ? "block" : "none";
-    });
-
-    // Save as .TXT
-    document.getElementById("btn-save-txt").addEventListener("click", () => {
-      const blob = new Blob([asciiScreen.textContent], { type: "text/plain" });
+    document.getElementById("btn-export-txt").addEventListener("click", () => {
+      const blob = new Blob([asciiCanvas.textContent], { type: "text/plain;charset=utf-8" });
       const a = document.createElement("a");
       a.href = URL.createObjectURL(blob);
-      a.download = `diamond_ring_${Math.round(animationTime)}s.txt`;
+      a.download = `diamond-ring-${currentStyle}-${Math.round(animationTime*100)}s.txt`;
       a.click();
     });
 
-    // Modes
-    const modeReel = document.getElementById("mode-reel");
-    const modeStudio = document.getElementById("mode-studio");
-    const modeCinema = document.getElementById("mode-cinema");
-    const appContainer = document.getElementById("app-container");
-    const layoutGrid = document.getElementById("layout-grid");
-    const codePane = document.getElementById("code-pane");
-    const fileTitle = document.getElementById("header-file-title");
+    // Download art.py
+    document.getElementById("btn-download").addEventListener("click", () => {
+      window.location.href = "art.py";
+    });
 
-    function setMode(mode) {
-      modeReel.className = "px-2.5 py-1 rounded-md text-slate-400 hover:text-white transition";
-      modeStudio.className = "px-2.5 py-1 rounded-md text-slate-400 hover:text-white transition";
-      modeCinema.className = "px-2.5 py-1 rounded-md text-slate-400 hover:text-white transition";
-
-      if (mode === "reel") {
-        modeReel.className = "px-2.5 py-1 rounded-md bg-cyan-600 text-white font-medium transition shadow-sm";
-        appContainer.className = "w-full max-w-md bg-[#090c13] border border-slate-800 rounded-2xl shadow-2xl overflow-hidden flex flex-col transition-all duration-300";
-        layoutGrid.className = "flex flex-col divide-y divide-slate-800 min-h-[740px]";
-        codePane.style.display = "flex";
-        fileTitle.textContent = "art.py · [Instagram Reel Split]";
-      } else if (mode === "studio") {
-        modeStudio.className = "px-2.5 py-1 rounded-md bg-cyan-600 text-white font-medium transition shadow-sm";
-        appContainer.className = "w-full max-w-5xl bg-[#090c13] border border-slate-800 rounded-2xl shadow-2xl overflow-hidden flex flex-col transition-all duration-300";
-        layoutGrid.className = "grid grid-cols-2 divide-x divide-slate-800 min-h-[660px]";
-        codePane.style.display = "flex";
-        fileTitle.textContent = "art.py · [Studio Dual View]";
-      } else if (mode === "cinema") {
-        modeCinema.className = "px-2.5 py-1 rounded-md bg-cyan-600 text-white font-medium transition shadow-sm";
-        appContainer.className = "w-full max-w-4xl bg-[#090c13] border border-slate-800 rounded-2xl shadow-2xl overflow-hidden flex flex-col transition-all duration-300";
-        layoutGrid.className = "flex flex-col min-h-[620px]";
-        codePane.style.display = "none";
-        fileTitle.textContent = "art.py · [Cinema Terminal]";
-      }
+    // URL Param handler
+    const params = new URLSearchParams(window.location.search);
+    if (params.has("msg")) {
+      dedicationMsg = params.get("msg");
+      inputMessage.value = dedicationMsg;
+    }
+    if (params.has("style")) {
+      setStyle(params.get("style"));
+    }
+    if (params.has("gem")) {
+      gemSelect.value = params.get("gem");
+      asciiCanvas.className = `${gemSelect.value} font-ascii text-[10.5px] sm:text-[11.5px] md:text-[12.5px] leading-[11px] sm:leading-[12.5px] md:leading-[13.5px] tracking-tight font-bold whitespace-pre drop-shadow select-none my-1`;
     }
 
-    modeReel.addEventListener("click", () => setMode("reel"));
-    modeStudio.addEventListener("click", () => setMode("studio"));
-    modeCinema.addEventListener("click", () => setMode("cinema"));
+    // ==========================================
+    // MAIN ANIMATION LOOP (30 FPS)
+    // ==========================================
+    let lastTimestamp = performance.now();
+    function animate(now) {
+      requestAnimationFrame(animate);
+      const dt = (now - lastTimestamp) / 1000.0;
+      lastTimestamp = now;
 
-    // Code Lines 75-95
-    const codeData = [
-      { num: 75, text: "" },
-      { num: 76, text: "" },
-      { num: 77, text: '<span class="text-rose-400 font-bold">def</span> <span class="text-amber-300 font-bold">prongs</span>():' },
-      { num: 78, text: '    P, N = [], []' },
-      { num: 79, text: '    <span class="text-rose-400 font-bold">for</span> i <span class="text-rose-400 font-bold">in</span> <span class="text-cyan-300">range</span>(<span class="text-orange-300">4</span>):<span class="inline-block w-2.5 h-4 bg-rose-400 cursor-blink ml-1 align-middle"></span>', active: true },
-      { num: 80, text: '        a = TAU * (i + <span class="text-orange-300">0.5</span>) / <span class="text-orange-300">4</span>' },
-      { num: 81, text: '        base = np.<span class="text-cyan-300">array</span>([<span class="text-orange-300">0.08</span> * np.<span class="text-cyan-300">cos</span>(a), R_BAND + <span class="text-orange-300">0.02</span>, <span class="text-orange-300">0.08</span> * np.<span class="text-cyan-300">sin</span>(a)])' },
-      { num: 82, text: '        tip = np.<span class="text-cyan-300">array</span>([(GIRDLE_R + <span class="text-orange-300">0.015</span>) * np.<span class="text-cyan-300">cos</span>(a), TABLE_Y - <span class="text-orange-300">0.03</span>, (GIRDLE_R + <span class="text-orange-300">0.015</span>) * np.<span class="text-cyan-300">sin</span>(a)])' },
-      { num: 83, text: '        u, phi = [x.<span class="text-cyan-300">ravel</span>() <span class="text-rose-400 font-bold">for</span> x <span class="text-rose-400 font-bold">in</span> np.<span class="text-cyan-300">meshgrid</span>(np.<span class="text-cyan-300">linspace</span>(<span class="text-orange-300">0</span>, <span class="text-orange-300">1</span>, <span class="text-orange-300">40</span>), np.<span class="text-cyan-300">linspace</span>(<span class="text-orange-300">0</span>, TAU, <span class="text-orange-300">16</span>))]' },
-      { num: 84, text: '        d = (tip - base) / np.linalg.<span class="text-cyan-300">norm</span>(tip - base)' },
-      { num: 85, text: '        s = np.<span class="text-cyan-300">cross</span>(d, [<span class="text-orange-300">0</span>, <span class="text-orange-300">0</span>, <span class="text-orange-300">1.0</span>]); s /= np.linalg.<span class="text-cyan-300">norm</span>(s)' },
-      { num: 86, text: '        w = np.<span class="text-cyan-300">cross</span>(s, d)' },
-      { num: 87, text: '        n = np.<span class="text-cyan-300">cos</span>(phi)[:, <span class="text-cyan-300">None</span>] * s + np.<span class="text-cyan-300">sin</span>(phi)[:, <span class="text-cyan-300">None</span>] * w' },
-      { num: 88, text: '        P.<span class="text-cyan-300">append</span>(base + u[:, <span class="text-cyan-300">None</span>] * (tip - base) + n * <span class="text-orange-300">0.022</span>), N.<span class="text-cyan-300">append</span>(n)' },
-      { num: 89, text: '    <span class="text-rose-400 font-bold">return</span> np.<span class="text-cyan-300">concatenate</span>(P), np.<span class="text-cyan-300">concatenate</span>(N)' },
-      { num: 90, text: '' },
-      { num: 91, text: '' },
-      { num: 92, text: '<span class="text-slate-100 font-semibold">BAND_P</span>, <span class="text-slate-100 font-semibold">BAND_N</span> = <span class="text-amber-300 font-bold">band</span>()' },
-      { num: 93, text: '<span class="text-slate-100 font-semibold">GEM_P</span>, <span class="text-slate-100 font-semibold">GEM_N</span>, <span class="text-slate-100 font-semibold">GEM_F</span> = <span class="text-amber-300 font-bold">diamond</span>()' },
-      { num: 94, text: '<span class="text-slate-100 font-semibold">PRONG_P</span>, <span class="text-slate-100 font-semibold">PRONG_N</span> = <span class="text-amber-300 font-bold">prongs</span>()' }
-    ];
+      if (isPlaying && !isScrubbing) {
+        animationTime += dt * speedMult;
+        rotYDeg += 1.25 * speedMult;
+        scrubber.value = Math.min(formationDuration, animationTime);
+        scrubberLabel.textContent = `${Math.min(formationDuration, animationTime).toFixed(2)}s (${Math.min(100, Math.round((animationTime/formationDuration)*100))}%)`;
+      }
 
-    const codeContainer = document.getElementById("code-lines-container");
-    codeData.forEach(item => {
-      const row = document.createElement("div");
-      row.className = `flex items-center px-2 py-0.5 rounded font-mono ${item.active ? "line-active" : ""}`;
-      const num = document.createElement("span");
-      num.className = `w-8 text-right pr-4 select-none ${item.active ? "text-rose-400 font-bold" : "text-slate-600"}`;
-      num.textContent = item.num;
-      const code = document.createElement("div");
-      code.className = "flex-1 whitespace-pre";
-      code.innerHTML = item.text || "&nbsp;";
-      row.appendChild(num);
-      row.appendChild(code);
-      codeContainer.appendChild(row);
-    });
+      const res = render(rotYDeg, animationTime);
+      asciiCanvas.textContent = res.text;
+      stageBadge.textContent = res.stageName;
+    }
 
-    document.getElementById("btn-copy-ascii").addEventListener("click", () => {
-      navigator.clipboard.writeText(asciiScreen.textContent).then(() => {
-        const btn = document.getElementById("btn-copy-ascii");
-        btn.textContent = "✓ Copied Frame!";
-        setTimeout(() => { btn.textContent = "📋 Copy ASCII"; }, 2000);
-      });
-    });
-
-    document.getElementById("btn-copy-code").addEventListener("click", () => {
-      fetch("art.py").then(r => r.text()).then(t => {
-        navigator.clipboard.writeText(t).then(() => {
-          const btn = document.getElementById("btn-copy-code");
-          btn.textContent = "✓ Copied Python!";
-          setTimeout(() => { btn.textContent = "📋 Copy Python"; }, 2000);
-        });
-      });
-    });
-
-    const dl = document.getElementById("btn-download");
-    dl.addEventListener("click", () => {
-      fetch("art.py").then(r => r.text()).then(t => {
-        const blob = new Blob([t], { type: "text/x-python" });
-        const a = document.createElement("a");
-        a.href = URL.createObjectURL(blob);
-        a.download = "art.py";
-        a.click();
-      });
-    });
+    requestAnimationFrame(animate);
   </script>
 </body>
 </html>

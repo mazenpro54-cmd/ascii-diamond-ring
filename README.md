@@ -8,11 +8,17 @@ Featuring real-time 3D raycasting, progressive materialization from 0.0s to 8.07
 
 ## ✨ Features
 
-- **Progressive Slow Formation (0.0s → 8.07s)**:
-  - **0.0s – 3.2s (Band Sweeps)**: The shank sweeps upward symmetrically from the bottom floor to form the ring loop.
-  - **3.0s – 5.4s (Prongs Rise)**: 4 structural claw prongs rise vertically from the band mount.
-  - **5.2s – 7.4s (Diamond Crystallizes)**: The brilliant diamond crystalizes upward from culet to crown.
-  - **7.2s – 8.07s (Aura Flares)**: Vertical beam erupts into space as the letter count locks onto `1,366`.
+- **💍 Realistic Jeweler Ring Form & Forge Sequence**:
+  - **Cathedral Solitaire Shank**: Comfort-fit ring band with tapered shoulders sweeping gracefully up towards the setting.
+  - **Prong Basket & Gallery Rail**: Under-bezel collar wire holding 4 claw prongs with inward curving tips.
+  - **57-Facet Brilliant Cut**: Scintillating diamond with table, crown stars, kites, and pavilion reflections.
+  - **5-Stage Real Jeweler Assembly (0.0s → 8.07s)**:
+    - `Stage 1 (0.0s – 2.8s)`: **Shank Forging** — precious metal band forms around a ring mandrel into a seamless circular comfort-fit loop.
+    - `Stage 2 (2.8s – 4.5s)`: **Basket Mounting** — cathedral shoulders and 4 claw prongs with under-bezel gallery rail mount onto the ring bridge.
+    - `Stage 3 (4.5s – 6.0s)`: **Gemstone Descent** — the cut diamond lowers from above directly into the prong basket.
+    - `Stage 4 (6.0s – 7.0s)`: **Claw Setting** — claw tips bend inward over the diamond crown, locking the stone in place.
+    - `Stage 5 (7.0s – 8.07s)`: **Brilliance & Flares** — high-polish metal luster, facet scintillation, and cosmic flare burst.
+- **✨ Viral Reel Mode**: Switch anytime to the exact 1:1 original Instagram reel geometry and timing (`python art.py --style reel` or toggle in UI).
 - **Exact Code Matching**: Lines 77 to 94 in [`art.py`](art.py) match the video source code verbatim.
 - **Parametric 3D Raycasting**: Z-buffer depth sorting and lighting calculations running at a silky 30 FPS.
 - **Interactive Web Studio (`index.html`)**:
@@ -47,6 +53,7 @@ python art.py --color --theme gold --message "Happy Anniversary ❤️"
 ```
 
 ### 🎮 Terminal Interactive Controls
+- `M`     : Toggle style live between **Realistic Jeweler** (`real`) and **Viral Reel** (`reel`)
 - `Space` : Pause / Resume rotation & formation
 - `R`     : Reset & replay formation from 0.0s
 - `C`     : Cycle color theme live (Cyan → Gold → Rose → Matrix → Classic)
@@ -56,6 +63,7 @@ python art.py --color --theme gold --message "Happy Anniversary ❤️"
 ### ⚙️ Command-Line Options
 | Flag | Default | Description |
 |---|---|---|
+| `--style` | `real` | Ring style: `real` (realistic jeweler engagement ring) or `reel` (Instagram reel) |
 | `--color` | `False` | Enable 24-bit TrueColor ANSI output |
 | `--theme` | `cyan` | Color palette (`classic`, `cyan`, `matrix`, `gold`, `rose`) |
 | `--duration` | `8.07` | Formation animation time in seconds (`0` for instant full form) |
