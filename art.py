@@ -101,11 +101,9 @@ PRONG_U = np.tile(np.repeat(np.linspace(0, 1, 40), 16), 4)
 def init_orbits():
     pts = []
     t = np.linspace(0, TAU, 280, endpoint=False)
-    # Orbit 1 tilted at +38 degrees
     x1 = 2.15 * np.cos(t)
     y1 = 1.25 * np.sin(t) * np.cos(math.radians(38))
     z1 = 1.25 * np.sin(t) * np.sin(math.radians(38))
-    # Orbit 2 tilted at -38 degrees
     x2 = 2.15 * np.cos(t)
     y2 = 1.25 * np.sin(t) * np.cos(math.radians(-38))
     z2 = 1.25 * np.sin(t) * np.sin(math.radians(-38))
@@ -113,7 +111,6 @@ def init_orbits():
     pts.append(np.column_stack([x2, y2, z2]))
     return np.concatenate(pts)
 
-# 272 ambient glints
 np.random.seed(42)
 GLINT_COUNT = 272
 glint_phi = np.random.uniform(0, TAU, GLINT_COUNT)
@@ -128,13 +125,67 @@ GLINT_Z = glint_dist * np.cos(glint_theta) * np.sin(glint_phi)
 
 ORBIT_PTS = init_orbits()
 
-# Light direction and viewer
 LIGHT = np.array([0.577, 0.707, -0.408])
 LIGHT /= np.linalg.norm(LIGHT)
 
 RAMP = " .:-=+*#%@"
 
-def render_frame(rot_y_deg, elapsed_sec, width=64, height=34):
+# Color themes (RGB palettes for TrueColor mode)
+THEMES = {
+    "classic": {
+        "band": (210, 215, 225),
+        "prong": (230, 235, 245),
+        "gem": (255, 255, 255),
+        "spec": (255, 255, 255),
+        "flare": (200, 240, 255),
+        "orbit": (130, 160, 200),
+        "glint": (180, 220, 255),
+        "hud": (150, 170, 190),
+    },
+    "cyan": {
+        "band": (170, 200, 220),
+        "prong": (200, 240, 255),
+        "gem": (100, 235, 255),
+        "spec": (255, 255, 255),
+        "flare": (120, 255, 255),
+        "orbit": (80, 140, 210),
+        "glint": (150, 250, 255),
+        "hud": (100, 200, 240),
+    },
+    "matrix": {
+        "band": (60, 180, 80),
+        "prong": (90, 220, 110),
+        "gem": (120, 255, 140),
+        "spec": (220, 255, 220),
+        "flare": (100, 255, 120),
+        "orbit": (40, 120, 60),
+        "glint": (90, 255, 120),
+        "hud": (80, 200, 100),
+    },
+    "gold": {
+        "band": (235, 185, 90),
+        "prong": (255, 215, 120),
+        "gem": (255, 245, 200),
+        "spec": (255, 255, 240),
+        "flare": (255, 220, 130),
+        "orbit": (170, 130, 60),
+        "glint": (255, 210, 100),
+        "hud": (220, 180, 100),
+    },
+    "rose": {
+        "band": (235, 150, 150),
+        "prong": (250, 180, 180),
+        "gem": (255, 215, 225),
+        "spec": (255, 255, 255),
+        "flare": (255, 180, 200),
+        "orbit": (160, 90, 120),
+        "glint": (255, 170, 200),
+        "hud": (230, 140, 170),
+    }
+}
+
+
+def render_frame(rot_y_deg, elapsed_sec, width=64, height=34, duration=8.07, message="@jin_22ee · 2026", color_mode=False, theme_name="cyan"):
     rot_y = math.radians(rot_y_deg)
     tilt_x = math.radians(12.0)
 
@@ -167,17 +218,24 @@ def render_frame(rot_y_deg, elapsed_sec, width=64, height=34):
             return (x2, y2, z2), (nx2, ny2, nz2)
         return (x2, y2, z2)
 
-    # Formation Progression (Forms slowly and gracefully over the first 8 seconds)
-    band_p = min(1.0, max(0.0, elapsed_sec / 3.2))
-    prong_p = min(1.0, max(0.0, (elapsed_sec - 2.8) / 2.4))
-    gem_p = min(1.0, max(0.0, (elapsed_sec - 5.0) / 2.3))
-    flare_p = min(1.0, max(0.0, (elapsed_sec - 7.0) / 1.07))
+    # Formation Progression
+    if duration > 0.0:
+        norm_t = min(1.0, elapsed_sec / duration)
+        band_p = min(1.0, max(0.0, norm_t / 0.40))
+        prong_p = min(1.0, max(0.0, (norm_t - 0.35) / 0.30))
+        gem_p = min(1.0, max(0.0, (norm_t - 0.62) / 0.28))
+        flare_p = min(1.0, max(0.0, (norm_t - 0.88) / 0.12))
+    else:
+        band_p = prong_p = gem_p = flare_p = 1.0
 
     # Framebuffers
     zbuf = np.full((height, width), -9999.0)
     charbuf = np.full((height, width), " ", dtype="<U1")
+    colbuf = np.zeros((height, width, 3), dtype=np.uint8)
 
-    # Perspective camera (enlarged scale for prominent visibility)
+    palette = THEMES.get(theme_name, THEMES["cyan"])
+
+    # Perspective camera
     dist = 3.65
     Kx = 56.0
     Ky = 28.0
@@ -188,7 +246,7 @@ def render_frame(rot_y_deg, elapsed_sec, width=64, height=34):
     hlen = math.sqrt(hx*hx + hy*hy + hz*hz)
     hx /= hlen; hy /= hlen; hz /= hlen
 
-    # 1. Render Band (sweeps up symmetrically from bottom to top)
+    # 1. Band
     if band_p > 0.0:
         band_mask = BAND_T <= (band_p * np.pi)
         if np.any(band_mask):
@@ -211,8 +269,10 @@ def render_frame(rot_y_deg, elapsed_sec, width=64, height=34):
                     lum = 0.28 + 0.65 * df + 0.40 * sp
                     idx = min(len(RAMP) - 1, max(1, int(lum * (len(RAMP) - 1))))
                     charbuf[y_i, x_i] = RAMP[idx]
+                    col = palette["spec"] if sp > 0.6 else palette["band"]
+                    colbuf[y_i, x_i] = [min(255, max(0, int(c * lum))) for c in col]
 
-    # 2. Render Prongs (grows upward from mounting to girdle)
+    # 2. Prongs
     if prong_p > 0.0:
         prong_mask = PRONG_U <= prong_p
         if np.any(prong_mask):
@@ -235,8 +295,9 @@ def render_frame(rot_y_deg, elapsed_sec, width=64, height=34):
                     lum = 0.38 + 0.52 * df + 0.32 * sp
                     idx = min(len(RAMP) - 1, max(2, int(lum * (len(RAMP) - 1))))
                     charbuf[y_i, x_i] = RAMP[idx]
+                    colbuf[y_i, x_i] = palette["prong"]
 
-    # 3. Render Diamond (crystallizes upwards from culet cone to table facet)
+    # 3. Diamond
     if gem_p > 0.0:
         gem_y_cutoff = CULET_Y + (TABLE_Y - CULET_Y) * gem_p
         gem_mask = GEM_P[:, 1] <= gem_y_cutoff
@@ -260,15 +321,18 @@ def render_frame(rot_y_deg, elapsed_sec, width=64, height=34):
                     df = max(0.0, diff[i])
                     if sp > 0.48:
                         charbuf[y_i, x_i] = "*" if sp < 0.78 else "#"
+                        colbuf[y_i, x_i] = palette["spec"]
                     else:
                         lum = 0.35 + 0.55 * df + 0.30 * sp
                         idx = min(len(RAMP) - 1, max(2, int(lum * (len(RAMP) - 1))))
                         charbuf[y_i, x_i] = RAMP[idx]
+                        colbuf[y_i, x_i] = palette["gem"]
 
-    # 4. Render Top Diamond Flare Beam (erupts once diamond forms)
+    # 4. Flare
     if flare_p > 0.0:
         max_flare_y = TABLE_Y + 0.90 * flare_p
-        for vy in np.linspace(TABLE_Y + 0.04, max_flare_y, int(16 * flare_p)):
+        steps = max(2, int(16 * flare_p))
+        for vy in np.linspace(TABLE_Y + 0.04, max_flare_y, steps):
             for vx in [-0.05, -0.02, 0.0, 0.02, 0.05]:
                 t_pt = np.array([[vx, vy, 0.0]])
                 (tx, ty, tz) = transform(t_pt)
@@ -277,14 +341,10 @@ def render_frame(rot_y_deg, elapsed_sec, width=64, height=34):
                 t_yp = int(cy - Ky * ty[0] * oz)
                 if 0 <= t_xp < width and 0 <= t_yp < height:
                     if oz > zbuf[t_yp, t_xp] - 0.02:
-                        if abs(vx) < 0.01:
-                            charbuf[t_yp, t_xp] = "|"
-                        elif abs(vx) < 0.03:
-                            charbuf[t_yp, t_xp] = ":" if (int(vy * 10) % 2 == 0) else "|"
-                        else:
-                            charbuf[t_yp, t_xp] = "."
+                        charbuf[t_yp, t_xp] = "|" if abs(vx) < 0.01 else (":" if abs(vx) < 0.03 else ".")
+                        colbuf[t_yp, t_xp] = palette["flare"]
 
-    # 5. Render Background Orbits
+    # 5. Orbits
     (ox, oy, oz_pts) = transform(ORBIT_PTS)
     ooz_o = 1.0 / (oz_pts + dist)
     xp_o = (cx + Kx * ox * ooz_o).astype(int)
@@ -294,8 +354,9 @@ def render_frame(rot_y_deg, elapsed_sec, width=64, height=34):
         x_i, y_i = xp_o[i], yp_o[i]
         if zbuf[y_i, x_i] <= 0:
             charbuf[y_i, x_i] = "." if i % 2 == 0 else "'"
+            colbuf[y_i, x_i] = palette["orbit"]
 
-    # 6. Render Twinkling Glints
+    # 6. Glints
     active_glints = 0
     for i in range(GLINT_COUNT):
         twinkle = math.sin(elapsed_sec * glint_speeds[i] + glint_phases[i])
@@ -309,18 +370,18 @@ def render_frame(rot_y_deg, elapsed_sec, width=64, height=34):
             if 0 <= g_xp < width and 0 <= g_yp < height:
                 if oz > zbuf[g_yp, g_xp]:
                     charbuf[g_yp, g_xp] = "+" if twinkle > 0.82 else "."
+                    colbuf[g_yp, g_xp] = palette["glint"]
 
-    # Count letters
     non_space_count = int(np.count_nonzero(charbuf != " "))
 
-    # Overlay HUD
+    # HUD Elements
     timer_str = f"•f {elapsed_sec:05.2f}s"
     t_start = width - len(timer_str) - 2
     if t_start >= 0:
         for idx, ch in enumerate(timer_str):
             charbuf[1, t_start + idx] = ch
 
-    hud1 = "@jin_22ee · 2026"
+    hud1 = message[:width - 4]
     hud2 = f"rotation {rot_y_deg % 360.0:06.2f}°   glints {active_glints}"
     hud3 = f"letters {non_space_count:,}"
 
@@ -334,7 +395,25 @@ def render_frame(rot_y_deg, elapsed_sec, width=64, height=34):
         if 2 + idx < width:
             charbuf[height - 2, 2 + idx] = ch
 
-    lines = ["".join(row) for row in charbuf]
+    # Assemble lines (monochrome or 24-bit TrueColor)
+    lines = []
+    if not color_mode:
+        for y in range(height):
+            lines.append("".join(charbuf[y]))
+    else:
+        for y in range(height):
+            row_str = ""
+            for x in range(width):
+                ch = charbuf[y, x]
+                if ch == " ":
+                    row_str += " "
+                else:
+                    r, g, b = colbuf[y, x]
+                    if r == 0 and g == 0 and b == 0:
+                        r, g, b = palette["hud"]
+                    row_str += f"\033[38;2;{r};{g};{b}m{ch}\033[0m"
+            lines.append(row_str)
+
     status_bar = f"$ py art.py" + " " * (width - 27) + "running · 30 fps"
     lines.append(status_bar)
 
@@ -342,6 +421,16 @@ def render_frame(rot_y_deg, elapsed_sec, width=64, height=34):
 
 
 def main():
+    import argparse
+    parser = argparse.ArgumentParser(description="3D ASCII Diamond Ring - @jin_22ee Recreation")
+    parser.add_argument("--color", action="store_true", help="Enable 24-bit TrueColor ANSI output")
+    parser.add_argument("--theme", choices=["classic", "cyan", "matrix", "gold", "rose"], default="cyan", help="Color theme")
+    parser.add_argument("--duration", type=float, default=8.07, help="Formation duration in seconds (default: 8.07, 0 for instant)")
+    parser.add_argument("--speed", type=float, default=1.0, help="Rotation speed multiplier")
+    parser.add_argument("--message", type=str, default="@jin_22ee · 2026", help="Dedication message displayed on HUD")
+    parser.add_argument("--fps", type=int, default=30, help="Target FPS (default: 30)")
+    args = parser.parse_args()
+
     if sys.stdout.encoding != 'utf-8':
         try:
             sys.stdout.reconfigure(encoding='utf-8')
@@ -351,26 +440,67 @@ def main():
     sys.stdout.write("\033[?25l\033[2J")
     sys.stdout.flush()
 
+    # Try non-blocking input setup
+    is_windows = (os.name == "nt")
+    if is_windows:
+        import msvcrt
+
     start_time = time.time()
     rot = 56.0
-    fps = 30.0
+    fps = max(10, min(60, args.fps))
     frame_duration = 1.0 / fps
+    color_mode = args.color
+    theme_name = args.theme
+    speed_mult = args.speed
+    is_paused = False
+    anim_time = 0.0
 
+    print("Starting 3D ASCII Diamond Ring... Press Space to pause, R to replay, C to switch theme, Q to quit.")
+    time.sleep(0.3)
+
+    last_clock = time.time()
     try:
         while True:
-            t0 = time.time()
-            elapsed = t0 - start_time
-            rot += 1.25
+            t_now = time.time()
+            dt = t_now - last_clock
+            last_clock = t_now
 
-            frame_text = render_frame(rot, elapsed)
+            # Check keyboard input
+            if is_windows and msvcrt.kbhit():
+                key = msvcrt.getch()
+                if key in (b"q", b"Q", b"\x1b"):
+                    break
+                elif key == b" ":
+                    is_paused = not is_paused
+                elif key in (b"r", b"R"):
+                    anim_time = 0.0
+                    rot = 56.0
+                elif key in (b"c", b"C"):
+                    themes_list = list(THEMES.keys())
+                    curr_idx = themes_list.index(theme_name) if theme_name in themes_list else 0
+                    theme_name = themes_list[(curr_idx + 1) % len(themes_list)]
+                    color_mode = True
+                elif key in (b"+", b"="):
+                    speed_mult = min(4.0, speed_mult + 0.25)
+                elif key in (b"-", b"_"):
+                    speed_mult = max(0.2, speed_mult - 0.25)
+
+            if not is_paused:
+                anim_time += dt * speed_mult
+                rot += 1.25 * speed_mult
+
+            frame_text = render_frame(rot, anim_time, duration=args.duration, message=args.message, color_mode=color_mode, theme_name=theme_name)
             sys.stdout.write("\033[H" + frame_text)
             sys.stdout.flush()
 
-            dt = time.time() - t0
-            sleep_time = frame_duration - dt
+            elapsed_render = time.time() - t_now
+            sleep_time = frame_duration - elapsed_render
             if sleep_time > 0:
                 time.sleep(sleep_time)
+
     except KeyboardInterrupt:
+        pass
+    finally:
         sys.stdout.write("\033[?25h\n")
         sys.stdout.flush()
         print("\nExited.")

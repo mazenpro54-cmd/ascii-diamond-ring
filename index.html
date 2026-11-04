@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>3D ASCII Diamond Ring — Slow Formation & High Visibility</title>
+  <title>3D ASCII Diamond Ring — Upgraded Studio & Dedication</title>
   <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
   <style>
     @font-face {
@@ -33,26 +33,36 @@
       z-index: 21;
       pointer-events: none;
     }
-    .glow-diamond {
+    /* Glow palettes */
+    .gem-diamond {
       color: #f8fafc;
-      text-shadow: 0 0 2px rgba(255, 255, 255, 0.9), 0 0 10px rgba(186, 230, 253, 0.5), 0 0 25px rgba(56, 189, 248, 0.3);
+      text-shadow: 0 0 2px rgba(255, 255, 255, 0.95), 0 0 10px rgba(186, 230, 253, 0.5), 0 0 25px rgba(56, 189, 248, 0.3);
     }
-    .glow-mono {
+    .gem-ruby {
+      color: #fecdd3;
+      text-shadow: 0 0 2px rgba(255, 255, 255, 0.95), 0 0 12px rgba(244, 63, 94, 0.6), 0 0 28px rgba(225, 29, 72, 0.4);
+    }
+    .gem-sapphire {
+      color: #bfdbfe;
+      text-shadow: 0 0 2px rgba(255, 255, 255, 0.95), 0 0 12px rgba(59, 130, 246, 0.6), 0 0 28px rgba(37, 99, 235, 0.4);
+    }
+    .gem-emerald {
+      color: #bbf7d0;
+      text-shadow: 0 0 2px rgba(255, 255, 255, 0.95), 0 0 12px rgba(34, 197, 94, 0.6), 0 0 28px rgba(22, 163, 74, 0.4);
+    }
+    .gem-amethyst {
+      color: #e9d5ff;
+      text-shadow: 0 0 2px rgba(255, 255, 255, 0.95), 0 0 12px rgba(168, 85, 247, 0.6), 0 0 28px rgba(147, 51, 234, 0.4);
+    }
+    .gem-canary {
+      color: #fef08a;
+      text-shadow: 0 0 2px rgba(255, 255, 255, 0.95), 0 0 12px rgba(234, 179, 8, 0.6), 0 0 28px rgba(202, 138, 4, 0.4);
+    }
+    .gem-mono {
       color: #f1f5f9;
-      text-shadow: 0 0 2px rgba(255, 255, 255, 0.6), 0 0 8px rgba(255, 255, 255, 0.25);
+      text-shadow: 0 0 2px rgba(255, 255, 255, 0.5);
     }
-    .glow-matrix {
-      color: #4ade80;
-      text-shadow: 0 0 2px rgba(74, 222, 128, 0.9), 0 0 10px rgba(34, 197, 94, 0.5), 0 0 25px rgba(21, 128, 61, 0.3);
-    }
-    .glow-rosegold {
-      color: #fed7aa;
-      text-shadow: 0 0 2px rgba(254, 215, 170, 0.85), 0 0 10px rgba(251, 146, 60, 0.5), 0 0 25px rgba(244, 63, 94, 0.3);
-    }
-    .glow-cyber {
-      color: #38bdf8;
-      text-shadow: 0 0 2px rgba(56, 189, 248, 0.9), 0 0 12px rgba(232, 121, 249, 0.55), 0 0 25px rgba(168, 85, 247, 0.35);
-    }
+
     .line-active {
       background: rgba(244, 63, 94, 0.20);
       border-left: 2px solid #fb7185;
@@ -91,13 +101,13 @@
       <div>
         <div class="flex items-center gap-2">
           <h1 class="text-lg md:text-xl font-bold tracking-tight text-white flex items-center gap-2">
-            3D ASCII Diamond Ring
+            3D ASCII Diamond Ring Studio
           </h1>
           <span class="text-xs px-2.5 py-0.5 rounded-full bg-cyan-950/80 text-cyan-400 border border-cyan-800/60 font-mono font-medium">
-            @jin_22ee · 2026
+            Upgraded v2.0
           </span>
         </div>
-        <p class="text-xs text-slate-400">Slow progressive formation · Pure 3D geometry raycasting at 30 FPS</p>
+        <p class="text-xs text-slate-400">Recreation of @jin_22ee · Parametric 3D raycasting · Sound · Custom dedication</p>
       </div>
     </div>
 
@@ -116,20 +126,21 @@
         </button>
       </div>
 
+      <!-- Sound Toggle -->
+      <button id="btn-sound" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-medium text-slate-200 border border-slate-700 transition flex items-center gap-1.5 shadow-sm" title="Toggle Crystalline Chimes Sound">
+        <span id="sound-icon">🔇</span>
+        <span id="sound-label">Audio: OFF</span>
+      </button>
+
       <!-- Replay Formation -->
       <button id="btn-replay" class="px-3 py-1.5 rounded-lg bg-indigo-900/60 hover:bg-indigo-800/80 text-xs font-semibold text-cyan-300 border border-indigo-700/60 transition flex items-center gap-1.5 shadow-sm" title="Replay progressive formation from 0s">
-        🔄 Replay Formation
+        🔄 Replay
       </button>
 
       <!-- Play/Pause -->
       <button id="btn-toggle-play" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-medium text-slate-200 border border-slate-700 transition flex items-center gap-1.5 shadow-sm">
         <span id="play-icon">⏸</span>
         <span id="play-label">Pause</span>
-      </button>
-
-      <!-- Copy ASCII -->
-      <button id="btn-copy-ascii" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-medium text-slate-200 border border-slate-700 transition flex items-center gap-1.5 shadow-sm">
-        ✨ Copy Frame
       </button>
 
       <!-- Download art.py -->
@@ -139,9 +150,9 @@
     </div>
   </header>
 
-  <!-- Interactive Control & Formation Scrubber Bar -->
+  <!-- Control & Customization Toolbar -->
   <section class="w-full max-w-5xl bg-[#0c1017] border border-slate-800/80 rounded-xl p-3.5 mb-4 flex flex-col gap-3 text-xs text-slate-400 shadow-lg">
-    <!-- Top Row: Formation Scrubber Timeline -->
+    <!-- Top Row: Formation Timeline Scrubber -->
     <div class="flex items-center gap-3 bg-black/40 p-2 rounded-lg border border-slate-800">
       <span class="text-cyan-400 font-mono font-bold flex items-center gap-1.5">
         <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
@@ -154,15 +165,40 @@
       </span>
     </div>
 
-    <!-- Bottom Row: Sliders & Theme -->
+    <!-- Middle Row: Dedication Message & Gemstone Selection -->
+    <div class="flex flex-wrap items-center justify-between gap-3 bg-slate-900/40 p-2.5 rounded-lg border border-slate-800/60">
+      <div class="flex items-center flex-1 min-w-[280px] gap-2">
+        <span class="text-rose-400 font-medium">💌 Dedication:</span>
+        <input id="input-message" type="text" value="Send this to someone you love ❤️" placeholder="Enter personalized love message..." class="flex-1 bg-black/60 border border-slate-700 rounded-lg px-2.5 py-1 text-slate-100 text-xs font-mono focus:outline-none focus:border-rose-500">
+        <button id="btn-share-link" class="px-2.5 py-1 rounded bg-rose-900/60 hover:bg-rose-800/80 text-rose-200 border border-rose-700/60 text-xs font-medium transition" title="Copy shareable personalized love link">
+          🔗 Copy Link
+        </button>
+      </div>
+
+      <!-- Gemstone Material -->
+      <div class="flex items-center gap-2">
+        <span class="text-slate-300 font-medium">Gemstone:</span>
+        <select id="gem-select" class="bg-slate-900 border border-slate-700 text-slate-200 text-xs rounded-lg px-2.5 py-1 font-medium focus:outline-none focus:border-cyan-500 cursor-pointer">
+          <option value="gem-diamond" selected>💎 White Diamond</option>
+          <option value="gem-ruby">🔴 Pigeon Blood Ruby</option>
+          <option value="gem-sapphire">🔵 Royal Sapphire</option>
+          <option value="gem-emerald">🟢 Vivid Emerald</option>
+          <option value="gem-amethyst">🟣 Royal Amethyst</option>
+          <option value="gem-canary">🟡 Canary Diamond</option>
+          <option value="gem-mono">⚪ Classic Monochrome</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Bottom Row: Sliders & Export Actions -->
     <div class="flex flex-wrap items-center justify-between gap-4">
       <div class="flex items-center flex-wrap gap-5">
-        <!-- Formation Speed Duration -->
+        <!-- Formation Duration -->
         <label class="flex items-center gap-2">
           <span class="text-slate-300 font-medium">Formation Duration:</span>
           <select id="duration-select" class="bg-slate-900 border border-slate-700 text-slate-200 text-xs rounded-lg px-2 py-1 font-mono">
             <option value="8.07" selected>8.07s (Reel Exact)</option>
-            <option value="14.0">14.0s (Slow Cinematic)</option>
+            <option value="14.0">14.0s (Slow Motion)</option>
             <option value="0.0">Instant (Fully Formed)</option>
           </select>
         </label>
@@ -188,21 +224,19 @@
         </label>
       </div>
 
-      <!-- Theme Palette -->
+      <!-- Export Buttons -->
       <div class="flex items-center gap-2">
-        <span class="text-slate-300 font-medium">Theme:</span>
-        <select id="theme-select" class="bg-slate-900 border border-slate-700 text-slate-200 text-xs rounded-lg px-2.5 py-1 font-medium focus:outline-none focus:border-cyan-500 cursor-pointer">
-          <option value="glow-diamond" selected>💎 Diamond Ice & Platinum</option>
-          <option value="glow-mono">⚪ Classic Monochrome White</option>
-          <option value="glow-matrix">🟢 Phosphor Matrix Green</option>
-          <option value="glow-rosegold">🌸 Rose Gold & Sunset</option>
-          <option value="glow-cyber">⚡ Cyberpunk Neon</option>
-        </select>
+        <button id="btn-copy-ascii" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium border border-slate-700 transition" title="Copy ASCII text">
+          📋 Copy ASCII
+        </button>
+        <button id="btn-save-txt" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium border border-slate-700 transition" title="Save as frame.txt">
+          💾 Save .TXT
+        </button>
       </div>
     </div>
   </section>
 
-  <!-- Main Split App Container -->
+  <!-- Main Viewport Container -->
   <main id="app-container" class="w-full max-w-5xl bg-[#090c13] border border-slate-800 rounded-2xl shadow-2xl overflow-hidden flex flex-col transition-all duration-300">
 
     <!-- Container Header -->
@@ -214,7 +248,7 @@
         <span class="ml-2 font-semibold text-slate-200" id="header-file-title">art.py · [Instagram Reel Split]</span>
       </div>
       <div class="flex items-center gap-3 font-mono text-[11px]">
-        <span class="text-slate-500">Drag to Orbit · Scroll to Zoom</span>
+        <span class="text-slate-500">Drag in 360° to Orbit · Scroll to Zoom</span>
         <button id="btn-reset-cam" class="text-cyan-400 hover:text-cyan-300 transition underline underline-offset-2">
           Reset View
         </button>
@@ -237,19 +271,19 @@
 
         <!-- 3D Hint -->
         <div class="absolute top-4 left-5 z-30 text-[11px] text-slate-400 font-mono tracking-tight pointer-events-none opacity-50 group-hover:opacity-100 transition duration-300">
-          [ ✦ Drag 360° to Orbit ✦ ]
+          [ ✦ Drag in 360° to Orbit ✦ ]
         </div>
 
         <!-- ASCII Screen -->
         <div class="flex-1 flex items-center justify-center my-2 z-10 cursor-grab active:cursor-grabbing" id="viewport-stage">
-          <pre id="ascii-screen" class="glow-diamond font-mono-code text-[10.5px] sm:text-[11.5px] md:text-[12.5px] leading-[11.5px] sm:leading-[12.5px] md:leading-[13.5px] tracking-tight whitespace-pre font-bold select-none"></pre>
+          <pre id="ascii-screen" class="gem-diamond font-mono-code text-[10.5px] sm:text-[11.5px] md:text-[12.5px] leading-[11.5px] sm:leading-[12.5px] md:leading-[13.5px] tracking-tight whitespace-pre font-bold select-none"></pre>
         </div>
 
         <!-- Lower Terminal HUD & Prompt Line -->
         <div class="z-30 pt-2 border-t border-slate-900/80 font-mono">
           <div class="flex items-end justify-between text-xs text-slate-400 leading-tight mb-2">
             <div>
-              <div class="text-slate-100 font-bold tracking-tight text-sm">@jin_22ee · 2026</div>
+              <div class="text-rose-300 font-bold tracking-tight text-sm" id="hud-dedication">Send this to someone you love ❤️</div>
               <div class="text-slate-400 flex items-center gap-4 mt-1">
                 <span>rotation <span id="hud-rot" class="text-slate-100 font-semibold">056.00°</span></span>
                 <span>glints <span id="hud-glints" class="text-slate-100 font-semibold">272</span></span>
@@ -259,8 +293,8 @@
               </div>
             </div>
             <div class="text-right text-[11px] text-slate-500">
-              <span id="hud-stage-name" class="text-cyan-300 font-semibold">Forming...</span><br>
-              <span class="text-slate-400 font-mono">57 Facets · Torus Shank</span>
+              <span id="hud-stage-name" class="text-cyan-300 font-semibold">Band Forming</span><br>
+              <span class="text-slate-400 font-mono">57 Facets · Cathedral Mount</span>
             </div>
           </div>
 
@@ -301,11 +335,11 @@
     <footer class="px-4 py-2.5 bg-[#0e121c] border-t border-slate-800 text-xs text-slate-400 flex flex-wrap items-center justify-between gap-3">
       <div class="flex items-center gap-2">
         <span class="w-2 h-2 rounded-full bg-emerald-400 inline-block"></span>
-        <span class="text-slate-300 font-medium">Exact recreation ready:</span>
-        <code class="px-2 py-0.5 rounded bg-black/60 border border-slate-700 text-cyan-300 font-mono text-[11px]">python art.py</code>
+        <span class="text-slate-300 font-medium">CLI Controls:</span>
+        <code class="px-2 py-0.5 rounded bg-black/60 border border-slate-700 text-cyan-300 font-mono text-[11px]">Space: Pause | R: Replay | C: Colors | +/-: Speed | Q: Quit</code>
       </div>
       <div class="text-slate-400 text-xs flex items-center gap-4">
-        <span>File: <span class="text-slate-200 font-mono">ascii-diamond-ring/art.py</span></span>
+        <span>GitHub: <a href="https://github.com/mazenpro54-cmd/ascii-diamond-ring" target="_blank" class="text-cyan-400 hover:underline">mazenpro54-cmd/ascii-diamond-ring</a></span>
       </div>
     </footer>
   </main>
@@ -320,14 +354,48 @@
     const GIRDLE_R = 0.56;
     const TABLE_R = 0.35;
 
-    // Build Band with theta angle tracking
+    // Web Audio API Synthesizer
+    let audioCtx = null;
+    let audioEnabled = false;
+    const CHIME_FREQS = [523.25, 659.25, 783.99, 1046.50, 1318.51, 1567.98, 2093.00];
+
+    function initAudio() {
+      if (!audioCtx) {
+        const AudioClass = window.AudioContext || window.webkitAudioContext;
+        audioCtx = new AudioClass();
+      }
+      if (audioCtx.state === "suspended") {
+        audioCtx.resume();
+      }
+    }
+
+    function playFacetChime(freqIndex = 0, gainLevel = 0.04) {
+      if (!audioEnabled || !audioCtx) return;
+      try {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = "sine";
+        const f = CHIME_FREQS[freqIndex % CHIME_FREQS.length];
+        osc.frequency.setValueAtTime(f, audioCtx.currentTime);
+
+        gain.gain.setValueAtTime(gainLevel, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.6);
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.6);
+      } catch (e) {}
+    }
+
+    // Build Band
     function buildBand() {
       const P = [], N = [], T = [];
       const numTheta = 280, numPhi = 44;
       for (let i = 0; i < numTheta; i++) {
         const t = (i / numTheta) * TAU;
         const sx = Math.sin(t), sy = Math.cos(t);
-        // Angle distance from bottom (pi)
         const angleFromBottom = Math.abs(Math.PI - t);
 
         for (let j = 0; j < numPhi; j++) {
@@ -392,7 +460,7 @@
       return { P, N };
     }
 
-    // Build Prongs with u-parameter tracking
+    // Build Prongs
     function buildProngs() {
       const P = [], N = [], U = [];
       for (let i = 0; i < 4; i++) {
@@ -416,7 +484,7 @@
             const nx = cp * s[0] + sp * w[0];
             const ny = cp * s[1] + sp * w[1];
             const nz = cp * s[2] + sp * w[2];
-            P.push([base[0] + u * (tip[0] - base[0]) + nx * 0.025, base[1] + u * (tip[1] - base[1]) + ny * 0.025, base[2] + u * (tip[2] - base[2]) + nz * 0.025]);
+            P.push([base[0] + u * (tip[0] - base[0]) + nx * 0.025, base[1] + u * (tip[1] - base[1]) + ny * 0.024, base[2] + u * (tip[2] - base[2]) + nz * 0.025]);
             N.push([nx, ny, nz]);
             U.push(u);
           }
@@ -463,7 +531,6 @@
     const RAMP = " .:-=+*#%@";
     const WIDTH = 64, HEIGHT = 34;
 
-    // State
     let isPlaying = true;
     let rotYDeg = 56.0;
     let tiltXDeg = 12.0;
@@ -472,8 +539,10 @@
     let formationDuration = 8.07;
     let animationTime = 0.0;
     let isScrubbing = false;
+    let dedicationMsg = "Send this to someone you love ❤️";
 
     let isDragging = false, lastX = 0, lastY = 0;
+    let lastChimeTime = 0;
 
     function render(rotDeg, elapsed) {
       const ry = (rotDeg * Math.PI) / 180, tx = (tiltXDeg * Math.PI) / 180;
@@ -486,7 +555,6 @@
       const dist = 3.65 / zoomLevel;
       const Kx = 56.0, Ky = 28.0, cx = WIDTH / 2.0, cy = HEIGHT / 2.0 + 1.2;
 
-      // Formation stages
       let band_p = 1.0, prong_p = 1.0, gem_p = 1.0, flare_p = 1.0;
       let stageName = "Fully Formed";
 
@@ -510,7 +578,7 @@
         let rnx = 0, rny = 0, rnz = 0;
         if (n) {
           const ny1 = n[1]*cosX - n[2]*sinX, nz1 = n[1]*sinX + n[2]*cosX;
-          rnx = n[0]*cosY + nz1*sinY; rny = ny1; rnz = -n[0]*sinY + nz1*cosY;
+          rnx = n[0]*cosY + nz1*sinY; rny = ny1; rnz = -n[0]*sinY + nz1*cy;
         }
         return [x2, y1, z2, rnx, rny, rnz];
       }
@@ -560,7 +628,8 @@
         }
       }
 
-      // 3. Diamond
+      // 3. Diamond with Scintillation Chimes
+      let hasSpecularFlash = false;
       if (gem_p > 0.0) {
         const yCutoff = CULET_Y + (TABLE_Y - CULET_Y) * gem_p;
         for (let i = 0; i < diamondMesh.P.length; i++) {
@@ -577,6 +646,7 @@
                 const spec = Math.max(0, nx*H[0] + ny*H[1] + nz*H[2]) ** 14;
                 if (spec > 0.48) {
                   charbuf[idx] = spec < 0.78 ? "*" : "#";
+                  if (spec > 0.65) hasSpecularFlash = true;
                 } else {
                   const lum = 0.35 + 0.55 * diff + 0.30 * spec;
                   charbuf[idx] = RAMP[Math.min(RAMP.length - 1, Math.max(2, Math.floor(lum * (RAMP.length - 1))))];
@@ -585,6 +655,12 @@
             }
           }
         }
+      }
+
+      // Trigger sparkle chime
+      if (hasSpecularFlash && performance.now() - lastChimeTime > 280) {
+        lastChimeTime = performance.now();
+        playFacetChime(Math.floor(rotDeg / 45));
       }
 
       // 4. Flare
@@ -658,6 +734,7 @@
     const scrubberLabel = document.getElementById("scrubber-label");
     const formationBadge = document.getElementById("formation-stage-badge");
     const hudStageName = document.getElementById("hud-stage-name");
+    const hudDedication = document.getElementById("hud-dedication");
 
     let lastTick = performance.now();
     function loop(now) {
@@ -689,6 +766,50 @@
     }
     requestAnimationFrame(loop);
 
+    // Audio button
+    const btnSound = document.getElementById("btn-sound");
+    btnSound.addEventListener("click", () => {
+      initAudio();
+      audioEnabled = !audioEnabled;
+      document.getElementById("sound-icon").textContent = audioEnabled ? "🔊" : "🔇";
+      document.getElementById("sound-label").textContent = audioEnabled ? "Audio: ON" : "Audio: OFF";
+      btnSound.classList.toggle("bg-cyan-900/60", audioEnabled);
+      btnSound.classList.toggle("border-cyan-600", audioEnabled);
+      if (audioEnabled) playFacetChime(0, 0.08);
+    });
+
+    // Dedication Input
+    const inputMsg = document.getElementById("input-message");
+    inputMsg.addEventListener("input", (e) => {
+      dedicationMsg = e.target.value || "@jin_22ee · 2026";
+      hudDedication.textContent = dedicationMsg;
+    });
+
+    // Share personalized link
+    document.getElementById("btn-share-link").addEventListener("click", () => {
+      const u = new URL(window.location.href);
+      u.searchParams.set("msg", inputMsg.value);
+      u.searchParams.set("gem", document.getElementById("gem-select").value);
+      u.searchParams.set("speed", speedMult);
+      navigator.clipboard.writeText(u.toString()).then(() => {
+        const btn = document.getElementById("btn-share-link");
+        btn.textContent = "✓ Link Copied!";
+        setTimeout(() => { btn.textContent = "🔗 Copy Link"; }, 2000);
+      });
+    });
+
+    // Read URL params on load
+    const params = new URLSearchParams(window.location.search);
+    if (params.has("msg")) {
+      inputMsg.value = params.get("msg");
+      dedicationMsg = params.get("msg");
+      hudDedication.textContent = dedicationMsg;
+    }
+    if (params.has("gem")) {
+      document.getElementById("gem-select").value = params.get("gem");
+      asciiScreen.className = `${params.get("gem")} font-mono-code text-[10.5px] sm:text-[11.5px] md:text-[12.5px] leading-[11.5px] sm:leading-[12.5px] md:leading-[13.5px] tracking-tight whitespace-pre font-bold select-none`;
+    }
+
     // Scrubber interaction
     scrubber.addEventListener("input", (e) => {
       isScrubbing = true;
@@ -698,22 +819,27 @@
     });
     scrubber.addEventListener("change", () => { isScrubbing = false; });
 
-    // Replay button
+    // Replay
     document.getElementById("btn-replay").addEventListener("click", () => {
       animationTime = 0.0;
       rotYDeg = 56.0;
       isPlaying = true;
       document.getElementById("play-icon").textContent = "⏸";
       document.getElementById("play-label").textContent = "Pause";
+      if (audioEnabled) playFacetChime(0, 0.08);
     });
 
-    // Formation Duration
-    const durSelect = document.getElementById("duration-select");
-    durSelect.addEventListener("change", (e) => {
+    // Gemstone selector
+    document.getElementById("gem-select").addEventListener("change", (e) => {
+      asciiScreen.className = `${e.target.value} font-mono-code text-[10.5px] sm:text-[11.5px] md:text-[12.5px] leading-[11.5px] sm:leading-[12.5px] md:leading-[13.5px] tracking-tight whitespace-pre font-bold select-none`;
+      if (audioEnabled) playFacetChime(3, 0.06);
+    });
+
+    // Duration selector
+    document.getElementById("duration-select").addEventListener("change", (e) => {
       formationDuration = parseFloat(e.target.value);
       scrubber.max = formationDuration > 0 ? formationDuration : 8.07;
-      if (formationDuration === 0) animationTime = 999;
-      else animationTime = 0.0;
+      animationTime = (formationDuration === 0) ? 999 : 0.0;
     });
 
     // Orbit Drag
@@ -738,6 +864,15 @@
       lastX = e.touches[0].clientX; lastY = e.touches[0].clientY;
     });
     stage.addEventListener("touchend", () => { isDragging = false; });
+
+    // Device Orientation Gyroscope
+    if (window.DeviceOrientationEvent) {
+      window.addEventListener("deviceorientation", (e) => {
+        if (e.gamma !== null && e.beta !== null) {
+          tiltXDeg = Math.max(-40, Math.min(40, 12 + e.beta * 0.3));
+        }
+      });
+    }
 
     // Zoom
     stage.addEventListener("wheel", e => {
@@ -771,15 +906,19 @@
       document.getElementById("zoom-val").textContent = `${zoomLevel.toFixed(1)}x`;
     });
 
-    // Theme
-    document.getElementById("theme-select").addEventListener("change", e => {
-      asciiScreen.className = `${e.target.value} font-mono-code text-[10.5px] sm:text-[11.5px] md:text-[12.5px] leading-[11.5px] sm:leading-[12.5px] md:leading-[13.5px] tracking-tight whitespace-pre font-bold select-none`;
-    });
-
     // CRT
     document.getElementById("check-crt").addEventListener("change", e => {
       document.getElementById("crt-overlay").style.display = e.target.checked ? "block" : "none";
       document.getElementById("crt-vignette").style.display = e.target.checked ? "block" : "none";
+    });
+
+    // Save as .TXT
+    document.getElementById("btn-save-txt").addEventListener("click", () => {
+      const blob = new Blob([asciiScreen.textContent], { type: "text/plain" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = `diamond_ring_${Math.round(animationTime)}s.txt`;
+      a.click();
     });
 
     // Modes
@@ -821,7 +960,7 @@
     modeStudio.addEventListener("click", () => setMode("studio"));
     modeCinema.addEventListener("click", () => setMode("cinema"));
 
-    // Code lines 75-95
+    // Code Lines 75-95
     const codeData = [
       { num: 75, text: "" },
       { num: 76, text: "" },
@@ -864,7 +1003,17 @@
       navigator.clipboard.writeText(asciiScreen.textContent).then(() => {
         const btn = document.getElementById("btn-copy-ascii");
         btn.textContent = "✓ Copied Frame!";
-        setTimeout(() => { btn.textContent = "✨ Copy Frame"; }, 2000);
+        setTimeout(() => { btn.textContent = "📋 Copy ASCII"; }, 2000);
+      });
+    });
+
+    document.getElementById("btn-copy-code").addEventListener("click", () => {
+      fetch("art.py").then(r => r.text()).then(t => {
+        navigator.clipboard.writeText(t).then(() => {
+          const btn = document.getElementById("btn-copy-code");
+          btn.textContent = "✓ Copied Python!";
+          setTimeout(() => { btn.textContent = "📋 Copy Python"; }, 2000);
+        });
       });
     });
 

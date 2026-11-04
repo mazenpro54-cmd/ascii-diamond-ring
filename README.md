@@ -35,14 +35,48 @@ Featuring real-time 3D raycasting, progressive materialization from 0.0s to 8.07
 git clone https://github.com/mazenpro54-cmd/ascii-diamond-ring.git
 cd ascii-diamond-ring
 pip install -r requirements.txt
+
+# Run standard monochrome mode (as seen in the reel)
 python art.py
+
+# Run in full 24-bit TrueColor with Cyan palette
+python art.py --color --theme cyan
+
+# Run with custom dedication message and Gold theme
+python art.py --color --theme gold --message "Happy Anniversary ❤️"
 ```
+
+### 🎮 Terminal Interactive Controls
+- `Space` : Pause / Resume rotation & formation
+- `R`     : Reset & replay formation from 0.0s
+- `C`     : Cycle color theme live (Cyan → Gold → Rose → Matrix → Classic)
+- `+` / `-`: Increase / decrease rotation speed
+- `Q`     : Clean exit
+
+### ⚙️ Command-Line Options
+| Flag | Default | Description |
+|---|---|---|
+| `--color` | `False` | Enable 24-bit TrueColor ANSI output |
+| `--theme` | `cyan` | Color palette (`classic`, `cyan`, `matrix`, `gold`, `rose`) |
+| `--duration` | `8.07` | Formation animation time in seconds (`0` for instant full form) |
+| `--speed` | `1.0` | Rotation speed multiplier |
+| `--message` | `@jin_22ee · 2026` | Dedication message displayed on the top HUD |
+| `--fps` | `30` | Target frame rate (10 – 60 FPS) |
 
 ---
 
-## 🌐 Web Studio Preview
+## 🌐 Live Web Studio & Dedication Card
 
-Open `index.html` in any modern web browser or deploy directly to GitHub Pages for instant zero-dependency interactive 3D ASCII rendering.
+Experience the live interactive web version with crystal chime acoustics:
+👉 **[mazenpro54-cmd.github.io/ascii-diamond-ring](https://mazenpro54-cmd.github.io/ascii-diamond-ring/)**
+
+### Web Features
+- 💎 **Gemstone Switcher**: Choose between Diamond, Ruby, Sapphire, Emerald, Amethyst, and Canary Yellow.
+- 🎵 **Web Audio Synthesis**: Real-time synthesized pentatonic crystal glockenspiel chimes reacting to diamond glints.
+- 💌 **Custom Dedication URLs**: Click **Dedicate / Share** to create a custom URL with your recipient's name or love note (e.g., `?to=Sarah&msg=Forever+%26+Always`).
+- 📜 **ASCII TXT Export**: Download any animated frame snapshot as a raw text art file.
+- 📺 **CRT Bloom & Scanlines**: Toggle retro terminal phosphor glow and glass scanline overlay.
+- ⏱️ **Interactive Formation Scrubber**: Slide through 0.0s to 8.07s frame-by-frame.
 
 ---
 
