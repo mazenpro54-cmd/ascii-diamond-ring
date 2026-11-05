@@ -224,16 +224,25 @@
     <div class="flex flex-wrap items-center justify-between gap-4">
       <div class="flex items-center flex-wrap gap-4">
         <!-- Angle Presets -->
-        <div class="flex items-center gap-1.5">
+        <div class="flex items-center flex-wrap gap-1.5">
           <span class="text-slate-300 font-medium">Camera Angle:</span>
-          <button id="cam-showcase" class="px-2 py-0.5 rounded bg-amber-950/80 text-amber-300 border border-amber-800 font-mono text-[11px] font-semibold" title="Realistic jewelry showcase view showing ring depth and diamond brilliance">
+          <button id="cam-90-upright" class="px-2 py-0.5 rounded bg-amber-500 text-slate-950 font-bold border border-amber-400 font-mono text-[11px] shadow-sm shadow-amber-500/30" title="90° Upright Perpendicular: Ring stands straight up vertically">
+            📐 90° Upright
+          </button>
+          <button id="cam-90-profile" class="px-2 py-0.5 rounded bg-slate-800 text-slate-300 hover:text-white border border-slate-700 font-mono text-[11px]" title="90° Side Profile: Rotated 90 degrees sideways">
+            📐 90° Profile
+          </button>
+          <button id="cam-90-overhead" class="px-2 py-0.5 rounded bg-slate-800 text-slate-300 hover:text-white border border-slate-700 font-mono text-[11px]" title="90° Overhead: Looking directly down onto the diamond from 90° top view">
+            📐 90° Overhead
+          </button>
+          <button id="cam-90-flat" class="px-2 py-0.5 rounded bg-slate-800 text-slate-300 hover:text-white border border-slate-700 font-mono text-[11px]" title="90° Lay Flat: Rotate ring 90 degrees horizontally in XZ plane">
+            🔄 90° Lay Flat
+          </button>
+          <button id="cam-showcase" class="px-2 py-0.5 rounded bg-slate-800 text-slate-300 hover:text-white border border-slate-700 font-mono text-[11px]" title="Showcase 26° perspective">
             Showcase 26°
           </button>
-          <button id="cam-reel" class="px-2 py-0.5 rounded bg-slate-800 text-slate-300 hover:text-white border border-slate-700 font-mono text-[11px]" title="Straight-on Instagram Reel angle">
+          <button id="cam-reel" class="px-2 py-0.5 rounded bg-slate-800 text-slate-300 hover:text-white border border-slate-700 font-mono text-[11px]" title="Reel 12° perspective">
             Reel 12°
-          </button>
-          <button id="cam-crown" class="px-2 py-0.5 rounded bg-slate-800 text-slate-300 hover:text-white border border-slate-700 font-mono text-[11px]" title="Top-down solitaire diamond facet view">
-            Crown 60°
           </button>
         </div>
 
@@ -685,8 +694,9 @@
     // State
     let currentStyle = "real"; // 'real' or 'reel'
     let isPlaying = true;
-    let rotYDeg = 56.0;
-    let tiltXDeg = 26.0;
+    let rotYDeg = 90.0; // 90 degrees initial rotation
+    let tiltXDeg = 0.0;  // 90° upright perpendicular
+    let orient90 = false; // 90° horizontal laying flat
     let speedMult = 1.0;
     let zoomLevel = 1.0;
     let formationDuration = 8.07;
@@ -746,12 +756,22 @@
       }
 
       function project(p, n) {
-        const y1 = p[1]*cosX - p[2]*sinX, z1 = p[1]*sinX + p[2]*cosX;
-        const x2 = p[0]*cosY + z1*sinY, z2 = -p[0]*sinY + z1*cosY;
+        let px = p[0], py = p[1], pz = p[2];
+        let nx = n ? n[0] : 0, ny = n ? n[1] : 0, nz = n ? n[2] : 0;
+        if (orient90) {
+          py = -p[2];
+          pz = p[1];
+          if (n) {
+            ny = -n[2];
+            nz = n[1];
+          }
+        }
+        const y1 = py*cosX - pz*sinX, z1 = py*sinX + pz*cosX;
+        const x2 = px*cosY + z1*sinY, z2 = -px*sinY + z1*cosY;
         let rnx = 0, rny = 0, rnz = 0;
         if (n) {
-          const ny1 = n[1]*cosX - n[2]*sinX, nz1 = n[1]*sinX + n[2]*cosX;
-          rnx = n[0]*cosY + nz1*sinY; rny = ny1; rnz = -n[0]*sinY + nz1*cosY;
+          const ny1 = ny*cosX - nz*sinX, nz1 = ny*sinX + nz*cosX;
+          rnx = nx*cosY + nz1*sinY; rny = ny1; rnz = -nx*sinY + nz1*cosY;
         }
         return [x2, y1, z2, rnx, rny, rnz];
       }
@@ -1035,17 +1055,66 @@
     styleReelBtn.addEventListener("click", () => setStyle("reel"));
 
     // Camera Presets
+    const cam90UprightBtn = document.getElementById("cam-90-upright");
+    const cam90ProfileBtn = document.getElementById("cam-90-profile");
+    const cam90OverheadBtn = document.getElementById("cam-90-overhead");
+    const cam90FlatBtn = document.getElementById("cam-90-flat");
+
+    function setActiveCamBtn(activeBtn) {
+      [cam90UprightBtn, cam90ProfileBtn, cam90OverheadBtn, cam90FlatBtn, camShowcaseBtn, camReelBtn].forEach(b => {
+        if (b) {
+          b.className = "px-2 py-0.5 rounded bg-slate-800 text-slate-300 hover:text-white border border-slate-700 font-mono text-[11px]";
+        }
+      });
+      if (activeBtn) {
+        activeBtn.className = "px-2 py-0.5 rounded bg-amber-500 text-slate-950 font-bold border border-amber-400 font-mono text-[11px] shadow-sm shadow-amber-500/30";
+      }
+    }
+
+    if (cam90UprightBtn) {
+      cam90UprightBtn.addEventListener("click", () => {
+        tiltXDeg = 0.0;
+        orient90 = false;
+        hudTilt.textContent = "90° Upright";
+        setActiveCamBtn(cam90UprightBtn);
+      });
+    }
+    if (cam90ProfileBtn) {
+      cam90ProfileBtn.addEventListener("click", () => {
+        rotYDeg = 90.0;
+        tiltXDeg = 0.0;
+        orient90 = false;
+        hudTilt.textContent = "90° Profile";
+        setActiveCamBtn(cam90ProfileBtn);
+      });
+    }
+    if (cam90OverheadBtn) {
+      cam90OverheadBtn.addEventListener("click", () => {
+        tiltXDeg = 90.0;
+        orient90 = false;
+        hudTilt.textContent = "90° Overhead";
+        setActiveCamBtn(cam90OverheadBtn);
+      });
+    }
+    if (cam90FlatBtn) {
+      cam90FlatBtn.addEventListener("click", () => {
+        orient90 = !orient90;
+        tiltXDeg = orient90 ? 24.0 : 0.0;
+        hudTilt.textContent = orient90 ? "90° Lay Flat" : "Upright";
+        setActiveCamBtn(orient90 ? cam90FlatBtn : cam90UprightBtn);
+      });
+    }
     camShowcaseBtn.addEventListener("click", () => {
       tiltXDeg = 26.0;
+      orient90 = false;
       hudTilt.textContent = "26.0°";
+      setActiveCamBtn(camShowcaseBtn);
     });
     camReelBtn.addEventListener("click", () => {
       tiltXDeg = 12.0;
+      orient90 = false;
       hudTilt.textContent = "12.0°";
-    });
-    camCrownBtn.addEventListener("click", () => {
-      tiltXDeg = 60.0;
-      hudTilt.textContent = "60.0°";
+      setActiveCamBtn(camReelBtn);
     });
 
     // Stage Quick Navigation Buttons
@@ -1215,6 +1284,16 @@
     }
     if (params.has("style")) {
       setStyle(params.get("style"));
+    }
+    if (params.has("angle") || params.has("rot")) {
+      const a = parseFloat(params.get("angle") || params.get("rot"));
+      rotYDeg = a;
+    }
+    if (params.has("tilt")) {
+      tiltXDeg = parseFloat(params.get("tilt"));
+    }
+    if (params.has("flat")) {
+      orient90 = true;
     }
     if (params.has("gem")) {
       gemSelect.value = params.get("gem");

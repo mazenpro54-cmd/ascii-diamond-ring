@@ -298,33 +298,48 @@ THEMES = {
 }
 
 
-def render_frame(rot_y_deg, elapsed_sec, width=64, height=34, duration=8.07, message="@jin_22ee · 2026", color_mode=False, theme_name="cyan", style="real"):
+def render_frame(rot_y_deg, elapsed_sec, width=64, height=34, duration=8.07, message="@jin_22ee · 2026", color_mode=False, theme_name="cyan", style="real", tilt_deg=None, orient_90=False):
     rot_y = math.radians(rot_y_deg)
-    tilt_x = math.radians(24.0 if style == "real" else 12.0)
+    if tilt_deg is not None:
+        tilt_x = math.radians(tilt_deg)
+    else:
+        tilt_x = math.radians(24.0 if style == "real" else 12.0)
 
     cos_y, sin_y = math.cos(rot_y), math.sin(rot_y)
     cos_x, sin_x = math.cos(tilt_x), math.sin(tilt_x)
 
     def transform(points, normals=None):
-        x = points[:, 0]
-        y = points[:, 1]
-        z = points[:, 2]
+        if orient_90:
+            # Rotate model 90 degrees around X into horizontal laying-down orientation
+            x0 = points[:, 0]
+            y0 = -points[:, 2]
+            z0 = points[:, 1]
+        else:
+            x0 = points[:, 0]
+            y0 = points[:, 1]
+            z0 = points[:, 2]
 
-        y1 = y * cos_x - z * sin_x
-        z1 = y * sin_x + z * cos_x
-        x1 = x
+        y1 = y0 * cos_x - z0 * sin_x
+        z1 = y0 * sin_x + z0 * cos_x
+        x1 = x0
 
         x2 = x1 * cos_y + z1 * sin_y
         y2 = y1
         z2 = -x1 * sin_y + z1 * cos_y
 
         if normals is not None:
-            nx = normals[:, 0]
-            ny = normals[:, 1]
-            nz = normals[:, 2]
-            ny1 = ny * cos_x - nz * sin_x
-            nz1 = ny * sin_x + nz * cos_x
-            nx1 = nx
+            if orient_90:
+                nx0 = normals[:, 0]
+                ny0 = -normals[:, 2]
+                nz0 = normals[:, 1]
+            else:
+                nx0 = normals[:, 0]
+                ny0 = normals[:, 1]
+                nz0 = normals[:, 2]
+
+            ny1 = ny0 * cos_x - nz0 * sin_x
+            nz1 = ny0 * sin_x + nz0 * cos_x
+            nx1 = nx0
             nx2 = nx1 * cos_y + nz1 * sin_y
             ny2 = ny1
             nz2 = -nx1 * sin_y + nz1 * cos_y
@@ -588,7 +603,8 @@ def render_frame(rot_y_deg, elapsed_sec, width=64, height=34, duration=8.07, mes
         for idx, ch in enumerate(timer_str):
             charbuf[1, t_start + idx] = ch
 
-    hud1 = f"{message[:24]}  {stage_tag}"[:width - 4]
+    orient_str = " 90°FLAT" if orient_90 else ""
+    hud1 = f"{message[:20]}  {stage_tag}{orient_str}"[:width - 4]
     hud2 = f"rot {rot_y_deg % 360.0:05.1f}°  glints {active_glints}  style {style.upper()}"
     hud3 = f"letters {non_space_count:,}"
 
@@ -635,6 +651,10 @@ def main():
     parser.add_argument("--theme", choices=["classic", "cyan", "matrix", "gold", "rose"], default="cyan", help="Color theme")
     parser.add_argument("--duration", type=float, default=8.07, help="Formation duration in seconds (default: 8.07, 0 for instant)")
     parser.add_argument("--speed", type=float, default=1.0, help="Rotation speed multiplier")
+    parser.add_argument("--rot", type=float, default=90.0, help="Starting rotation / yaw angle in degrees (default: 90.0)")
+    parser.add_argument("--tilt", type=float, default=None, help="Camera tilt angle in degrees (e.g. 90 for overhead, 0 for 90-degree upright perpendicular)")
+    parser.add_argument("--orient90", action="store_true", help="Rotate ring 90 degrees into horizontal laying-flat orientation")
+    parser.add_argument("--freeze", action="store_true", help="Freeze rotation at the given angle")
     parser.add_argument("--message", type=str, default="@jin_22ee · 2026", help="Dedication message displayed on HUD")
     parser.add_argument("--fps", type=int, default=30, help="Target FPS (default: 30)")
     args = parser.parse_args()
@@ -652,20 +672,30 @@ def main():
     if is_windows:
         import msvcrt
 
-    rot = 56.0
+    rot = args.rot
     fps = max(10, min(60, args.fps))
     frame_duration = 1.0 / fps
     color_mode = args.color
     theme_name = args.theme
     speed_mult = args.speed
     style_mode = args.style
-    is_paused = False
+    tilt_deg = args.tilt
+    orient_90 = args.orient90
+    is_paused = args.freeze
     anim_time = 0.0
 
-    print(f"Starting 3D ASCII Diamond Ring [{style_mode.upper()}]... Space: Pause | R: Replay | M: Style | C: Theme | Q: Quit")
+    print(f"Starting 3D ASCII Diamond Ring [{style_mode.upper()} - {rot:.0f}°]... [9]: 90° Mode | [O]: Lay Flat | Space: Pause | R: Replay | Q: Quit")
     time.sleep(0.4)
 
     last_clock = time.time()
+    angle_mode_idx = 0
+    angle_presets = [
+        ("rot_90", 90.0, None, False),
+        ("upright_90", 0.0, 0.0, False),
+        ("overhead_90", 56.0, 90.0, False),
+        ("flat_90", 56.0, 24.0, True),
+    ]
+
     try:
         while True:
             t_now = time.time()
@@ -680,9 +710,17 @@ def main():
                     is_paused = not is_paused
                 elif key in (b"r", b"R"):
                     anim_time = 0.0
-                    rot = 56.0
+                    rot = args.rot
                 elif key in (b"m", b"M"):
                     style_mode = "reel" if style_mode == "real" else "real"
+                elif key in (b"o", b"O"):
+                    orient_90 = not orient_90
+                elif key == b"9":
+                    angle_mode_idx = (angle_mode_idx + 1) % len(angle_presets)
+                    mode_name, new_rot, new_tilt, new_orient = angle_presets[angle_mode_idx]
+                    rot = new_rot
+                    tilt_deg = new_tilt
+                    orient_90 = new_orient
                 elif key in (b"c", b"C"):
                     themes_list = list(THEMES.keys())
                     curr_idx = themes_list.index(theme_name) if theme_name in themes_list else 0
@@ -703,7 +741,9 @@ def main():
                 message=args.message,
                 color_mode=color_mode,
                 theme_name=theme_name,
-                style=style_mode
+                style=style_mode,
+                tilt_deg=tilt_deg,
+                orient_90=orient_90
             )
             sys.stdout.write("\033[H" + frame_text)
             sys.stdout.flush()

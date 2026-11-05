@@ -53,6 +53,8 @@ python art.py --color --theme gold --message "Happy Anniversary ❤️"
 ```
 
 ### 🎮 Terminal Interactive Controls
+- `9`     : Cycle **90° angle modes** (90° Upright Perpendicular → 90° Overhead → 90° Side Profile → 90° Lay Flat)
+- `O`     : Toggle 90° horizontal laying-flat orientation on/off
 - `M`     : Toggle style live between **Realistic Jeweler** (`real`) and **Viral Reel** (`reel`)
 - `Space` : Pause / Resume rotation & formation
 - `R`     : Reset & replay formation from 0.0s
@@ -64,6 +66,10 @@ python art.py --color --theme gold --message "Happy Anniversary ❤️"
 | Flag | Default | Description |
 |---|---|---|
 | `--style` | `real` | Ring style: `real` (realistic jeweler engagement ring) or `reel` (Instagram reel) |
+| `--rot` | `90.0` | Initial rotation / yaw angle in degrees (default: `90.0`) |
+| `--tilt` | `None` | Camera tilt angle in degrees (`0` for 90° upright perpendicular, `90` for overhead) |
+| `--orient90` | `False` | Rotate ring 90° into horizontal laying-flat orientation (XZ plane) |
+| `--freeze` | `False` | Freeze rotation at the given angle without auto-spinning |
 | `--color` | `False` | Enable 24-bit TrueColor ANSI output |
 | `--theme` | `cyan` | Color palette (`classic`, `cyan`, `matrix`, `gold`, `rose`) |
 | `--duration` | `8.07` | Formation animation time in seconds (`0` for instant full form) |

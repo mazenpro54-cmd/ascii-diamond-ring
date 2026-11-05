@@ -46,7 +46,10 @@
       </div>
 
       <div class="flex items-center gap-1">
-        <button id="btn-toggle-style" class="px-1.5 py-0.5 rounded bg-amber-600/80 hover:bg-amber-500 text-slate-950 font-bold text-[10px] transition" title="Toggle Real Ring / Viral Reel Style">
+        <button id="btn-90" class="px-1.5 py-0.5 rounded bg-amber-500 text-slate-950 font-bold text-[10px] transition" title="Toggle 90° Angle Modes">
+          📐 90°
+        </button>
+        <button id="btn-toggle-style" class="px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-medium text-[10px] transition" title="Toggle Real Ring / Viral Reel Style">
           💍 Real
         </button>
         <button id="btn-replay" class="px-1.5 py-0.5 rounded bg-indigo-900/50 hover:bg-indigo-800/80 text-cyan-300 text-[10px] font-mono border border-indigo-700/60 transition">
@@ -163,21 +166,40 @@
     const L = [0.577, 0.707, -0.408], H = [0.46, 0.56, -0.68];
     const WIDTH = 56, HEIGHT = 30;
 
-    let rotDeg = 56.0, tiltDeg = 26.0, animT = 0.0, isPlaying = true, isRealStyle = true;
+    let rotDeg = 90.0, tiltDeg = 0.0, animT = 0.0, isPlaying = true, isRealStyle = true, orient90 = false;
+    let mode90Idx = 0;
 
     const screen = document.getElementById("ascii-screen");
     const stageBadge = document.getElementById("stage-badge");
     const timerElem = document.getElementById("widget-timer");
     const wRot = document.getElementById("w-rot");
     const wLetters = document.getElementById("w-letters");
+    const btn90 = document.getElementById("btn-90");
     const btnStyle = document.getElementById("btn-toggle-style");
     const btnPlay = document.getElementById("btn-play");
     const btnReplay = document.getElementById("btn-replay");
 
+    const presets90 = [
+      { label: "📐 90° Up", tilt: 0.0, rot: 0.0, flat: false },
+      { label: "📐 90° Side", tilt: 0.0, rot: 90.0, flat: false },
+      { label: "📐 90° Top", tilt: 90.0, rot: 56.0, flat: false },
+      { label: "🔄 90° Flat", tilt: 24.0, rot: 56.0, flat: true },
+      { label: "💍 26° View", tilt: 26.0, rot: 56.0, flat: false },
+    ];
+
+    btn90.addEventListener("click", () => {
+      mode90Idx = (mode90Idx + 1) % presets90.length;
+      const p = presets90[mode90Idx];
+      btn90.textContent = p.label;
+      tiltDeg = p.tilt;
+      rotDeg = p.rot;
+      orient90 = p.flat;
+    });
+
     btnStyle.addEventListener("click", () => {
       isRealStyle = !isRealStyle;
       btnStyle.textContent = isRealStyle ? "💍 Real" : "✨ Reel";
-      tiltDeg = isRealStyle ? 26.0 : 12.0;
+      tiltDeg = isRealStyle ? 0.0 : 12.0;
       animT = 0.0;
     });
 
@@ -187,7 +209,7 @@
     });
 
     btnReplay.addEventListener("click", () => {
-      animT = 0.0; rotDeg = 56.0;
+      animT = 0.0; rotDeg = 90.0;
     });
 
     function renderFrame(rot, t) {
@@ -212,8 +234,15 @@
       const dist = 3.65, Kx = 50.0, Ky = 25.0, midX = WIDTH/2, midY = HEIGHT/2 + 0.8;
 
       function proj(p, n) {
-        const y1 = p[1]*cx - p[2]*sx, z1 = p[1]*sx + p[2]*cx;
-        const x2 = p[0]*cy + z1*sy, z2 = -p[0]*sy + z1*cy;
+        let px = p[0], py = p[1], pz = p[2];
+        let nx = n ? n[0] : 0, ny = n ? n[1] : 0, nz = n ? n[2] : 0;
+        if (orient90) {
+          py = -p[2];
+          pz = p[1];
+          if (n) { ny = -n[2]; nz = n[1]; }
+        }
+        const y1 = py*cx - pz*sx, z1 = py*sx + pz*cx;
+        const x2 = px*cy + z1*sy, z2 = -px*sy + z1*cy;
         let rnx = 0, rny = 0, rnz = 0;
         if (n) {
           const ny1 = n[1]*cx - n[2]*sx, nz1 = n[1]*sx + n[2]*cx;
