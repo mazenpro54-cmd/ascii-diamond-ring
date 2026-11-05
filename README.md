@@ -1,24 +1,25 @@
-# 💍 3D ASCII Diamond Ring
+# 💍 3D Real Diamond Engagement Ring Studio & Generative Art
 
-> An exact, high-fidelity recreation of the viral generative art Instagram Reel by [@jin_22ee](https://www.instagram.com/reel/DfTmTeQJEOi/): *"Send this to someone you love #diamond #asciiart #generativeart #python #love"*.
+> An exact, high-fidelity recreation of the viral generative art Instagram Reel by [@jin_22ee](https://www.instagram.com/reel/DfTmTeQJEOi/) paired with a **Photorealistic 3D Real Jewelry Showcase** (smooth solid gold & brilliant crystal diamond, not pixelated).
 
-Featuring real-time 3D raycasting, progressive materialization from 0.0s to 8.07s, 57-facet brilliant diamond scintillation, Blinn-Phong metallic torus luster, vertical light flares, cosmic atomic orbits, and live terminal HUD counters.
+Featuring real-time 3D PBR WebGL jewelry rendering, 18K Yellow Gold/Platinum/Rose Gold metals, 57-facet brilliant diamond refraction and fire dispersion, 90° angle controls, progressive 5-stage goldsmith forging from 0.0s to 8.07s, and retro ASCII terminal art.
 
 ---
 
 ## ✨ Features
 
-- **💍 Realistic Jeweler Ring Form & Forge Sequence**:
-  - **Cathedral Solitaire Shank**: Comfort-fit ring band with tapered shoulders sweeping gracefully up towards the setting.
-  - **Prong Basket & Gallery Rail**: Under-bezel collar wire holding 4 claw prongs with inward curving tips.
-  - **57-Facet Brilliant Cut**: Scintillating diamond with table, crown stars, kites, and pavilion reflections.
-  - **5-Stage Real Jeweler Assembly (0.0s → 8.07s)**:
-    - `Stage 1 (0.0s – 2.8s)`: **Shank Forging** — precious metal band forms around a ring mandrel into a seamless circular comfort-fit loop.
-    - `Stage 2 (2.8s – 4.5s)`: **Basket Mounting** — cathedral shoulders and 4 claw prongs with under-bezel gallery rail mount onto the ring bridge.
-    - `Stage 3 (4.5s – 6.0s)`: **Gemstone Descent** — the cut diamond lowers from above directly into the prong basket.
-    - `Stage 4 (6.0s – 7.0s)`: **Claw Setting** — claw tips bend inward over the diamond crown, locking the stone in place.
-    - `Stage 5 (7.0s – 8.07s)`: **Brilliance & Flares** — high-polish metal luster, facet scintillation, and cosmic flare burst.
-- **✨ Viral Reel Mode**: Switch anytime to the exact 1:1 original Instagram reel geometry and timing (`python art.py --style reel` or toggle in UI).
+- **💎 Photorealistic 3D Real Ring Mode (Non-pixel)**:
+  - **Solid 3D Mesh**: Smooth, high-DPI solid geometry (no text/pixels) with comfort-fit D-profile cathedral shank, under-bezel gallery collar, and 4 delicate claw prongs clutching the diamond.
+  - **Realistic PBR Shading**: Specular reflections on 18K Yellow Gold, Platinum, Rose Gold, and Obsidian Titanium with soft contact shadows.
+  - **57-Facet Brilliant Diamond**: High-refraction (IOR 2.42) crystal physics, Fresnel transparency, specular sparkle point lights, and dispersion fire flares!
+  - **📐 90° Angle Controls**: Dedicated 1-click presets for **90° Upright**, **90° Side Profile**, **90° Overhead**, and **90° Lay Flat**.
+- **💍 5-Stage Goldsmith Forge Sequence (0.0s → 8.07s)**:
+  - `Stage 1 (0.0s – 2.8s)`: **Shank Forging** — precious metal band forms around a ring mandrel into a seamless circular comfort-fit loop.
+  - `Stage 2 (2.8s – 4.5s)`: **Basket Mounting** — cathedral shoulders and 4 claw prongs with under-bezel gallery rail mount onto the ring bridge.
+  - `Stage 3 (4.5s – 6.0s)`: **Gemstone Descent** — the cut diamond lowers from above directly into the prong basket.
+  - `Stage 4 (6.0s – 7.0s)`: **Claw Setting** — claw tips bend inward over the diamond crown, locking the stone in place.
+  - `Stage 5 (7.0s – 8.07s)`: **Brilliance & Flares** — high-polish metal luster, facet scintillation, and cosmic flare burst.
+- **✨ Viral Reel Mode**: Switch anytime to the exact 1:1 original Instagram reel ASCII terminal geometry and timing (`python art.py --style reel` or toggle in UI).
 - **Exact Code Matching**: Lines 77 to 94 in [`art.py`](art.py) match the video source code verbatim.
 - **Parametric 3D Raycasting**: Z-buffer depth sorting and lighting calculations running at a silky 30 FPS.
 - **Interactive Web Studio (`index.html`)**:

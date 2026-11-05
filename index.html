@@ -3,8 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>💍 3D ASCII Diamond Ring Studio — @jin_22ee Recreation & Realistic Jeweler</title>
+  <title>💍 Real 3D Diamond Engagement Ring Studio & Generative Art</title>
   <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <!-- Three.js for Photorealistic 3D Real Ring -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
   <style>
     @font-face {
       font-family: 'JetBrains Mono';
@@ -32,61 +35,27 @@
       opacity: 0.55;
     }
 
-    /* Gemstone themes */
-    .gem-diamond {
-      color: #f8fafc;
-      text-shadow: 0 0 2px rgba(255, 255, 255, 0.95), 0 0 10px rgba(186, 230, 253, 0.6), 0 0 24px rgba(56, 189, 248, 0.35);
-    }
-    .gem-ruby {
-      color: #fecdd3;
-      text-shadow: 0 0 2px rgba(255, 255, 255, 0.95), 0 0 12px rgba(244, 63, 94, 0.6), 0 0 28px rgba(225, 29, 72, 0.4);
-    }
-    .gem-sapphire {
-      color: #bfdbfe;
-      text-shadow: 0 0 2px rgba(255, 255, 255, 0.95), 0 0 12px rgba(59, 130, 246, 0.6), 0 0 28px rgba(37, 99, 235, 0.4);
-    }
-    .gem-emerald {
-      color: #bbf7d0;
-      text-shadow: 0 0 2px rgba(255, 255, 255, 0.95), 0 0 12px rgba(34, 197, 94, 0.6), 0 0 28px rgba(22, 163, 74, 0.4);
-    }
-    .gem-amethyst {
-      color: #e9d5ff;
-      text-shadow: 0 0 2px rgba(255, 255, 255, 0.95), 0 0 12px rgba(168, 85, 247, 0.6), 0 0 28px rgba(147, 51, 234, 0.4);
-    }
-    .gem-canary {
-      color: #fef08a;
-      text-shadow: 0 0 2px rgba(255, 255, 255, 0.95), 0 0 12px rgba(234, 179, 8, 0.6), 0 0 28px rgba(202, 138, 4, 0.4);
-    }
-    .gem-mono {
-      color: #f1f5f9;
-      text-shadow: 0 0 2px rgba(255, 255, 255, 0.5);
-    }
+    /* Gemstone themes for ASCII */
+    .gem-diamond { color: #f8fafc; text-shadow: 0 0 2px rgba(255, 255, 255, 0.95), 0 0 10px rgba(186, 230, 253, 0.6); }
+    .gem-ruby { color: #fecdd3; text-shadow: 0 0 2px rgba(255, 255, 255, 0.95), 0 0 12px rgba(244, 63, 94, 0.6); }
+    .gem-sapphire { color: #bfdbfe; text-shadow: 0 0 2px rgba(255, 255, 255, 0.95), 0 0 12px rgba(59, 130, 246, 0.6); }
+    .gem-emerald { color: #bbf7d0; text-shadow: 0 0 2px rgba(255, 255, 255, 0.95), 0 0 12px rgba(34, 197, 94, 0.6); }
+    .gem-canary { color: #fef08a; text-shadow: 0 0 2px rgba(255, 255, 255, 0.95), 0 0 12px rgba(234, 179, 8, 0.6); }
+    .gem-amethyst { color: #e9d5ff; text-shadow: 0 0 2px rgba(255, 255, 255, 0.95), 0 0 12px rgba(168, 85, 247, 0.6); }
 
     .line-active {
       background: rgba(244, 63, 94, 0.20);
       border-left: 2px solid #fb7185;
     }
-    @keyframes cursorPulse {
-      0%, 49% { opacity: 1; }
-      50%, 100% { opacity: 0; }
+
+    /* Studio Stage Lighting Background */
+    .studio-bg {
+      background: radial-gradient(circle at 50% 35%, #182234 0%, #0a0e17 65%, #04060a 100%);
     }
-    .cursor-blink {
-      animation: cursorPulse 0.9s infinite;
-    }
-    ::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #090d14;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #1e293b;
-      border-radius: 3px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: #334155;
-    }
+
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #090d14; }
+    ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 3px; }
   </style>
 </head>
 <body class="bg-[#05070c] text-slate-100 antialiased p-3 md:p-6 min-h-screen flex flex-col items-center justify-start font-sans">
@@ -100,49 +69,38 @@
       <div>
         <div class="flex items-center gap-2">
           <h1 class="text-lg md:text-xl font-bold tracking-tight text-white flex items-center gap-2">
-            3D ASCII Diamond Ring Studio
+            Real 3D Diamond Engagement Ring
           </h1>
-          <span class="text-xs px-2.5 py-0.5 rounded-full bg-amber-950/80 text-amber-400 border border-amber-800/60 font-mono font-medium">
-            v2.5 Real Ring Edition
+          <span class="text-xs px-2.5 py-0.5 rounded-full bg-amber-950/80 text-amber-300 border border-amber-800/60 font-mono font-medium">
+            Photorealistic 3D
           </span>
         </div>
-        <p class="text-xs text-slate-400">Parametric 3D Jeweler Forge · Real Solitaire Ring & Viral Reel · Spatial Audio · Custom Dedications</p>
+        <p class="text-xs text-slate-400">Solid Gold & Brilliant Cut Diamond · 90° Angles · Goldsmith Assembly · Spatial Audio</p>
       </div>
     </div>
 
-    <!-- Quick action buttons -->
+    <!-- Quick action buttons & View Switcher -->
     <div class="flex items-center flex-wrap gap-2">
-      <!-- Ring Style Toggle -->
-      <div class="bg-slate-900 border border-slate-800 p-0.5 rounded-lg flex items-center text-xs shadow-inner">
-        <button id="style-real" class="px-3 py-1 rounded-md bg-amber-500 text-slate-950 font-bold transition shadow-sm" title="Realistic Jeweler Solitaire Ring: Cathedral Shoulders, Gallery Rail & Claw Prongs">
-          💍 Real Ring
+      <!-- RENDER MODE SWITCHER: 3D REAL RING VS ASCII REEL -->
+      <div class="bg-slate-900 border border-slate-700 p-0.5 rounded-xl flex items-center text-xs shadow-inner">
+        <button id="view-mode-real3d" class="px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-amber-500 to-yellow-500 text-slate-950 font-bold transition shadow-md shadow-amber-500/20 flex items-center gap-1.5" title="Photorealistic Solid 3D Jewelry Ring (Non-pixel)">
+          <span>💎</span>
+          <span>Real 3D Ring</span>
         </button>
-        <button id="style-reel" class="px-3 py-1 rounded-md text-slate-400 hover:text-white font-medium transition" title="Exact Instagram Reel Geometry & Timing">
-          ✨ Viral Reel
-        </button>
-      </div>
-
-      <!-- Layout Modes -->
-      <div class="bg-slate-900 border border-slate-800 p-0.5 rounded-lg flex items-center text-xs">
-        <button id="mode-reel" class="px-2.5 py-1 rounded-md bg-cyan-600 text-white font-medium transition shadow-sm" title="Instagram Reel Mobile Split View">
-          📱 Reel
-        </button>
-        <button id="mode-studio" class="px-2.5 py-1 rounded-md text-slate-400 hover:text-white transition" title="Side-by-Side Desktop Studio">
-          💻 Studio
-        </button>
-        <button id="mode-cinema" class="px-2.5 py-1 rounded-md text-slate-400 hover:text-white transition" title="Pure Fullscreen Terminal">
-          📺 Cinema
+        <button id="view-mode-ascii" class="px-3.5 py-1.5 rounded-lg text-slate-300 hover:text-white font-medium transition flex items-center gap-1.5" title="Switch to Viral Retro ASCII Terminal Artwork">
+          <span>📺</span>
+          <span>ASCII Terminal</span>
         </button>
       </div>
 
-      <!-- Sound Toggle -->
-      <button id="btn-sound" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-medium text-slate-200 border border-slate-700 transition flex items-center gap-1.5 shadow-sm" title="Toggle Crystalline Chimes Sound">
+      <!-- Audio Toggle -->
+      <button id="btn-sound" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-medium text-slate-200 border border-slate-700 transition flex items-center gap-1.5 shadow-sm" title="Toggle Crystal Chimes Sound">
         <span id="sound-icon">🔇</span>
         <span id="sound-label">Audio: OFF</span>
       </button>
 
       <!-- Replay Formation -->
-      <button id="btn-replay" class="px-3 py-1.5 rounded-lg bg-indigo-900/60 hover:bg-indigo-800/80 text-xs font-semibold text-cyan-300 border border-indigo-700/60 transition flex items-center gap-1.5 shadow-sm" title="Replay progressive formation from 0s">
+      <button id="btn-replay" class="px-3 py-1.5 rounded-lg bg-indigo-900/60 hover:bg-indigo-800/80 text-xs font-semibold text-cyan-300 border border-indigo-700/60 transition flex items-center gap-1.5 shadow-sm" title="Replay 5-stage goldsmith formation from 0s">
         🔄 Replay
       </button>
 
@@ -153,8 +111,8 @@
       </button>
 
       <!-- Download art.py -->
-      <a id="btn-download" href="javascript:void(0)" class="px-3 py-1.5 rounded-lg bg-gradient-to-r from-amber-500 to-rose-600 hover:from-amber-400 hover:to-rose-500 text-xs font-semibold text-white transition flex items-center gap-1.5 shadow-md shadow-amber-600/20">
-        ⬇ Download art.py
+      <a id="btn-download" href="art.py" download="art.py" class="px-3 py-1.5 rounded-lg bg-gradient-to-r from-amber-500 to-rose-600 hover:from-amber-400 hover:to-rose-500 text-xs font-semibold text-white transition flex items-center gap-1.5 shadow-md shadow-amber-600/20">
+        ⬇ art.py
       </a>
     </div>
   </header>
@@ -166,37 +124,87 @@
       <div class="flex items-center gap-3">
         <span class="text-amber-400 font-mono font-bold flex items-center gap-1.5 shrink-0">
           <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
-          Formation Timeline:
+          Assembly Timeline:
         </span>
-        <input id="scrubber" type="range" min="0" max="8.07" step="0.05" value="0.0" class="flex-1 accent-amber-400 h-2 bg-slate-800 rounded-lg cursor-pointer">
-        <span id="scrubber-label" class="font-mono text-amber-300 font-bold w-20 text-right">00.00s (0%)</span>
+        <input id="scrubber" type="range" min="0" max="8.07" step="0.05" value="8.07" class="flex-1 accent-amber-400 h-2 bg-slate-800 rounded-lg cursor-pointer">
+        <span id="scrubber-label" class="font-mono text-amber-300 font-bold w-20 text-right">08.07s (100%)</span>
         <span id="formation-stage-badge" class="px-2 py-0.5 rounded bg-amber-950 text-amber-300 border border-amber-800 font-mono text-[11px] font-semibold shrink-0">
-          Stage 1: Shank Forge
+          Stage 5: Brilliance Locked
         </span>
       </div>
 
       <!-- 5-Stage Jeweler Quick Navigation -->
       <div class="flex items-center gap-1.5 overflow-x-auto pt-1 font-mono text-[10px]">
         <button class="stage-nav-btn px-2 py-1 rounded bg-slate-900 hover:bg-amber-950/70 border border-slate-800 hover:border-amber-700/60 text-slate-300 transition shrink-0" data-time="1.4">
-          🔨 1. Shank Forge
+          🔨 1. Shank Forging
         </button>
         <button class="stage-nav-btn px-2 py-1 rounded bg-slate-900 hover:bg-amber-950/70 border border-slate-800 hover:border-amber-700/60 text-slate-300 transition shrink-0" data-time="3.6">
-          👑 2. Basket & Rail
+          👑 2. Basket & Rail Mount
         </button>
         <button class="stage-nav-btn px-2 py-1 rounded bg-slate-900 hover:bg-amber-950/70 border border-slate-800 hover:border-amber-700/60 text-slate-300 transition shrink-0" data-time="5.4">
-          💎 3. Stone Descent
+          💎 3. Diamond Placement
         </button>
         <button class="stage-nav-btn px-2 py-1 rounded bg-slate-900 hover:bg-amber-950/70 border border-slate-800 hover:border-amber-700/60 text-slate-300 transition shrink-0" data-time="6.6">
-          🔒 4. Claw Crimp
+          🔒 4. Claw Crimping
         </button>
-        <button class="stage-nav-btn px-2 py-1 rounded bg-slate-900 hover:bg-amber-950/70 border border-slate-800 hover:border-amber-700/60 text-slate-300 transition shrink-0" data-time="8.07">
-          ✨ 5. Brilliance Locked
+        <button class="stage-nav-btn px-2 py-1 rounded bg-amber-950/90 border border-amber-600 text-amber-300 transition shrink-0 font-bold" data-time="8.07">
+          ✨ 5. Brilliance & Flares
         </button>
       </div>
     </div>
 
-    <!-- Middle Row: Dedication Message & Gemstone Selection -->
+    <!-- Middle Row: 90-Degree Angle Presets & Materials -->
     <div class="flex flex-wrap items-center justify-between gap-3 bg-slate-900/40 p-2.5 rounded-lg border border-slate-800/60">
+      <!-- 90 Degree Angle Presets -->
+      <div class="flex items-center flex-wrap gap-1.5">
+        <span class="text-amber-400 font-bold flex items-center gap-1">📐 Angles:</span>
+        <button id="btn-angle-upright" class="px-2.5 py-1 rounded bg-amber-500 text-slate-950 font-bold border border-amber-400 font-mono text-xs shadow-sm" title="90° Upright Perpendicular (Standing straight up)">
+          90° Upright
+        </button>
+        <button id="btn-angle-profile" class="px-2.5 py-1 rounded bg-slate-800 text-slate-200 hover:text-white border border-slate-700 font-mono text-xs" title="90° Side Profile (Turned 90 degrees sideways)">
+          90° Profile
+        </button>
+        <button id="btn-angle-overhead" class="px-2.5 py-1 rounded bg-slate-800 text-slate-200 hover:text-white border border-slate-700 font-mono text-xs" title="90° Direct Overhead (Top-down view onto diamond table)">
+          90° Overhead
+        </button>
+        <button id="btn-angle-flat" class="px-2.5 py-1 rounded bg-slate-800 text-slate-200 hover:text-white border border-slate-700 font-mono text-xs" title="90° Lay Flat (Horizontal ring lying on surface)">
+          🔄 90° Lay Flat
+        </button>
+        <button id="btn-angle-showcase" class="px-2.5 py-1 rounded bg-slate-800 text-slate-200 hover:text-white border border-slate-700 font-mono text-xs" title="26° Jewelry Showcase Angle">
+          Showcase 26°
+        </button>
+      </div>
+
+      <!-- Precious Metal & Gemstone Selectors -->
+      <div class="flex items-center flex-wrap gap-3">
+        <!-- Metal Selector -->
+        <div class="flex items-center gap-1.5">
+          <span class="text-slate-300 font-medium">Precious Metal:</span>
+          <select id="metal-select" class="bg-slate-900 border border-slate-700 text-amber-300 text-xs rounded-lg px-2.5 py-1 font-semibold focus:outline-none focus:border-amber-500 cursor-pointer">
+            <option value="gold" selected>🟡 18K Yellow Gold</option>
+            <option value="platinum">⚪ Platinum / White Gold</option>
+            <option value="rose">🌸 18K Rose Gold</option>
+            <option value="black">⚫ Black Obsidian Titanium</option>
+          </select>
+        </div>
+
+        <!-- Gemstone Selector -->
+        <div class="flex items-center gap-1.5">
+          <span class="text-slate-300 font-medium">Gemstone:</span>
+          <select id="gem-select" class="bg-slate-900 border border-slate-700 text-cyan-300 text-xs rounded-lg px-2.5 py-1 font-semibold focus:outline-none focus:border-cyan-500 cursor-pointer">
+            <option value="gem-diamond" selected>💎 White Diamond</option>
+            <option value="gem-ruby">🔴 Pigeon Blood Ruby</option>
+            <option value="gem-sapphire">🔵 Royal Sapphire</option>
+            <option value="gem-emerald">🟢 Vivid Emerald</option>
+            <option value="gem-canary">🟡 Canary Yellow Diamond</option>
+            <option value="gem-amethyst">🟣 Royal Amethyst</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Row: Dedication & Controls -->
+    <div class="flex flex-wrap items-center justify-between gap-3">
       <div class="flex items-center flex-1 min-w-[280px] gap-2">
         <span class="text-rose-400 font-medium">💌 Dedication:</span>
         <input id="input-message" type="text" value="Send this to someone you love ❤️" placeholder="Enter personalized love message..." class="flex-1 bg-black/60 border border-slate-700 rounded-lg px-2.5 py-1 text-slate-100 text-xs font-mono focus:outline-none focus:border-rose-500">
@@ -205,96 +213,75 @@
         </button>
       </div>
 
-      <!-- Gemstone Material -->
-      <div class="flex items-center gap-2">
-        <span class="text-slate-300 font-medium">Gemstone:</span>
-        <select id="gem-select" class="bg-slate-900 border border-slate-700 text-slate-200 text-xs rounded-lg px-2.5 py-1 font-medium focus:outline-none focus:border-amber-500 cursor-pointer">
-          <option value="gem-diamond" selected>💎 White Diamond</option>
-          <option value="gem-ruby">🔴 Pigeon Blood Ruby</option>
-          <option value="gem-sapphire">🔵 Royal Sapphire</option>
-          <option value="gem-emerald">🟢 Vivid Emerald</option>
-          <option value="gem-amethyst">🟣 Royal Amethyst</option>
-          <option value="gem-canary">🟡 Canary Diamond</option>
-          <option value="gem-mono">⚪ Classic Monochrome</option>
-        </select>
-      </div>
-    </div>
-
-    <!-- Bottom Row: Angle Presets & Controls -->
-    <div class="flex flex-wrap items-center justify-between gap-4">
-      <div class="flex items-center flex-wrap gap-4">
-        <!-- Angle Presets -->
-        <div class="flex items-center flex-wrap gap-1.5">
-          <span class="text-slate-300 font-medium">Camera Angle:</span>
-          <button id="cam-90-upright" class="px-2 py-0.5 rounded bg-amber-500 text-slate-950 font-bold border border-amber-400 font-mono text-[11px] shadow-sm shadow-amber-500/30" title="90° Upright Perpendicular: Ring stands straight up vertically">
-            📐 90° Upright
-          </button>
-          <button id="cam-90-profile" class="px-2 py-0.5 rounded bg-slate-800 text-slate-300 hover:text-white border border-slate-700 font-mono text-[11px]" title="90° Side Profile: Rotated 90 degrees sideways">
-            📐 90° Profile
-          </button>
-          <button id="cam-90-overhead" class="px-2 py-0.5 rounded bg-slate-800 text-slate-300 hover:text-white border border-slate-700 font-mono text-[11px]" title="90° Overhead: Looking directly down onto the diamond from 90° top view">
-            📐 90° Overhead
-          </button>
-          <button id="cam-90-flat" class="px-2 py-0.5 rounded bg-slate-800 text-slate-300 hover:text-white border border-slate-700 font-mono text-[11px]" title="90° Lay Flat: Rotate ring 90 degrees horizontally in XZ plane">
-            🔄 90° Lay Flat
-          </button>
-          <button id="cam-showcase" class="px-2 py-0.5 rounded bg-slate-800 text-slate-300 hover:text-white border border-slate-700 font-mono text-[11px]" title="Showcase 26° perspective">
-            Showcase 26°
-          </button>
-          <button id="cam-reel" class="px-2 py-0.5 rounded bg-slate-800 text-slate-300 hover:text-white border border-slate-700 font-mono text-[11px]" title="Reel 12° perspective">
-            Reel 12°
-          </button>
-        </div>
-
+      <div class="flex items-center gap-4">
         <!-- Speed -->
         <label class="flex items-center gap-2">
           <span class="text-slate-300 font-medium">Speed:</span>
           <input id="slider-speed" type="range" min="0.25" max="3.0" step="0.25" value="1.0" class="w-20 accent-amber-400 h-1.5 bg-slate-800 rounded cursor-pointer">
           <span id="speed-val" class="font-mono text-slate-300 w-10">1.0x</span>
         </label>
-
-        <!-- CRT Bloom -->
-        <label class="flex items-center gap-1.5 cursor-pointer select-none">
-          <input id="toggle-bloom" type="checkbox" checked class="accent-amber-400 rounded">
-          <span class="text-slate-300">Phosphor Glow</span>
-        </label>
-      </div>
-
-      <!-- Export Actions -->
-      <div class="flex items-center gap-2">
-        <button id="btn-copy-ascii" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition" title="Copy current ASCII frame to clipboard">
-          📋 Copy Frame
-        </button>
-        <button id="btn-export-txt" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition" title="Download ASCII artwork as .txt">
-          💾 Save .txt
+        <button id="btn-snapshot" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition" title="Save high-resolution image of the ring">
+          📸 Save Photo
         </button>
       </div>
     </div>
   </section>
 
-  <!-- Main Display Container -->
+  <!-- Main Display Showcase Container -->
   <main id="main-container" class="w-full max-w-5xl flex flex-col md:flex-row gap-5 items-stretch justify-center">
 
-    <!-- LEFT PANEL: Instagram Reel Code / Video Window -->
-    <div id="code-panel" class="w-full md:w-[460px] bg-[#0a0d14] border border-slate-800 rounded-2xl overflow-hidden flex flex-col shadow-2xl transition-all duration-300">
+    <!-- VIEW 1: PHOTOREALISTIC 3D REAL RING CANVAS -->
+    <div id="real3d-panel" class="w-full bg-[#0a0e17] border border-slate-800 rounded-2xl overflow-hidden flex flex-col shadow-2xl relative min-h-[500px]">
       <!-- Title Bar -->
       <div class="bg-[#0f1420] px-4 py-2.5 border-b border-slate-800 flex items-center justify-between">
         <div class="flex items-center gap-2">
-          <span class="w-3 h-3 rounded-full bg-rose-500/80 inline-block"></span>
-          <span class="w-3 h-3 rounded-full bg-amber-500/80 inline-block"></span>
-          <span class="w-3 h-3 rounded-full bg-emerald-500/80 inline-block"></span>
-          <span class="text-xs font-mono text-slate-400 font-semibold ml-2">art.py — Reel Lines 75–94</span>
+          <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse"></span>
+          <span class="text-xs font-mono text-slate-300 font-semibold">Photorealistic 3D Real Ring Showcase</span>
+          <span id="metal-badge" class="px-2 py-0.2 rounded bg-amber-950 text-amber-300 border border-amber-800/60 font-mono text-[10px] font-bold">
+            18K YELLOW GOLD
+          </span>
         </div>
-        <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-rose-950/80 text-rose-300 border border-rose-800/60 font-bold">
-          Verbatim Code
-        </span>
+        <div class="flex items-center gap-3 text-xs font-mono text-slate-400">
+          <span id="fps-3d" class="text-emerald-400 font-bold">60.0 fps</span>
+          <span class="text-slate-500">|</span>
+          <span id="angle-indicator" class="text-amber-400">90° Upright</span>
+        </div>
       </div>
 
-      <!-- Code viewer -->
-      <div class="p-3 bg-[#070a10] font-ascii text-[11px] leading-[17px] text-slate-300 overflow-y-auto max-h-[500px]">
-        <pre class="select-text"><code id="code-content"><span class="text-slate-600"> 75 </span> 
-<span class="text-slate-600"> 76 </span> 
-<span class="line-active block"><span class="text-rose-400"> 77 </span> <span class="text-purple-400">def</span> <span class="text-blue-400 font-bold">prongs</span>():</span>
+      <!-- 3D Viewport with Studio Background -->
+      <div id="canvas-container" class="studio-bg w-full flex-1 relative flex items-center justify-center cursor-grab active:cursor-grabbing overflow-hidden min-h-[440px]">
+        <div class="absolute top-3 left-4 z-20 text-[11px] font-mono text-slate-400 pointer-events-none bg-black/40 px-2 py-1 rounded-md border border-slate-800/60">
+          [ 360° Drag to Orbit · Scroll to Zoom · Real 3D Solid Model ]
+        </div>
+
+        <!-- 3D Canvas element created by Three.js -->
+        <canvas id="webgl-canvas" class="w-full h-full block"></canvas>
+      </div>
+
+      <!-- Status Footer -->
+      <div class="bg-[#0f1420] px-4 py-2 border-t border-slate-800 text-[11px] font-mono text-slate-400 flex items-center justify-between">
+        <span class="text-amber-400 font-semibold" id="hud-dedication">Send this to someone you love ❤️</span>
+        <div class="flex items-center gap-3">
+          <span>Diamond Cut: <strong class="text-cyan-300">57-Facet Brilliant</strong></span>
+          <span>Setting: <strong class="text-amber-300">Cathedral 4-Prong</strong></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW 2: ASCII TERMINAL (Hidden by default, toggleable anytime) -->
+    <div id="ascii-panel" class="w-full hidden flex-col md:flex-row gap-5">
+      <!-- LEFT: Code -->
+      <div class="w-full md:w-[440px] bg-[#0a0d14] border border-slate-800 rounded-2xl overflow-hidden flex flex-col shadow-2xl">
+        <div class="bg-[#0f1420] px-4 py-2.5 border-b border-slate-800 flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="w-3 h-3 rounded-full bg-rose-500/80 inline-block"></span>
+            <span class="w-3 h-3 rounded-full bg-amber-500/80 inline-block"></span>
+            <span class="w-3 h-3 rounded-full bg-emerald-500/80 inline-block"></span>
+            <span class="text-xs font-mono text-slate-400 font-semibold ml-2">art.py — Verbatim Reel Lines 77–94</span>
+          </div>
+        </div>
+        <div class="p-3 bg-[#070a10] font-ascii text-[11px] leading-[17px] text-slate-300 overflow-y-auto max-h-[460px]">
+          <pre><code id="code-content"><span class="line-active block"><span class="text-rose-400"> 77 </span> <span class="text-purple-400">def</span> <span class="text-blue-400 font-bold">prongs</span>():</span>
 <span class="line-active block"><span class="text-rose-400"> 78 </span>     P, N = [], []</span>
 <span class="line-active block"><span class="text-rose-400"> 79 </span>     <span class="text-purple-400">for</span> i <span class="text-purple-400">in</span> <span class="text-cyan-400">range</span>(<span class="text-amber-400">4</span>):</span>
 <span class="line-active block"><span class="text-rose-400"> 80 </span>         a = TAU * (i + <span class="text-amber-400">0.5</span>) / <span class="text-amber-400">4</span></span>
@@ -311,69 +298,35 @@
 <span class="text-slate-600"> 91 </span> 
 <span class="line-active block"><span class="text-rose-400"> 92 </span> BAND_P, BAND_N = band()</span>
 <span class="line-active block"><span class="text-rose-400"> 93 </span> GEM_P, GEM_N, GEM_F = diamond()</span>
-<span class="line-active block"><span class="text-rose-400"> 94 </span> PRONG_P, PRONG_N = prongs()</span>
-<span class="text-slate-600"> 95 </span> 
-<span class="text-slate-500"># Real Jeweler Ring & Cathedral Shank (Lines 96+)</span>
-<span class="text-slate-500">REAL_BAND_P, REAL_BAND_N = init_real_shank()</span>
-<span class="text-slate-500">REAL_GAL_P, REAL_GAL_N   = init_gallery_rail()</span>
-<span class="text-slate-500">REAL_PRONG_P, REAL_CLAW  = init_claw_prongs()</span>
-<span class="text-slate-500">REAL_GEM_P, REAL_GEM_F   = init_brilliant_cut()</span>
-</code></pre>
-      </div>
-
-      <div class="p-3 bg-[#0f1420] border-t border-slate-800 text-[11px] text-slate-400 flex items-center justify-between">
-        <span>Model: <strong id="code-model-tag" class="text-amber-400 font-mono">Realistic Engagement Ring</strong></span>
-        <span>HUD target: <strong class="text-emerald-400 font-mono">1,366 letters</strong></span>
-      </div>
-    </div>
-
-    <!-- RIGHT PANEL: 3D ASCII Terminal Output -->
-    <div id="render-panel" class="flex-1 max-w-[560px] bg-[#090d14] border border-slate-800 rounded-2xl overflow-hidden flex flex-col shadow-2xl relative">
-      <!-- Title Bar -->
-      <div class="bg-[#0f1420] px-4 py-2.5 border-b border-slate-800 flex items-center justify-between">
-        <div class="flex items-center gap-2">
-          <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
-          <span class="text-xs font-mono text-slate-300 font-semibold">Terminal Output (30 FPS)</span>
-          <span id="model-mode-badge" class="px-2 py-0.2 rounded bg-amber-950/80 text-amber-300 border border-amber-800/60 font-mono text-[10px] font-bold">
-            💍 REAL RING
-          </span>
-        </div>
-        <div class="flex items-center gap-3 text-xs font-mono text-slate-400">
-          <span id="fps-counter" class="text-emerald-400 font-bold">30.0 fps</span>
+<span class="line-active block"><span class="text-rose-400"> 94 </span> PRONG_P, PRONG_N = prongs()</span></code></pre>
         </div>
       </div>
 
-      <!-- CRT Screen -->
-      <div class="crt-box crt-scanlines p-3 md:p-4 flex-1 flex flex-col items-center justify-center overflow-hidden cursor-grab active:cursor-grabbing select-none" id="viewport">
-        <div class="absolute top-2 left-4 z-20 text-[10px] font-mono text-slate-500 pointer-events-none opacity-70">
-          [ 360° Drag to Orbit · Wheel to Zoom ]
+      <!-- RIGHT: ASCII Canvas -->
+      <div class="flex-1 max-w-[560px] bg-[#090d14] border border-slate-800 rounded-2xl overflow-hidden flex flex-col shadow-2xl relative">
+        <div class="bg-[#0f1420] px-4 py-2.5 border-b border-slate-800 flex items-center justify-between">
+          <span class="text-xs font-mono text-emerald-400 font-semibold">ASCII Pixel Output</span>
+          <span class="text-xs font-mono text-slate-400">Running · 30 fps</span>
         </div>
-
-        <pre id="ascii-canvas" class="gem-diamond font-ascii text-[10.5px] sm:text-[11.5px] md:text-[12.5px] leading-[11px] sm:leading-[12.5px] md:leading-[13.5px] tracking-tight font-bold whitespace-pre drop-shadow select-none my-1"></pre>
-      </div>
-
-      <!-- Terminal Status Bar -->
-      <div class="bg-[#0f1420] px-4 py-2 border-t border-slate-800 text-[11px] font-mono text-slate-400 flex items-center justify-between">
-        <span class="text-cyan-400">$ py art.py</span>
-        <div class="flex items-center gap-3">
-          <span>Angle: <strong id="hud-tilt" class="text-amber-400">26.0°</strong></span>
-          <span>Zoom: <strong id="hud-zoom" class="text-slate-300">1.0x</strong></span>
+        <div class="crt-box crt-scanlines p-3 flex-1 flex flex-col items-center justify-center overflow-hidden">
+          <pre id="ascii-canvas" class="gem-diamond font-ascii text-[11px] leading-[12px] tracking-tight font-bold whitespace-pre drop-shadow select-none my-1"></pre>
         </div>
       </div>
     </div>
   </main>
 
-  <!-- Love Dedication Modal / Notification Toast -->
+  <!-- Notification Toast -->
   <div id="toast" class="fixed bottom-6 right-6 px-4 py-2.5 rounded-xl bg-slate-900 border border-emerald-500/60 text-emerald-300 text-xs font-mono shadow-2xl flex items-center gap-2 transform translate-y-20 opacity-0 transition-all duration-300 z-50">
     <span>✅</span>
     <span id="toast-msg">Link copied to clipboard!</span>
   </div>
 
+  <!-- SCRIPT: THREE.JS PHOTOREALISTIC REAL RING + AUDIO SYNTHESIZER -->
   <script>
     const TAU = 2 * Math.PI;
 
     // ==========================================
-    // AUDIO SYNTHESIZER (Web Audio API)
+    // AUDIO SYNTHESIZER
     // ==========================================
     class CrystalAudio {
       constructor() {
@@ -386,24 +339,18 @@
           const AudioContext = window.AudioContext || window.webkitAudioContext;
           if (AudioContext) this.ctx = new AudioContext();
         }
-        if (this.ctx && this.ctx.state === 'suspended') {
-          this.ctx.resume();
-        }
+        if (this.ctx && this.ctx.state === 'suspended') this.ctx.resume();
       }
       playChime(pitchIdx, vol = 0.05) {
         if (!this.enabled || !this.ctx) return;
         const now = this.ctx.currentTime;
         const osc = this.ctx.createOscillator();
         const gain = this.ctx.createGain();
-
-        const freq = this.pentatonic[pitchIdx % this.pentatonic.length];
         osc.type = "sine";
-        osc.frequency.setValueAtTime(freq, now);
-
+        osc.frequency.setValueAtTime(this.pentatonic[pitchIdx % this.pentatonic.length], now);
         gain.gain.setValueAtTime(0, now);
         gain.gain.linearRampToValueAtTime(vol, now + 0.015);
         gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.7);
-
         osc.connect(gain);
         gain.connect(this.ctx.destination);
         osc.start(now);
@@ -428,582 +375,298 @@
     const audio = new CrystalAudio();
 
     // ==========================================
-    // 3D GEOMETRY BUILDERS
+    // 3D REAL RING SCENE SETUP (THREE.JS)
     // ==========================================
-    
-    // 1. REEL STYLE GEOMETRY
-    const R_BAND = 1.05, R_TUBE = 0.18;
-    const TABLE_Y = 1.62, GIRDLE_Y = 1.36, CULET_Y = 1.08;
-    const GIRDLE_R = 0.56, TABLE_R = 0.35;
+    const canvasContainer = document.getElementById("canvas-container");
+    const webglCanvas = document.getElementById("webgl-canvas");
 
-    function buildReelBand() {
-      const P = [], N = [], T = [];
-      const nT = 220, nP = 40;
-      for (let i = 0; i < nT; i++) {
-        const t = (i / nT) * TAU;
-        const sx = Math.sin(t), sy = Math.cos(t);
-        const angleFromBottom = Math.abs(Math.PI - t);
-        for (let j = 0; j < nP; j++) {
-          const p = (j / nP) * TAU;
-          const cp = Math.cos(p), sp = Math.sin(p);
-          P.push([(R_BAND + R_TUBE * cp) * sx, (R_BAND + R_TUBE * cp) * sy, R_TUBE * sp]);
-          N.push([cp * sx, cp * sy, sp]);
-          T.push(angleFromBottom);
-        }
-      }
-      return { P, N, T };
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x0a0e17);
+
+    // Camera setup (Looking straight at 90° upright by default)
+    const camera = new THREE.PerspectiveCamera(40, canvasContainer.clientWidth / canvasContainer.clientHeight, 0.1, 100);
+    camera.position.set(0, 0, 4.8);
+
+    const renderer = new THREE.WebGLRenderer({ canvas: webglCanvas, antialias: true, alpha: true, preserveDrawingBuffer: true });
+    renderer.setSize(canvasContainer.clientWidth, canvasContainer.clientHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2.5));
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.25;
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+    let controls;
+    if (window.THREE && THREE.OrbitControls) {
+      controls = new THREE.OrbitControls(camera, renderer.domElement);
+      controls.enableDamping = true;
+      controls.dampingFactor = 0.05;
+      controls.minDistance = 2.0;
+      controls.maxDistance = 10.0;
     }
 
-    function buildReelDiamond() {
-      const P = [], N = [], F = [];
-      for (let r = 0.02; r <= TABLE_R; r += 0.03) {
-        for (let a = 0; a < TAU; a += 0.18) {
-          P.push([r * Math.cos(a), TABLE_Y, r * Math.sin(a)]);
-          N.push([0, 1, 0]);
-          F.push(0);
-        }
-      }
-      for (let f = 0; f < 8; f++) {
-        const a0 = TAU * f / 8, a1 = TAU * (f + 1) / 8;
-        for (let u = 0.05; u <= 0.95; u += 0.08) {
-          const y = TABLE_Y + u * (GIRDLE_Y - TABLE_Y);
-          const r = TABLE_R + u * (GIRDLE_R - TABLE_R);
-          for (let v = 0.05; v <= 0.95; v += 0.12) {
-            const ang = a0 + v * (a1 - a0);
-            const ca = Math.cos(ang), sa = Math.sin(ang);
-            P.push([r * ca, y, r * sa]);
-            N.push([0.88 * ca, 0.46, 0.88 * sa]);
-            F.push(f + 1);
-          }
-        }
-      }
-      for (let f = 0; f < 8; f++) {
-        const a0 = TAU * f / 8, a1 = TAU * (f + 1) / 8;
-        for (let u = 0.05; u <= 0.95; u += 0.08) {
-          const y = GIRDLE_Y + u * (CULET_Y - GIRDLE_Y);
-          const r = GIRDLE_R + u * (0.02 - GIRDLE_R);
-          for (let v = 0.05; v <= 0.95; v += 0.12) {
-            const ang = a0 + v * (a1 - a0);
-            const ca = Math.cos(ang), sa = Math.sin(ang);
-            P.push([r * ca, y, r * sa]);
-            N.push([0.72 * ca, -0.69, 0.72 * sa]);
-            F.push(f + 9);
-          }
-        }
-      }
-      return { P, N, F };
-    }
+    // STUDIO LIGHTING SETUP
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.9);
+    scene.add(ambientLight);
 
-    function buildReelProngs() {
-      const P = [], N = [], U = [];
-      for (let i = 0; i < 4; i++) {
-        const a = TAU * (i + 0.5) / 4;
-        const ca = Math.cos(a), sa = Math.sin(a);
-        const bx = 0.08 * ca, by = R_BAND + 0.02, bz = 0.08 * sa;
-        const tx = (GIRDLE_R + 0.015) * ca, ty = TABLE_Y - 0.03, tz = (GIRDLE_R + 0.015) * sa;
-        const dx = tx - bx, dy = ty - by, dz = tz - bz;
-        const dlen = Math.sqrt(dx*dx + dy*dy + dz*dz);
-        const ndx = dx/dlen, ndy = dy/dlen, ndz = dz/dlen;
+    const keySpot = new THREE.SpotLight(0xffffff, 2.8, 25, Math.PI / 4, 0.4, 1.0);
+    keySpot.position.set(4, 8, 6);
+    keySpot.castShadow = true;
+    scene.add(keySpot);
 
-        let sx = -ndy, sy = ndx, sz = 0;
-        const slen = Math.sqrt(sx*sx + sy*sy);
-        if (slen > 1e-4) { sx /= slen; sy /= slen; } else { sx = 1; sy = 0; }
-        const wx = ndy*sz - ndz*sy, wy = ndz*sx - ndx*sz, wz = ndx*sy - ndy*sx;
+    const rimLight = new THREE.DirectionalLight(0x93c5fd, 1.6);
+    rimLight.position.set(-6, 5, -5);
+    scene.add(rimLight);
 
-        for (let u = 0; u <= 1.0; u += 0.025) {
-          for (let p = 0; p < TAU; p += TAU / 16) {
-            const cp = Math.cos(p), sp = Math.sin(p);
-            const nx = cp * sx + sp * wx, ny = cp * sy + sp * wy, nz = cp * sz + sp * wz;
-            P.push([bx + u * dx + nx * 0.022, by + u * dy + ny * 0.022, bz + u * dz + nz * 0.022]);
-            N.push([nx, ny, nz]);
-            U.push(u);
-          }
-        }
-      }
-      return { P, N, U };
-    }
+    const fillLight = new THREE.DirectionalLight(0xfef08a, 1.2);
+    fillLight.position.set(5, -4, 4);
+    scene.add(fillLight);
 
-    // 2. REAL JEWELER RING GEOMETRY
-    function buildRealRing() {
-      // Comfort-fit shank with cathedral tapered shoulders
-      const bandP = [], bandN = [], bandT = [];
-      const nT = 220, nP = 36;
-      for (let i = 0; i < nT; i++) {
-        const t = (i / nT) * TAU;
-        const sx = Math.sin(t), sy = Math.cos(t);
-        const angleFromBottom = Math.abs(Math.PI - t);
-        const topF = Math.max(0.0, (angleFromBottom - 2.1) / (Math.PI - 2.1));
-        const rBand = 1.05 + 0.07 * (topF * topF);
-        const rTubeX = 0.16 + 0.05 * topF;
-        const rTubeZ = 0.19 + 0.05 * topF;
+    // Sparkle Point Lights around Diamond
+    const sparkleLight1 = new THREE.PointLight(0xffffff, 2.2, 4);
+    sparkleLight1.position.set(0.6, 2.2, 0.6);
+    scene.add(sparkleLight1);
 
-        for (let j = 0; j < nP; j++) {
-          const p = (j / nP) * TAU;
-          const cp = Math.cos(p), sp = Math.sin(p);
-          const radOffset = (cp < 0 ? cp * 0.82 : cp * 1.18) * rTubeX;
-          bandP.push([(rBand + radOffset) * sx, (rBand + radOffset) * sy, sp * rTubeZ]);
-          bandN.push([cp * sx, cp * sy, sp]);
-          bandT.push(angleFromBottom);
-        }
-      }
+    const sparkleLight2 = new THREE.PointLight(0x67e8f9, 1.8, 4);
+    sparkleLight2.position.set(-0.6, 2.0, -0.6);
+    scene.add(sparkleLight2);
 
-      // Under-bezel gallery rail (collar bracing the prongs)
-      const galP = [], galN = [];
-      for (let t = 0; t < TAU; t += TAU / 90) {
-        const gx = 0.38 * Math.cos(t), gz = 0.38 * Math.sin(t);
-        for (let p = 0; p < TAU; p += TAU / 10) {
-          const cp = Math.cos(p), sp = Math.sin(p);
-          galP.push([gx + 0.024 * cp * Math.cos(t), 1.25 + 0.024 * sp, gz + 0.024 * cp * Math.sin(t)]);
-          galN.push([cp * Math.cos(t), sp, cp * Math.sin(t)]);
-        }
-      }
+    // Contact Shadow Disk under Ring
+    const shadowGeo = new THREE.PlaneGeometry(3.5, 3.5);
+    const shadowMat = new THREE.MeshBasicMaterial({
+      color: 0x000000,
+      transparent: true,
+      opacity: 0.45,
+      depthWrite: false
+    });
+    const shadowPlane = new THREE.Mesh(shadowGeo, shadowMat);
+    shadowPlane.rotation.x = -Math.PI / 2;
+    shadowPlane.position.y = -1.35;
+    scene.add(shadowPlane);
 
-      // 4 Claw prongs with inward curving tips
-      const prongP = [], prongN = [], prongU = [];
-      for (let i = 0; i < 4; i++) {
-        const a = TAU * (i + 0.5) / 4;
-        const ca = Math.cos(a), sa = Math.sin(a);
-        for (let u = 0; u <= 1.0; u += 0.026) {
-          let r, y;
-          if (u < 0.65) {
-            const tu = u / 0.65;
-            r = 0.14 + tu * (0.58 - 0.14);
-            y = 1.05 + tu * (1.36 - 1.05);
-          } else {
-            const tu = (u - 0.65) / 0.35;
-            r = 0.58 - tu * 0.10;
-            y = 1.36 + tu * 0.22;
-          }
-          for (let phi = 0; phi < TAU; phi += TAU / 14) {
-            const cp = Math.cos(phi), sp = Math.sin(phi);
-            const th = 0.026 * (1.0 - 0.25 * u);
-            const px = r * ca - sa * th * cp;
-            const pz = r * sa + ca * th * cp;
-            const py = y + th * sp;
-            prongP.push([px, py, pz]);
-            prongN.push([-sa * cp, sp, ca * cp]);
-            prongU.push(u);
-          }
-        }
-      }
-
-      // Brilliant cut diamond
-      const gemP = [], gemN = [], gemF = [];
-      for (let r = 0.01; r <= 0.35; r += 0.025) {
-        for (let t = 0; t < TAU; t += TAU / 36) {
-          gemP.push([r * Math.cos(t), 1.62, r * Math.sin(t)]);
-          gemN.push([0, 1, 0]);
-          gemF.push(0);
-        }
-      }
-      for (let k = 0; k < 8; k++) {
-        const a0 = TAU * k / 8, a1 = TAU * (k + 1) / 8, amid = 0.5 * (a0 + a1);
-        const v0 = [0.35 * Math.cos(a0), 1.62, 0.35 * Math.sin(a0)];
-        const v1 = [0.35 * Math.cos(a1), 1.62, 0.35 * Math.sin(a1)];
-        const vs = [0.45 * Math.cos(amid), 1.50, 0.45 * Math.sin(amid)];
-        const e1 = [v1[0] - v0[0], v1[1] - v0[1], v1[2] - v0[2]];
-        const e2 = [vs[0] - v0[0], vs[1] - v0[1], vs[2] - v0[2]];
-        let nx = e1[1]*e2[2] - e1[2]*e2[1], ny = e1[2]*e2[0] - e1[0]*e2[2], nz = e1[0]*e2[1] - e1[1]*e2[0];
-        const nlen = Math.sqrt(nx*nx + ny*ny + nz*nz);
-        nx /= nlen; ny /= nlen; nz /= nlen;
-
-        for (let u = 0.1; u <= 0.9; u += 0.16) {
-          for (let v = 0.1; v <= 0.9 - u; v += 0.16) {
-            const px = (1 - u - v)*v0[0] + u*v1[0] + v*vs[0];
-            const py = (1 - u - v)*v0[1] + u*v1[1] + v*vs[1];
-            const pz = (1 - u - v)*v0[2] + u*v1[2] + v*vs[2];
-            gemP.push([px, py, pz]);
-            gemN.push([nx, ny, nz]);
-            gemF.push(k + 1);
-          }
-        }
-      }
-      const culet = [0, 1.08, 0];
-      for (let k = 0; k < 8; k++) {
-        const a0 = TAU * k / 8, a1 = TAU * (k + 1) / 8;
-        const v0 = [0.56 * Math.cos(a0), 1.36, 0.56 * Math.sin(a0)];
-        const v1 = [0.56 * Math.cos(a1), 1.36, 0.56 * Math.sin(a1)];
-        const e1 = [v1[0] - v0[0], v1[1] - v0[1], v1[2] - v0[2]];
-        const e2 = [culet[0] - v0[0], culet[1] - v0[1], culet[2] - v0[2]];
-        let nx = e1[1]*e2[2] - e1[2]*e2[1], ny = e1[2]*e2[0] - e1[0]*e2[2], nz = e1[0]*e2[1] - e1[1]*e2[0];
-        const nlen = Math.sqrt(nx*nx + ny*ny + nz*nz);
-        nx /= nlen; ny /= nlen; nz /= nlen;
-
-        for (let u = 0.05; u <= 0.95; u += 0.12) {
-          for (let v = 0.05; v <= 0.95 - u; v += 0.12) {
-            const px = (1 - u - v)*v0[0] + u*v1[0] + v*culet[0];
-            const py = (1 - u - v)*v0[1] + u*v1[1] + v*culet[1];
-            const pz = (1 - u - v)*v0[2] + u*v1[2] + v*culet[2];
-            gemP.push([px, py, pz]);
-            gemN.push([nx, ny, nz]);
-            gemF.push(k + 9);
-          }
-        }
-      }
-
-      return {
-        band: { P: bandP, N: bandN, T: bandT },
-        gal: { P: galP, N: galN },
-        prongs: { P: prongP, N: prongN, U: prongU },
-        gem: { P: gemP, N: gemN, F: gemF }
-      };
-    }
-
-    // Atomic Orbits & Ambient Glints
-    function buildOrbits() {
-      const P = [];
-      const rad38 = 38 * Math.PI / 180;
-      const cos38 = Math.cos(rad38), sin38 = Math.sin(rad38);
-      for (let i = 0; i < 240; i++) {
-        const t = (i / 240) * TAU, ct = Math.cos(t), st = Math.sin(t);
-        P.push([2.15 * ct, 1.25 * st * cos38, 1.25 * st * sin38]);
-        P.push([2.15 * ct, 1.25 * st * cos38, -1.25 * st * sin38]);
-      }
-      return P;
-    }
-
-    let glints = [];
-    function initGlints(count = 272) {
-      glints = [];
-      for (let i = 0; i < count; i++) {
-        const phi = Math.random() * TAU, theta = (Math.random() - 0.5) * Math.PI, dist = 1.3 + Math.random() * 1.8;
-        glints.push({
-          x: dist * Math.cos(theta) * Math.cos(phi),
-          y: dist * Math.sin(theta) + 0.58,
-          z: dist * Math.cos(theta) * Math.sin(phi),
-          speed: 1.6 + Math.random() * 3.6,
-          phase: Math.random() * TAU
-        });
-      }
-    }
-
-    const reelMeshes = {
-      band: buildReelBand(),
-      gem: buildReelDiamond(),
-      prongs: buildReelProngs()
+    // ==========================================
+    // MATERIALS CONFIGURATION
+    // ==========================================
+    const METALS = {
+      gold: { name: "18K Yellow Gold", color: 0xffd24d, metalness: 0.95, roughness: 0.14 },
+      platinum: { name: "Platinum / White Gold", color: 0xf1f5f9, metalness: 0.98, roughness: 0.10 },
+      rose: { name: "18K Rose Gold", color: 0xfba3a3, metalness: 0.92, roughness: 0.15 },
+      black: { name: "Black Obsidian Titanium", color: 0x1e293b, metalness: 0.88, roughness: 0.22 }
     };
-    const realMeshes = buildRealRing();
-    const orbitMesh = buildOrbits();
-    initGlints(272);
 
-    const L = [0.577, 0.707, -0.408];
-    const H = [0.46, 0.56, -0.68];
-    const RAMP = " .:-=+*#%@";
-    const WIDTH = 64, HEIGHT = 34;
+    const GEMS = {
+      "gem-diamond": { name: "White Diamond", color: 0xffffff, transmission: 0.96, ior: 2.417, dispersion: 0.045 },
+      "gem-ruby": { name: "Pigeon Blood Ruby", color: 0xe11d48, transmission: 0.75, ior: 1.77, dispersion: 0.018 },
+      "gem-sapphire": { name: "Royal Sapphire", color: 0x1d4ed8, transmission: 0.78, ior: 1.77, dispersion: 0.018 },
+      "gem-emerald": { name: "Vivid Emerald", color: 0x10b981, transmission: 0.80, ior: 1.58, dispersion: 0.014 },
+      "gem-canary": { name: "Canary Yellow Diamond", color: 0xfacc15, transmission: 0.92, ior: 2.417, dispersion: 0.045 },
+      "gem-amethyst": { name: "Royal Amethyst", color: 0x9333ea, transmission: 0.82, ior: 1.54, dispersion: 0.013 }
+    };
 
-    // State
-    let currentStyle = "real"; // 'real' or 'reel'
+    let currentMetal = METALS.gold;
+    let currentGem = GEMS["gem-diamond"];
+
+    const metalMaterial = new THREE.MeshStandardMaterial({
+      color: currentMetal.color,
+      metalness: currentMetal.metalness,
+      roughness: currentMetal.roughness
+    });
+
+    const diamondMaterial = new THREE.MeshPhysicalMaterial({
+      color: currentGem.color,
+      metalness: 0.0,
+      roughness: 0.0,
+      transmission: currentGem.transmission,
+      ior: currentGem.ior,
+      reflectivity: 0.9,
+      clearcoat: 1.0,
+      clearcoatRoughness: 0.0,
+      transparent: true,
+      opacity: 0.95
+    });
+
+    // ==========================================
+    // REAL 3D SOLID RING MESH GENERATION
+    // ==========================================
+    const ringGroup = new THREE.Group();
+    scene.add(ringGroup);
+
+    // 1. Solid Comfort-Fit Cathedral Shank Mesh
+    function createBandGeometry() {
+      const geom = new THREE.BufferGeometry();
+      const nT = 180, nP = 32;
+      const positions = [], normals = [], uvs = [], indices = [];
+
+      for (let i = 0; i <= nT; i++) {
+        const t = (i / nT) * TAU;
+        const sx = Math.sin(t), sy = Math.cos(t);
+        const angFromBot = Math.abs(Math.PI - t);
+        const topF = Math.max(0.0, (angFromBot - 2.1) / (Math.PI - 2.1));
+        const rBand = 1.05 + 0.07 * (topF * topF);
+        const rX = 0.16 + 0.05 * topF;
+        const rZ = 0.19 + 0.05 * topF;
+
+        for (let j = 0; j <= nP; j++) {
+          const p = (j / nP) * TAU;
+          const cp = Math.cos(p), sp = Math.sin(p);
+          const radOff = (cp < 0 ? cp * 0.82 : cp * 1.18) * rX;
+
+          const px = (rBand + radOff) * sx;
+          const py = (rBand + radOff) * sy;
+          const pz = sp * rZ;
+
+          positions.push(px, py, pz);
+          normals.push(cp * sx, cp * sy, sp);
+          uvs.push(i / nT, j / nP);
+        }
+      }
+
+      for (let i = 0; i < nT; i++) {
+        for (let j = 0; j < nP; j++) {
+          const a = i * (nP + 1) + j;
+          const b = (i + 1) * (nP + 1) + j;
+          const c = (i + 1) * (nP + 1) + (j + 1);
+          const d = i * (nP + 1) + (j + 1);
+          indices.push(a, b, d);
+          indices.push(b, c, d);
+        }
+      }
+
+      geom.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+      geom.setAttribute('normal', new THREE.Float32BufferAttribute(normals, 3));
+      geom.setAttribute('uv', new THREE.Float32BufferAttribute(uvs, 2));
+      geom.setIndex(indices);
+      return geom;
+    }
+
+    // 2. Under-Bezel Gallery Rail
+    const galleryMesh = new THREE.Mesh(
+      new THREE.TorusGeometry(0.38, 0.026, 16, 64),
+      metalMaterial
+    );
+    galleryMesh.rotation.x = Math.PI / 2;
+    galleryMesh.position.y = 1.25;
+    ringGroup.add(galleryMesh);
+
+    // 3. 4 Claw Prongs
+    const prongMeshes = [];
+    for (let i = 0; i < 4; i++) {
+      const a = TAU * (i + 0.5) / 4;
+      const ca = Math.cos(a), sa = Math.sin(a);
+
+      const curvePoints = [];
+      for (let u = 0; u <= 1.0; u += 0.1) {
+        let r, y;
+        if (u < 0.65) {
+          const tu = u / 0.65;
+          r = 0.14 + tu * (0.58 - 0.14);
+          y = 1.05 + tu * (1.36 - 1.05);
+        } else {
+          const tu = (u - 0.65) / 0.35;
+          r = 0.58 - tu * 0.10;
+          y = 1.36 + tu * 0.22;
+        }
+        curvePoints.push(new THREE.Vector3(r * ca, y, r * sa));
+      }
+
+      const path = new THREE.CatmullRomCurve3(curvePoints);
+      const prongGeo = new THREE.TubeGeometry(path, 24, 0.028, 12, false);
+      const prongMesh = new THREE.Mesh(prongGeo, metalMaterial);
+      prongMeshes.push(prongMesh);
+      ringGroup.add(prongMesh);
+    }
+
+    // 4. Closed 57-Facet Brilliant Cut Diamond Mesh
+    function createBrilliantCutDiamond() {
+      const geom = new THREE.BufferGeometry();
+      const vertices = [];
+      const normals = [];
+
+      const TABLE_Y = 1.62, GIRDLE_Y = 1.36, CULET_Y = 1.08;
+      const TABLE_R = 0.35, GIRDLE_R = 0.56, STAR_R = 0.45, STAR_Y = 1.50;
+
+      // Table 8 vertices
+      const tablePts = [];
+      for (let i = 0; i < 8; i++) {
+        const ang = TAU * i / 8;
+        tablePts.push(new THREE.Vector3(TABLE_R * Math.cos(ang), TABLE_Y, TABLE_R * Math.sin(ang)));
+      }
+
+      // Add table octagonal face (as 6 triangles)
+      for (let i = 1; i < 7; i++) {
+        vertices.push(
+          tablePts[0].x, tablePts[0].y, tablePts[0].z,
+          tablePts[i].x, tablePts[i].y, tablePts[i].z,
+          tablePts[i+1].x, tablePts[i+1].y, tablePts[i+1].z
+        );
+        for (let k = 0; k < 3; k++) normals.push(0, 1, 0);
+      }
+
+      // Crown Star & Kite facets
+      for (let i = 0; i < 8; i++) {
+        const next = (i + 1) % 8;
+        const amid = TAU * (i + 0.5) / 8;
+        const starPt = new THREE.Vector3(STAR_R * Math.cos(amid), STAR_Y, STAR_R * Math.sin(amid));
+        const girdleMid = new THREE.Vector3(GIRDLE_R * Math.cos(amid), GIRDLE_Y, GIRDLE_R * Math.sin(amid));
+
+        // Star triangle
+        const v0 = tablePts[i], v1 = tablePts[next], v2 = starPt;
+        const cb = new THREE.Vector3().subVectors(v1, v0);
+        const ab = new THREE.Vector3().subVectors(v2, v0);
+        const norm = new THREE.Vector3().crossVectors(cb, ab).normalize();
+
+        vertices.push(v0.x, v0.y, v0.z, v1.x, v1.y, v1.z, v2.x, v2.y, v2.z);
+        for (let k = 0; k < 3; k++) normals.push(norm.x, norm.y, norm.z);
+
+        // Kite triangle 1
+        const nk1 = new THREE.Vector3(Math.cos(amid), 0.45, Math.sin(amid)).normalize();
+        vertices.push(v0.x, v0.y, v0.z, starPt.x, starPt.y, starPt.z, girdleMid.x, girdleMid.y, girdleMid.z);
+        for (let k = 0; k < 3; k++) normals.push(nk1.x, nk1.y, nk1.z);
+
+        // Kite triangle 2
+        vertices.push(v1.x, v1.y, v1.z, girdleMid.x, girdleMid.y, girdleMid.z, starPt.x, starPt.y, starPt.z);
+        for (let k = 0; k < 3; k++) normals.push(nk1.x, nk1.y, nk1.z);
+      }
+
+      // Pavilion Mains (converging to Culet)
+      const culetPt = new THREE.Vector3(0, CULET_Y, 0);
+      for (let i = 0; i < 8; i++) {
+        const a0 = TAU * i / 8, a1 = TAU * (i + 1) / 8;
+        const p0 = new THREE.Vector3(GIRDLE_R * Math.cos(a0), GIRDLE_Y, GIRDLE_R * Math.sin(a0));
+        const p1 = new THREE.Vector3(GIRDLE_R * Math.cos(a1), GIRDLE_Y, GIRDLE_R * Math.sin(a1));
+
+        const cb = new THREE.Vector3().subVectors(p1, p0);
+        const ab = new THREE.Vector3().subVectors(culetPt, p0);
+        const norm = new THREE.Vector3().crossVectors(cb, ab).normalize();
+
+        vertices.push(p0.x, p0.y, p0.z, p1.x, p1.y, p1.z, culetPt.x, culetPt.y, culetPt.z);
+        for (let k = 0; k < 3; k++) normals.push(norm.x, norm.y, norm.z);
+      }
+
+      geom.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+      geom.setAttribute('normal', new THREE.Float32BufferAttribute(normals, 3));
+      return geom;
+    }
+
+    const bandMesh = new THREE.Mesh(createBandGeometry(), metalMaterial);
+    ringGroup.add(bandMesh);
+
+    const diamondMesh = new THREE.Mesh(createBrilliantCutDiamond(), diamondMaterial);
+    ringGroup.add(diamondMesh);
+
+    // ==========================================
+    // INTERACTION & 90-DEGREE PRESETS
+    // ==========================================
     let isPlaying = true;
-    let rotYDeg = 90.0; // 90 degrees initial rotation
-    let tiltXDeg = 0.0;  // 90° upright perpendicular
-    let orient90 = false; // 90° horizontal laying flat
+    let animTime = 8.07;
     let speedMult = 1.0;
-    let zoomLevel = 1.0;
     let formationDuration = 8.07;
-    let animationTime = 0.0;
     let isScrubbing = false;
-    let dedicationMsg = "Send this to someone you love ❤️";
-    let isDragging = false, lastX = 0, lastY = 0;
+    let isFlat90 = false;
     let lastChimeTime = 0;
 
-    // ==========================================
-    // RENDER FUNCTION
-    // ==========================================
-    function render(rotDeg, elapsed) {
-      const ry = (rotDeg * Math.PI) / 180, tx = (tiltXDeg * Math.PI) / 180;
-      const cosY = Math.cos(ry), sinY = Math.sin(ry);
-      const cosX = Math.cos(tx), sinX = Math.sin(tx);
-
-      const zbuf = new Float32Array(WIDTH * HEIGHT).fill(-9999.0);
-      const charbuf = new Array(WIDTH * HEIGHT).fill(" ");
-
-      const dist = 3.65 / zoomLevel;
-      const Kx = 56.0, Ky = 28.0;
-      const cx = WIDTH / 2.0;
-      const cy = HEIGHT / 2.0 + (currentStyle === "real" ? 0.8 : 1.2);
-
-      let band_p = 1.0, basket_p = 1.0, gem_p = 1.0, crimp_p = 1.0, flare_p = 1.0;
-      let stageName = "Fully Formed";
-
-      if (formationDuration > 0.0) {
-        const normT = Math.min(1.0, elapsed / formationDuration);
-        if (currentStyle === "real") {
-          band_p = Math.min(1.0, Math.max(0.0, normT / 0.35));
-          basket_p = Math.min(1.0, Math.max(0.0, (normT - 0.30) / 0.25));
-          gem_p = Math.min(1.0, Math.max(0.0, (normT - 0.50) / 0.25));
-          crimp_p = Math.min(1.0, Math.max(0.0, (normT - 0.72) / 0.14));
-          flare_p = Math.min(1.0, Math.max(0.0, (normT - 0.85) / 0.15));
-
-          if (normT < 0.32) stageName = `Stage 1: Shank Forge (${Math.round(band_p * 100)}%)`;
-          else if (normT < 0.52) stageName = `Stage 2: Basket & Rail (${Math.round(basket_p * 100)}%)`;
-          else if (normT < 0.72) stageName = `Stage 3: Stone Descent (${Math.round(gem_p * 100)}%)`;
-          else if (normT < 0.85) stageName = `Stage 4: Claw Setting (${Math.round(crimp_p * 100)}%)`;
-          else if (normT < 1.0) stageName = "Stage 5: High Polish & Flare";
-          else stageName = "Brilliance Locked · 100%";
-        } else {
-          band_p = Math.min(1.0, Math.max(0.0, normT / 0.40));
-          basket_p = Math.min(1.0, Math.max(0.0, (normT - 0.35) / 0.30));
-          gem_p = Math.min(1.0, Math.max(0.0, (normT - 0.62) / 0.28));
-          crimp_p = 1.0;
-          flare_p = Math.min(1.0, Math.max(0.0, (normT - 0.88) / 0.12));
-
-          if (normT < 0.35) stageName = `Band Forming (${Math.round(band_p * 100)}%)`;
-          else if (normT < 0.62) stageName = `Prongs Rising (${Math.round(basket_p * 100)}%)`;
-          else if (normT < 0.88) stageName = `Gem Crystallizing (${Math.round(gem_p * 100)}%)`;
-          else if (normT < 1.0) stageName = "Top Flare Igniting";
-          else stageName = "Reel Complete";
-        }
-      }
-
-      function project(p, n) {
-        let px = p[0], py = p[1], pz = p[2];
-        let nx = n ? n[0] : 0, ny = n ? n[1] : 0, nz = n ? n[2] : 0;
-        if (orient90) {
-          py = -p[2];
-          pz = p[1];
-          if (n) {
-            ny = -n[2];
-            nz = n[1];
-          }
-        }
-        const y1 = py*cosX - pz*sinX, z1 = py*sinX + pz*cosX;
-        const x2 = px*cosY + z1*sinY, z2 = -px*sinY + z1*cosY;
-        let rnx = 0, rny = 0, rnz = 0;
-        if (n) {
-          const ny1 = ny*cosX - nz*sinX, nz1 = ny*sinX + nz*cosX;
-          rnx = nx*cosY + nz1*sinY; rny = ny1; rnz = -nx*sinY + nz1*cosY;
-        }
-        return [x2, y1, z2, rnx, rny, rnz];
-      }
-
-      const activeBand = currentStyle === "real" ? realMeshes.band : reelMeshes.band;
-      const activeProngs = currentStyle === "real" ? realMeshes.prongs : reelMeshes.prongs;
-      const activeGem = currentStyle === "real" ? realMeshes.gem : reelMeshes.gem;
-
-      // 1. Band
-      if (band_p > 0.0) {
-        const cutoff = band_p * Math.PI;
-        for (let i = 0; i < activeBand.P.length; i++) {
-          if (activeBand.T[i] <= cutoff) {
-            const [px, py, pz, nx, ny, nz] = project(activeBand.P[i], activeBand.N[i]);
-            const ooz = 1.0 / (pz + dist);
-            const xp = Math.floor(cx + Kx * px * ooz);
-            const yp = Math.floor(cy - Ky * py * ooz);
-            if (xp >= 0 && xp < WIDTH && yp >= 0 && yp < HEIGHT) {
-              const idx = yp * WIDTH + xp;
-              if (ooz > zbuf[idx]) {
-                zbuf[idx] = ooz;
-                const diff = Math.max(0, nx*L[0] + ny*L[1] + nz*L[2]);
-                const spec = Math.max(0, nx*H[0] + ny*H[1] + nz*H[2]) ** 16;
-                const lum = 0.28 + 0.65 * diff + 0.40 * spec;
-                const chIdx = Math.min(RAMP.length - 1, Math.max(1, Math.floor(lum * (RAMP.length - 1))));
-                charbuf[idx] = RAMP[chIdx];
-              }
-            }
-          }
-        }
-      }
-
-      // 2. Gallery Rail (Real Mode)
-      if (currentStyle === "real" && basket_p > 0.2) {
-        for (let i = 0; i < realMeshes.gal.P.length; i++) {
-          const [px, py, pz, nx, ny, nz] = project(realMeshes.gal.P[i], realMeshes.gal.N[i]);
-          const ooz = 1.0 / (pz + dist);
-          const xp = Math.floor(cx + Kx * px * ooz);
-          const yp = Math.floor(cy - Ky * py * ooz);
-          if (xp >= 0 && xp < WIDTH && yp >= 0 && yp < HEIGHT) {
-            const idx = yp * WIDTH + xp;
-            if (ooz > zbuf[idx]) {
-              zbuf[idx] = ooz;
-              const diff = Math.max(0, nx*L[0] + ny*L[1] + nz*L[2]);
-              const lum = 0.35 + 0.60 * diff;
-              const chIdx = Math.min(RAMP.length - 1, Math.max(1, Math.floor(lum * (RAMP.length - 1))));
-              charbuf[idx] = RAMP[chIdx];
-            }
-          }
-        }
-      }
-
-      // 3. Prongs & Claws
-      if (basket_p > 0.0) {
-        for (let i = 0; i < activeProngs.P.length; i++) {
-          if (activeProngs.U[i] <= basket_p) {
-            let p_copy = [activeProngs.P[i][0], activeProngs.P[i][1], activeProngs.P[i][2]];
-            if (currentStyle === "real" && crimp_p > 0.0 && p_copy[1] > 1.38) {
-              p_copy[0] *= (1.0 - 0.08 * crimp_p);
-              p_copy[2] *= (1.0 - 0.08 * crimp_p);
-            }
-            const [px, py, pz, nx, ny, nz] = project(p_copy, activeProngs.N[i]);
-            const ooz = 1.0 / (pz + dist);
-            const xp = Math.floor(cx + Kx * px * ooz);
-            const yp = Math.floor(cy - Ky * py * ooz);
-            if (xp >= 0 && xp < WIDTH && yp >= 0 && yp < HEIGHT) {
-              const idx = yp * WIDTH + xp;
-              if (ooz > zbuf[idx]) {
-                zbuf[idx] = ooz;
-                const diff = Math.max(0, nx*L[0] + ny*L[1] + nz*L[2]);
-                const spec = Math.max(0, nx*H[0] + ny*H[1] + nz*H[2]) ** 14;
-                const lum = 0.38 + 0.52 * diff + 0.32 * spec;
-                const chIdx = Math.min(RAMP.length - 1, Math.max(2, Math.floor(lum * (RAMP.length - 1))));
-                charbuf[idx] = RAMP[chIdx];
-              }
-            }
-          }
-        }
-      }
-
-      // 4. Gemstone (Descending in real mode, crystallizing in reel mode)
-      if (gem_p > 0.0) {
-        const descentY = currentStyle === "real" ? (1.0 - gem_p) * 1.5 : 0.0;
-        const cutoffY = currentStyle === "real" ? 999 : (CULET_Y + gem_p * (TABLE_Y - CULET_Y));
-
-        let sparkleHits = 0;
-        for (let i = 0; i < activeGem.P.length; i++) {
-          if (activeGem.P[i][1] <= cutoffY) {
-            const p_gem = [activeGem.P[i][0], activeGem.P[i][1] + descentY, activeGem.P[i][2]];
-            const [gx, gy, gz, nx, ny, nz] = project(p_gem, activeGem.N[i]);
-            const ooz = 1.0 / (gz + dist);
-            const xp = Math.floor(cx + Kx * gx * ooz);
-            const yp = Math.floor(cy - Ky * gy * ooz);
-            if (xp >= 0 && xp < WIDTH && yp >= 0 && yp < HEIGHT) {
-              const idx = yp * WIDTH + xp;
-              if (ooz > zbuf[idx]) {
-                zbuf[idx] = ooz;
-                const diff = Math.max(0, nx*L[0] + ny*L[1] + nz*L[2]);
-                const spec = Math.max(0, nx*H[0] + ny*H[1] + nz*H[2]);
-                const fid = activeGem.F[i];
-                const fSparkle = Math.sin(ry * 4.0 + fid * 1.618);
-                const isSparkle = (spec > 0.72) && (fSparkle > 0.2);
-                const isSuper = (spec > 0.88) && (fSparkle > 0.6);
-
-                if (isSuper) {
-                  charbuf[idx] = "@";
-                  sparkleHits++;
-                } else if (isSparkle) {
-                  charbuf[idx] = "%";
-                  sparkleHits++;
-                } else {
-                  const lum = 0.35 + 0.65 * diff;
-                  const chIdx = Math.min(RAMP.length - 1, Math.max(2, Math.floor(lum * (RAMP.length - 1))));
-                  charbuf[idx] = RAMP[chIdx];
-                }
-              }
-            }
-          }
-        }
-
-        // Trigger spatial audio chimes on high sparkle
-        if (sparkleHits > 8 && (elapsed - lastChimeTime > 0.28)) {
-          audio.playChime(Math.floor(rotDeg / 15));
-          lastChimeTime = elapsed;
-        }
-      }
-
-      // 5. Vertical Flare Beam
-      if (flare_p > 0.0) {
-        const [fx, fy, fz] = project([0.0, TABLE_Y + 0.05, 0.0]);
-        const ooz = 1.0 / (fz + dist);
-        const fl_x = Math.floor(cx + Kx * fx * ooz);
-        const fl_y = Math.floor(cy - Ky * fy * ooz);
-        const flareReach = Math.floor(14 * flare_p);
-
-        for (let dy = 1; dy < flareReach; dy++) {
-          const y_pos = fl_y - dy;
-          if (y_pos >= 0 && y_pos < HEIGHT && fl_x >= 0 && fl_x < WIDTH) {
-            const idx = y_pos * WIDTH + fl_x;
-            if (ooz > zbuf[idx]) {
-              zbuf[idx] = ooz;
-              charbuf[idx] = (dy % 2 === 0) ? ":" : ".";
-            }
-          }
-          if (dy % 3 === 0) {
-            for (let off of [-1, 1]) {
-              const nx_pos = fl_x + off;
-              if (y_pos >= 0 && y_pos < HEIGHT && nx_pos >= 0 && nx_pos < WIDTH) {
-                const idx = y_pos * WIDTH + nx_pos;
-                if (ooz > zbuf[idx] && charbuf[idx] === " ") {
-                  charbuf[idx] = ".";
-                }
-              }
-            }
-          }
-        }
-      }
-
-      // 6. Twin Atomic Orbits
-      for (let i = 0; i < orbitMesh.length; i++) {
-        const [ox, oy, oz] = project(orbitMesh[i]);
-        const ooz = 1.0 / (oz + dist);
-        const xp = Math.floor(cx + Kx * ox * ooz);
-        const yp = Math.floor(cy - Ky * oy * ooz);
-        if (xp >= 0 && xp < WIDTH && yp >= 0 && yp < HEIGHT) {
-          const idx = yp * WIDTH + xp;
-          if (ooz > zbuf[idx] && charbuf[idx] === " ") {
-            charbuf[idx] = ".";
-          }
-        }
-      }
-
-      // 7. Ambient Glints
-      let activeGlints = 0;
-      for (let i = 0; i < glints.length; i++) {
-        const g = glints[i];
-        const pVal = Math.sin(elapsed * g.speed + g.phase);
-        if (pVal > 0.45) {
-          activeGlints++;
-          const [gx, gy, gz] = project([g.x, g.y, g.z]);
-          const ooz = 1.0 / (gz + dist);
-          const xp = Math.floor(cx + Kx * gx * ooz);
-          const yp = Math.floor(cy - Ky * gy * ooz);
-          if (xp >= 0 && xp < WIDTH && yp >= 0 && yp < HEIGHT) {
-            const idx = yp * WIDTH + xp;
-            if (ooz > zbuf[idx] && charbuf[idx] === " ") {
-              charbuf[idx] = (pVal > 0.88) ? "+" : ".";
-            }
-          }
-        }
-      }
-
-      // Count letters
-      let nonSpace = 0;
-      for (let i = 0; i < WIDTH * HEIGHT; i++) {
-        if (charbuf[i] !== " ") nonSpace++;
-      }
-
-      // HUD Overlays
-      const timerStr = `•f ${elapsed.toFixed(2).padStart(5, '0')}s`;
-      const tStart = WIDTH - timerStr.length - 2;
-      for (let i = 0; i < timerStr.length; i++) {
-        charbuf[1 * WIDTH + tStart + i] = timerStr[i];
-      }
-
-      const hudMsg = dedicationMsg.slice(0, WIDTH - 26);
-      const hud1 = `${hudMsg.padEnd(20, ' ')}  [${currentStyle.toUpperCase()}]`;
-      const hud2 = `rotation ${(rotDeg % 360).toFixed(2).padStart(6, '0')}°   glints ${activeGlints}`;
-      const hud3 = `letters ${nonSpace.toLocaleString()}`;
-
-      for (let i = 0; i < hud1.length && 2 + i < WIDTH; i++) charbuf[(HEIGHT - 4) * WIDTH + 2 + i] = hud1[i];
-      for (let i = 0; i < hud2.length && 2 + i < WIDTH; i++) charbuf[(HEIGHT - 3) * WIDTH + 2 + i] = hud2[i];
-      for (let i = 0; i < hud3.length && 2 + i < WIDTH; i++) charbuf[(HEIGHT - 2) * WIDTH + 2 + i] = hud3[i];
-
-      const lines = [];
-      for (let y = 0; y < HEIGHT; y++) {
-        lines.push(charbuf.slice(y * WIDTH, (y + 1) * WIDTH).join(""));
-      }
-      lines.push("$ py art.py".padEnd(WIDTH - 16, " ") + "running · 30 fps");
-
-      return { text: lines.join("\n"), stageName, nonSpace, activeGlints };
-    }
-
-    // ==========================================
-    // INTERACTION & UI CONTROLS
-    // ==========================================
-    const asciiCanvas = document.getElementById("ascii-canvas");
     const scrubber = document.getElementById("scrubber");
     const scrubberLabel = document.getElementById("scrubber-label");
     const stageBadge = document.getElementById("formation-stage-badge");
-    const modelBadge = document.getElementById("model-mode-badge");
-    const codeModelTag = document.getElementById("code-model-tag");
     const btnPlay = document.getElementById("btn-toggle-play");
     const playIcon = document.getElementById("play-icon");
     const playLabel = document.getElementById("play-label");
@@ -1011,127 +674,124 @@
     const btnSound = document.getElementById("btn-sound");
     const soundIcon = document.getElementById("sound-icon");
     const soundLabel = document.getElementById("sound-label");
-    const styleRealBtn = document.getElementById("style-real");
-    const styleReelBtn = document.getElementById("style-reel");
-    const camShowcaseBtn = document.getElementById("cam-showcase");
-    const camReelBtn = document.getElementById("cam-reel");
-    const camCrownBtn = document.getElementById("cam-crown");
-    const hudTilt = document.getElementById("hud-tilt");
-    const hudZoom = document.getElementById("hud-zoom");
-    const inputMessage = document.getElementById("input-message");
-    const btnShare = document.getElementById("btn-share-link");
+    const metalSelect = document.getElementById("metal-select");
     const gemSelect = document.getElementById("gem-select");
-    const toggleBloom = document.getElementById("toggle-bloom");
-    const sliderSpeed = document.getElementById("slider-speed");
-    const speedVal = document.getElementById("speed-val");
+    const metalBadge = document.getElementById("metal-badge");
+    const angleIndicator = document.getElementById("angle-indicator");
+    const inputMessage = document.getElementById("input-message");
+    const hudDedication = document.getElementById("hud-dedication");
+    const btnShare = document.getElementById("btn-share-link");
     const toast = document.getElementById("toast");
     const toastMsg = document.getElementById("toast-msg");
-    const viewport = document.getElementById("viewport");
 
-    // Style Switcher
-    function setStyle(style) {
-      currentStyle = style;
-      if (style === "real") {
-        styleRealBtn.className = "px-3 py-1 rounded-md bg-amber-500 text-slate-950 font-bold transition shadow-sm";
-        styleReelBtn.className = "px-3 py-1 rounded-md text-slate-400 hover:text-white font-medium transition";
-        modelBadge.textContent = "💍 REAL RING";
-        modelBadge.className = "px-2 py-0.2 rounded bg-amber-950/80 text-amber-300 border border-amber-800/60 font-mono text-[10px] font-bold";
-        codeModelTag.textContent = "Realistic Engagement Ring";
-        tiltXDeg = 26.0;
-        hudTilt.textContent = "26.0°";
+    // 90-DEGREE ANGLE CONTROLS
+    const btn90Upright = document.getElementById("btn-angle-upright");
+    const btn90Profile = document.getElementById("btn-angle-profile");
+    const btn90Overhead = document.getElementById("btn-angle-overhead");
+    const btn90Flat = document.getElementById("btn-angle-flat");
+    const btnShowcase = document.getElementById("btn-angle-showcase");
+
+    function setCameraAngle(type) {
+      isFlat90 = false;
+      ringGroup.rotation.set(0, 0, 0);
+
+      const allBtns = [btn90Upright, btn90Profile, btn90Overhead, btn90Flat, btnShowcase];
+      allBtns.forEach(b => b.className = "px-2.5 py-1 rounded bg-slate-800 text-slate-200 hover:text-white border border-slate-700 font-mono text-xs");
+
+      if (type === "upright") {
+        camera.position.set(0, 0, 4.8);
+        ringGroup.rotation.y = 0;
+        angleIndicator.textContent = "90° Upright";
+        btn90Upright.className = "px-2.5 py-1 rounded bg-amber-500 text-slate-950 font-bold border border-amber-400 font-mono text-xs shadow-sm";
+      } else if (type === "profile") {
+        camera.position.set(0, 0, 4.8);
+        ringGroup.rotation.y = Math.PI / 2;
+        angleIndicator.textContent = "90° Side Profile";
+        btn90Profile.className = "px-2.5 py-1 rounded bg-amber-500 text-slate-950 font-bold border border-amber-400 font-mono text-xs shadow-sm";
+      } else if (type === "overhead") {
+        camera.position.set(0, 4.6, 0.05);
+        camera.lookAt(0, 1.3, 0);
+        angleIndicator.textContent = "90° Overhead";
+        btn90Overhead.className = "px-2.5 py-1 rounded bg-amber-500 text-slate-950 font-bold border border-amber-400 font-mono text-xs shadow-sm";
+      } else if (type === "flat") {
+        isFlat90 = true;
+        ringGroup.rotation.x = -Math.PI / 2;
+        camera.position.set(0, 2.5, 4.2);
+        camera.lookAt(0, 0, 0);
+        angleIndicator.textContent = "90° Lay Flat";
+        btn90Flat.className = "px-2.5 py-1 rounded bg-amber-500 text-slate-950 font-bold border border-amber-400 font-mono text-xs shadow-sm";
+      } else if (type === "showcase") {
+        camera.position.set(0, 1.8, 4.4);
+        camera.lookAt(0, 0.2, 0);
+        angleIndicator.textContent = "Showcase 26°";
+        btnShowcase.className = "px-2.5 py-1 rounded bg-amber-500 text-slate-950 font-bold border border-amber-400 font-mono text-xs shadow-sm";
+      }
+      if (controls) controls.update();
+    }
+
+    btn90Upright.addEventListener("click", () => setCameraAngle("upright"));
+    btn90Profile.addEventListener("click", () => setCameraAngle("profile"));
+    btn90Overhead.addEventListener("click", () => setCameraAngle("overhead"));
+    btn90Flat.addEventListener("click", () => setCameraAngle("flat"));
+    btnShowcase.addEventListener("click", () => setCameraAngle("showcase"));
+
+    // Material Switchers
+    metalSelect.addEventListener("change", (e) => {
+      currentMetal = METALS[e.target.value] || METALS.gold;
+      metalMaterial.color.setHex(currentMetal.color);
+      metalMaterial.metalness = currentMetal.metalness;
+      metalMaterial.roughness = currentMetal.roughness;
+      metalBadge.textContent = currentMetal.name.toUpperCase();
+    });
+
+    gemSelect.addEventListener("change", (e) => {
+      currentGem = GEMS[e.target.value] || GEMS["gem-diamond"];
+      diamondMaterial.color.setHex(currentGem.color);
+      diamondMaterial.transmission = currentGem.transmission;
+      diamondMaterial.ior = currentGem.ior;
+    });
+
+    // 5-Stage Jeweler Assembly Animation
+    function updateFormation(t) {
+      const normT = Math.min(1.0, t / formationDuration);
+
+      const bandP = Math.min(1.0, normT / 0.35);
+      const basketP = Math.min(1.0, Math.max(0.0, (normT - 0.30) / 0.25));
+      const gemP = Math.min(1.0, Math.max(0.0, (normT - 0.50) / 0.25));
+      const crimpP = Math.min(1.0, Math.max(0.0, (normT - 0.72) / 0.14));
+
+      // 1. Band Scale
+      bandMesh.scale.set(bandP, bandP, bandP);
+
+      // 2. Gallery & Prongs
+      galleryMesh.scale.set(basketP, basketP, basketP);
+      prongMeshes.forEach(p => {
+        p.scale.set(basketP, basketP, basketP);
+        if (crimpP > 0) {
+          p.scale.set(1.0 - 0.05 * crimpP, 1.0, 1.0 - 0.05 * crimpP);
+        }
+      });
+
+      // 3. Diamond Descent from Above
+      if (gemP > 0) {
+        diamondMesh.visible = true;
+        const descentY = (1.0 - gemP) * 1.5;
+        diamondMesh.position.y = descentY;
+        diamondMesh.scale.set(gemP, gemP, gemP);
       } else {
-        styleReelBtn.className = "px-3 py-1 rounded-md bg-cyan-600 text-white font-bold transition shadow-sm";
-        styleRealBtn.className = "px-3 py-1 rounded-md text-slate-400 hover:text-white font-medium transition";
-        modelBadge.textContent = "✨ VIRAL REEL";
-        modelBadge.className = "px-2 py-0.2 rounded bg-cyan-950/80 text-cyan-300 border border-cyan-800/60 font-mono text-[10px] font-bold";
-        codeModelTag.textContent = "Viral Instagram Reel";
-        tiltXDeg = 12.0;
-        hudTilt.textContent = "12.0°";
+        diamondMesh.visible = false;
       }
-      animationTime = 0.0;
-      rotYDeg = 56.0;
-    }
-    styleRealBtn.addEventListener("click", () => setStyle("real"));
-    styleReelBtn.addEventListener("click", () => setStyle("reel"));
 
-    // Camera Presets
-    const cam90UprightBtn = document.getElementById("cam-90-upright");
-    const cam90ProfileBtn = document.getElementById("cam-90-profile");
-    const cam90OverheadBtn = document.getElementById("cam-90-overhead");
-    const cam90FlatBtn = document.getElementById("cam-90-flat");
-
-    function setActiveCamBtn(activeBtn) {
-      [cam90UprightBtn, cam90ProfileBtn, cam90OverheadBtn, cam90FlatBtn, camShowcaseBtn, camReelBtn].forEach(b => {
-        if (b) {
-          b.className = "px-2 py-0.5 rounded bg-slate-800 text-slate-300 hover:text-white border border-slate-700 font-mono text-[11px]";
-        }
-      });
-      if (activeBtn) {
-        activeBtn.className = "px-2 py-0.5 rounded bg-amber-500 text-slate-950 font-bold border border-amber-400 font-mono text-[11px] shadow-sm shadow-amber-500/30";
-      }
+      // Stage names
+      let stage = "1/5 Shank Forging";
+      if (normT >= 0.85) stage = "Stage 5: Brilliance Locked";
+      else if (normT >= 0.72) stage = "Stage 4: Claw Crimping";
+      else if (normT >= 0.50) stage = "Stage 3: Diamond Placement";
+      else if (normT >= 0.30) stage = "Stage 2: Basket & Rail Mount";
+      stageBadge.textContent = stage;
     }
 
-    if (cam90UprightBtn) {
-      cam90UprightBtn.addEventListener("click", () => {
-        tiltXDeg = 0.0;
-        orient90 = false;
-        hudTilt.textContent = "90° Upright";
-        setActiveCamBtn(cam90UprightBtn);
-      });
-    }
-    if (cam90ProfileBtn) {
-      cam90ProfileBtn.addEventListener("click", () => {
-        rotYDeg = 90.0;
-        tiltXDeg = 0.0;
-        orient90 = false;
-        hudTilt.textContent = "90° Profile";
-        setActiveCamBtn(cam90ProfileBtn);
-      });
-    }
-    if (cam90OverheadBtn) {
-      cam90OverheadBtn.addEventListener("click", () => {
-        tiltXDeg = 90.0;
-        orient90 = false;
-        hudTilt.textContent = "90° Overhead";
-        setActiveCamBtn(cam90OverheadBtn);
-      });
-    }
-    if (cam90FlatBtn) {
-      cam90FlatBtn.addEventListener("click", () => {
-        orient90 = !orient90;
-        tiltXDeg = orient90 ? 24.0 : 0.0;
-        hudTilt.textContent = orient90 ? "90° Lay Flat" : "Upright";
-        setActiveCamBtn(orient90 ? cam90FlatBtn : cam90UprightBtn);
-      });
-    }
-    camShowcaseBtn.addEventListener("click", () => {
-      tiltXDeg = 26.0;
-      orient90 = false;
-      hudTilt.textContent = "26.0°";
-      setActiveCamBtn(camShowcaseBtn);
-    });
-    camReelBtn.addEventListener("click", () => {
-      tiltXDeg = 12.0;
-      orient90 = false;
-      hudTilt.textContent = "12.0°";
-      setActiveCamBtn(camReelBtn);
-    });
-
-    // Stage Quick Navigation Buttons
-    document.querySelectorAll(".stage-nav-btn").forEach(btn => {
-      btn.addEventListener("click", () => {
-        const t = parseFloat(btn.dataset.time);
-        animationTime = t;
-        scrubber.value = t;
-        if (!isPlaying) {
-          const res = render(rotYDeg, animationTime);
-          asciiCanvas.textContent = res.text;
-          stageBadge.textContent = res.stageName;
-        }
-      });
-    });
-
-    // Play/Pause & Replay
+    // Playback controls
     btnPlay.addEventListener("click", () => {
       isPlaying = !isPlaying;
       playIcon.textContent = isPlaying ? "⏸" : "▶";
@@ -1139,13 +799,11 @@
     });
 
     btnReplay.addEventListener("click", () => {
-      animationTime = 0.0;
-      rotYDeg = 56.0;
+      animTime = 0.0;
       scrubber.value = 0.0;
       audio.playForge();
     });
 
-    // Sound
     btnSound.addEventListener("click", () => {
       audio.init();
       audio.enabled = !audio.enabled;
@@ -1155,22 +813,25 @@
       btnSound.classList.toggle("border-emerald-500", audio.enabled);
     });
 
-    // Formation Scrubber
     scrubber.addEventListener("input", (e) => {
       isScrubbing = true;
-      animationTime = parseFloat(e.target.value);
-      const res = render(rotYDeg, animationTime);
-      asciiCanvas.textContent = res.text;
-      stageBadge.textContent = res.stageName;
-      scrubberLabel.textContent = `${animationTime.toFixed(2)}s (${Math.round((animationTime/formationDuration)*100)}%)`;
+      animTime = parseFloat(e.target.value);
+      updateFormation(animTime);
+      scrubberLabel.textContent = `${animTime.toFixed(2)}s (${Math.round((animTime/formationDuration)*100)}%)`;
     });
-    scrubber.addEventListener("change", () => {
-      isScrubbing = false;
+    scrubber.addEventListener("change", () => isScrubbing = false);
+
+    document.querySelectorAll(".stage-nav-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        animTime = parseFloat(btn.dataset.time);
+        scrubber.value = animTime;
+        updateFormation(animTime);
+      });
     });
 
     // Dedication
     inputMessage.addEventListener("input", (e) => {
-      dedicationMsg = e.target.value || "@jin_22ee · 2026";
+      hudDedication.textContent = e.target.value || "@jin_22ee · 2026";
     });
 
     function showToast(msg) {
@@ -1182,143 +843,82 @@
     btnShare.addEventListener("click", () => {
       const url = new URL(window.location.href);
       url.searchParams.set("msg", inputMessage.value);
-      url.searchParams.set("style", currentStyle);
+      url.searchParams.set("metal", metalSelect.value);
       url.searchParams.set("gem", gemSelect.value);
       navigator.clipboard.writeText(url.href).then(() => {
-        showToast("Shareable love link copied to clipboard! 💍");
-      }).catch(() => {
-        prompt("Copy this URL to send your ring:", url.href);
-      });
+        showToast("Shareable Real Ring link copied! 💍");
+      }).catch(() => prompt("Copy this link:", url.href));
     });
 
-    // Gemstone material switcher
-    gemSelect.addEventListener("change", (e) => {
-      asciiCanvas.className = `${e.target.value} font-ascii text-[10.5px] sm:text-[11.5px] md:text-[12.5px] leading-[11px] sm:leading-[12.5px] md:leading-[13.5px] tracking-tight font-bold whitespace-pre drop-shadow select-none my-1`;
-    });
-
-    // Bloom toggle
-    toggleBloom.addEventListener("change", (e) => {
-      asciiCanvas.classList.toggle("crt-bloom", e.target.checked);
-    });
-
-    // Speed slider
-    sliderSpeed.addEventListener("input", (e) => {
-      speedMult = parseFloat(e.target.value);
-      speedVal.textContent = `${speedMult.toFixed(2)}x`;
-    });
-
-    // 360 Drag Viewport
-    viewport.addEventListener("mousedown", (e) => {
-      isDragging = true; lastX = e.clientX; lastY = e.clientY;
-    });
-    window.addEventListener("mouseup", () => isDragging = false);
-    window.addEventListener("mousemove", (e) => {
-      if (!isDragging) return;
-      const dx = e.clientX - lastX, dy = e.clientY - lastY;
-      rotYDeg += dx * 0.7;
-      tiltXDeg = Math.max(-45, Math.min(85, tiltXDeg - dy * 0.5));
-      hudTilt.textContent = `${tiltXDeg.toFixed(1)}°`;
-      lastX = e.clientX; lastY = e.clientY;
-      if (!isPlaying) {
-        const res = render(rotYDeg, animationTime);
-        asciiCanvas.textContent = res.text;
-      }
-    });
-
-    // Wheel zoom
-    viewport.addEventListener("wheel", (e) => {
-      e.preventDefault();
-      zoomLevel = Math.max(0.6, Math.min(2.5, zoomLevel - e.deltaY * 0.0015));
-      hudZoom.textContent = `${zoomLevel.toFixed(1)}x`;
-      if (!isPlaying) {
-        const res = render(rotYDeg, animationTime);
-        asciiCanvas.textContent = res.text;
-      }
-    }, { passive: false });
-
-    // Touch support for drag
-    viewport.addEventListener("touchstart", (e) => {
-      if (e.touches.length === 1) {
-        isDragging = true;
-        lastX = e.touches[0].clientX;
-        lastY = e.touches[0].clientY;
-      }
-    });
-    viewport.addEventListener("touchmove", (e) => {
-      if (!isDragging || e.touches.length !== 1) return;
-      const dx = e.touches[0].clientX - lastX, dy = e.touches[0].clientY - lastY;
-      rotYDeg += dx * 0.8;
-      tiltXDeg = Math.max(-45, Math.min(85, tiltXDeg - dy * 0.6));
-      hudTilt.textContent = `${tiltXDeg.toFixed(1)}°`;
-      lastX = e.touches[0].clientX;
-      lastY = e.touches[0].clientY;
-      if (!isPlaying) {
-        const res = render(rotYDeg, animationTime);
-        asciiCanvas.textContent = res.text;
-      }
-    });
-    viewport.addEventListener("touchend", () => isDragging = false);
-
-    // Copy / Export
-    document.getElementById("btn-copy-ascii").addEventListener("click", () => {
-      navigator.clipboard.writeText(asciiCanvas.textContent).then(() => showToast("ASCII frame copied! 📋"));
-    });
-    document.getElementById("btn-export-txt").addEventListener("click", () => {
-      const blob = new Blob([asciiCanvas.textContent], { type: "text/plain;charset=utf-8" });
+    // Snapshot button
+    document.getElementById("btn-snapshot").addEventListener("click", () => {
+      renderer.render(scene, camera);
+      const dataUrl = webglCanvas.toDataURL("image/png");
       const a = document.createElement("a");
-      a.href = URL.createObjectURL(blob);
-      a.download = `diamond-ring-${currentStyle}-${Math.round(animationTime*100)}s.txt`;
+      a.href = dataUrl;
+      a.download = `real-diamond-ring-90deg-${Date.now()}.png`;
       a.click();
     });
 
-    // Download art.py
-    document.getElementById("btn-download").addEventListener("click", () => {
-      window.location.href = "art.py";
+    // VIEW MODE SWITCHER: 3D REAL RING VS ASCII REEL
+    const btnReal3D = document.getElementById("view-mode-real3d");
+    const btnAscii = document.getElementById("view-mode-ascii");
+    const real3dPanel = document.getElementById("real3d-panel");
+    const asciiPanel = document.getElementById("ascii-panel");
+
+    btnReal3D.addEventListener("click", () => {
+      real3dPanel.classList.remove("hidden");
+      asciiPanel.classList.add("hidden");
+      btnReal3D.className = "px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-amber-500 to-yellow-500 text-slate-950 font-bold transition shadow-md shadow-amber-500/20 flex items-center gap-1.5";
+      btnAscii.className = "px-3.5 py-1.5 rounded-lg text-slate-300 hover:text-white font-medium transition flex items-center gap-1.5";
     });
 
-    // URL Param handler
-    const params = new URLSearchParams(window.location.search);
-    if (params.has("msg")) {
-      dedicationMsg = params.get("msg");
-      inputMessage.value = dedicationMsg;
-    }
-    if (params.has("style")) {
-      setStyle(params.get("style"));
-    }
-    if (params.has("angle") || params.has("rot")) {
-      const a = parseFloat(params.get("angle") || params.get("rot"));
-      rotYDeg = a;
-    }
-    if (params.has("tilt")) {
-      tiltXDeg = parseFloat(params.get("tilt"));
-    }
-    if (params.has("flat")) {
-      orient90 = true;
-    }
-    if (params.has("gem")) {
-      gemSelect.value = params.get("gem");
-      asciiCanvas.className = `${gemSelect.value} font-ascii text-[10.5px] sm:text-[11.5px] md:text-[12.5px] leading-[11px] sm:leading-[12.5px] md:leading-[13.5px] tracking-tight font-bold whitespace-pre drop-shadow select-none my-1`;
-    }
+    btnAscii.addEventListener("click", () => {
+      real3dPanel.classList.add("hidden");
+      asciiPanel.classList.remove("hidden");
+      btnAscii.className = "px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-bold transition shadow-md shadow-cyan-500/20 flex items-center gap-1.5";
+      btnReal3D.className = "px-3.5 py-1.5 rounded-lg text-slate-300 hover:text-white font-medium transition flex items-center gap-1.5";
+    });
+
+    // Window Resize Handler
+    window.addEventListener("resize", () => {
+      const w = canvasContainer.clientWidth;
+      const h = canvasContainer.clientHeight;
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+      renderer.setSize(w, h);
+    });
+
+    // Initial Angle Preset: 90° Upright
+    setCameraAngle("upright");
 
     // ==========================================
-    // MAIN ANIMATION LOOP (30 FPS)
+    // MAIN 60 FPS RENDER LOOP
     // ==========================================
-    let lastTimestamp = performance.now();
+    let lastClock = performance.now();
     function animate(now) {
       requestAnimationFrame(animate);
-      const dt = (now - lastTimestamp) / 1000.0;
-      lastTimestamp = now;
+      const dt = (now - lastClock) / 1000.0;
+      lastClock = now;
 
       if (isPlaying && !isScrubbing) {
-        animationTime += dt * speedMult;
-        rotYDeg += 1.25 * speedMult;
-        scrubber.value = Math.min(formationDuration, animationTime);
-        scrubberLabel.textContent = `${Math.min(formationDuration, animationTime).toFixed(2)}s (${Math.min(100, Math.round((animationTime/formationDuration)*100))}%)`;
+        animTime += dt * speedMult;
+        if (!isFlat90) {
+          ringGroup.rotation.y += 0.02 * speedMult;
+        } else {
+          ringGroup.rotation.z += 0.02 * speedMult;
+        }
+        scrubber.value = Math.min(formationDuration, animTime);
+        scrubberLabel.textContent = `${Math.min(formationDuration, animTime).toFixed(2)}s (${Math.min(100, Math.round((animTime/formationDuration)*100))}%)`;
+        updateFormation(animTime);
       }
 
-      const res = render(rotYDeg, animationTime);
-      asciiCanvas.textContent = res.text;
-      stageBadge.textContent = res.stageName;
+      // Orbit sparkle lights
+      sparkleLight1.position.x = 0.8 * Math.cos(now * 0.003);
+      sparkleLight1.position.z = 0.8 * Math.sin(now * 0.003);
+
+      if (controls) controls.update();
+      renderer.render(scene, camera);
     }
 
     requestAnimationFrame(animate);
