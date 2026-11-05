@@ -32,7 +32,6 @@
       opacity: 0.55;
     }
 
-    /* Gemstone themes for ASCII */
     .gem-diamond { color: #f8fafc; text-shadow: 0 0 2px rgba(255, 255, 255, 0.95), 0 0 10px rgba(186, 230, 253, 0.6); }
     .gem-ruby { color: #fecdd3; text-shadow: 0 0 2px rgba(255, 255, 255, 0.95), 0 0 12px rgba(244, 63, 94, 0.6); }
     .gem-sapphire { color: #bfdbfe; text-shadow: 0 0 2px rgba(255, 255, 255, 0.95), 0 0 12px rgba(59, 130, 246, 0.6); }
@@ -45,7 +44,6 @@
       border-left: 2px solid #fb7185;
     }
 
-    /* Studio Stage Lighting Background */
     .studio-bg {
       background: radial-gradient(circle at 50% 35%, #182234 0%, #0a0e17 65%, #04060a 100%);
     }
@@ -72,13 +70,12 @@
             Photorealistic Solid 3D
           </span>
         </div>
-        <p class="text-xs text-slate-400">Solid Gold & Brilliant Cut Diamond · 90° Angles · Goldsmith Assembly · Spatial Audio</p>
+        <p class="text-xs text-slate-400">Slow Progressive Formation · Solid 18K Gold & 57-Facet Diamond · 90° View Presets · Spatial Audio</p>
       </div>
     </div>
 
     <!-- Quick action buttons & View Switcher -->
     <div class="flex items-center flex-wrap gap-2">
-      <!-- RENDER MODE SWITCHER: 3D REAL RING VS ASCII REEL -->
       <div class="bg-slate-900 border border-slate-700 p-0.5 rounded-xl flex items-center text-xs shadow-inner">
         <button id="view-mode-real3d" class="px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-amber-500 to-yellow-500 text-slate-950 font-bold transition shadow-md shadow-amber-500/20 flex items-center gap-1.5" title="Photorealistic Solid 3D Jewelry Ring (Non-pixel)">
           <span>💎</span>
@@ -96,9 +93,9 @@
         <span id="sound-label">Audio: OFF</span>
       </button>
 
-      <!-- Replay Formation -->
-      <button id="btn-replay" class="px-3 py-1.5 rounded-lg bg-indigo-900/60 hover:bg-indigo-800/80 text-xs font-semibold text-cyan-300 border border-indigo-700/60 transition flex items-center gap-1.5 shadow-sm" title="Replay 5-stage goldsmith formation from 0s">
-        🔄 Replay
+      <!-- Replay Slow Formation -->
+      <button id="btn-replay" class="px-3 py-1.5 rounded-lg bg-indigo-900/60 hover:bg-indigo-800/80 text-xs font-semibold text-cyan-300 border border-indigo-700/60 transition flex items-center gap-1.5 shadow-sm" title="Replay slow goldsmith formation from 0s">
+        🔄 Replay Slow
       </button>
 
       <!-- Play/Pause -->
@@ -116,29 +113,31 @@
 
   <!-- Control & Customization Toolbar -->
   <section class="w-full max-w-5xl bg-[#0c1017] border border-slate-800/80 rounded-xl p-3.5 mb-4 flex flex-col gap-3 text-xs text-slate-400 shadow-lg">
-    <!-- Top Row: Formation Timeline Scrubber & Jeweler Stages -->
+    <!-- Top Row: Slow Formation Timeline Scrubber & Live Stage Badge -->
     <div class="flex flex-col gap-2 bg-black/40 p-2.5 rounded-lg border border-slate-800">
       <div class="flex items-center gap-3">
         <span class="text-amber-400 font-mono font-bold flex items-center gap-1.5 shrink-0">
           <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
-          Assembly Timeline:
+          Slow Formation Timeline:
         </span>
-        <input id="scrubber" type="range" min="0" max="8.07" step="0.05" value="8.07" class="flex-1 accent-amber-400 h-2 bg-slate-800 rounded-lg cursor-pointer">
-        <span id="scrubber-label" class="font-mono text-amber-300 font-bold w-20 text-right">08.07s (100%)</span>
+        <input id="scrubber" type="range" min="0" max="12.0" step="0.05" value="0.0" class="flex-1 accent-amber-500 h-2 bg-slate-800 rounded-lg cursor-pointer">
+        <span id="scrubber-label" class="font-mono text-amber-300 font-bold w-24 text-right">00.00s (0%)</span>
       </div>
 
-      <!-- 5-Stage Jeweler Assembly Navigation Buttons -->
+      <!-- Live Stage Progression & Speed Buttons -->
       <div class="flex flex-wrap items-center justify-between gap-1 text-[11px] font-mono pt-1 border-t border-slate-800/80">
-        <span class="text-slate-400 font-semibold">Goldsmith Stages:</span>
-        <div class="flex flex-wrap items-center gap-1.5">
-          <button class="stage-nav-btn px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 transition" data-stage="1" data-time="1.6">1. Band Cast</button>
-          <button class="stage-nav-btn px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 transition" data-stage="2" data-time="3.2">2. Cathedral Shoulders</button>
-          <button class="stage-nav-btn px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 transition" data-stage="3" data-time="4.8">3. Gallery Rail</button>
-          <button class="stage-nav-btn px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 transition" data-stage="4" data-time="6.4">4. 4 Claws Crimp</button>
-          <button class="stage-nav-btn px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-600/40 font-bold transition" data-stage="5" data-time="8.07">5. Diamond Lock & Brilliance</button>
+        <div class="flex items-center gap-1.5">
+          <span class="text-slate-400 font-semibold">Formation Speed:</span>
+          <button class="speed-btn px-2 py-0.5 rounded bg-amber-500 text-slate-950 font-bold" data-speed="0.5">0.5x Extra Slow</button>
+          <button class="speed-btn px-2 py-0.5 rounded bg-slate-800 text-slate-300 hover:bg-slate-700" data-speed="1.0">1.0x Slow</button>
+          <button class="speed-btn px-2 py-0.5 rounded bg-slate-800 text-slate-300 hover:bg-slate-700" data-speed="2.0">2.0x Fast</button>
+          <label class="flex items-center gap-1 text-slate-300 ml-2 cursor-pointer">
+            <input id="cb-loop" type="checkbox" checked class="accent-amber-500">
+            <span>🔁 Auto-Loop</span>
+          </label>
         </div>
         <span id="formation-stage-badge" class="px-2 py-0.5 rounded bg-amber-950 text-amber-400 border border-amber-800 text-[10px] font-semibold">
-          Stage 5: Brilliance Locked
+          Stage 1: Molten Band Forging
         </span>
       </div>
     </div>
@@ -171,7 +170,6 @@
 
       <!-- Metal & Gemstone Selectors -->
       <div class="flex items-center gap-3">
-        <!-- Metal Selector -->
         <div class="flex items-center gap-1.5">
           <span class="text-amber-400 font-medium">Metal:</span>
           <select id="metal-select" class="bg-black/60 border border-slate-700 rounded-lg px-2 py-1 text-slate-200 text-xs font-mono focus:outline-none focus:border-amber-400 cursor-pointer">
@@ -181,7 +179,6 @@
           </select>
         </div>
 
-        <!-- Gemstone Selector -->
         <div class="flex items-center gap-1.5">
           <span class="text-cyan-300 font-medium">Gemstone:</span>
           <select id="gem-select" class="bg-black/60 border border-slate-700 rounded-lg px-2 py-1 text-slate-200 text-xs font-mono focus:outline-none focus:border-cyan-400 cursor-pointer">
@@ -196,7 +193,7 @@
       </div>
     </div>
 
-    <!-- Bottom Row: Dedication & Controls -->
+    <!-- Bottom Row: Dedication & Photo Snapshot -->
     <div class="flex flex-wrap items-center justify-between gap-3">
       <div class="flex items-center flex-1 min-w-[280px] gap-2">
         <span class="text-rose-400 font-medium">💌 Dedication:</span>
@@ -206,17 +203,9 @@
         </button>
       </div>
 
-      <div class="flex items-center gap-4">
-        <!-- Speed -->
-        <label class="flex items-center gap-2">
-          <span class="text-slate-300 font-medium">Speed:</span>
-          <input id="slider-speed" type="range" min="0.25" max="3.0" step="0.25" value="1.0" class="w-20 accent-amber-400 h-1.5 bg-slate-800 rounded cursor-pointer">
-          <span id="speed-val" class="font-mono text-slate-300 w-10">1.0x</span>
-        </label>
-        <button id="btn-snapshot" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition" title="Save high-resolution image of the ring">
-          📸 Save Photo
-        </button>
-      </div>
+      <button id="btn-snapshot" class="px-3 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition" title="Save high-resolution image of the ring">
+        📸 Save Photo
+      </button>
     </div>
   </section>
 
@@ -225,7 +214,6 @@
 
     <!-- VIEW 1: PHOTOREALISTIC 3D REAL RING CANVAS -->
     <div id="real3d-panel" class="w-full bg-[#0a0e17] border border-slate-800 rounded-2xl overflow-hidden flex flex-col shadow-2xl relative min-h-[500px]">
-      <!-- Title Bar -->
       <div class="bg-[#0f1420] px-4 py-2.5 border-b border-slate-800 flex items-center justify-between">
         <div class="flex items-center gap-2">
           <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse"></span>
@@ -241,17 +229,13 @@
         </div>
       </div>
 
-      <!-- 3D Viewport with Studio Background -->
       <div id="canvas-container" class="studio-bg w-full flex-1 relative flex items-center justify-center cursor-grab active:cursor-grabbing overflow-hidden min-h-[440px]">
         <div class="absolute top-3 left-4 z-20 text-[11px] font-mono text-slate-400 pointer-events-none bg-black/40 px-2 py-1 rounded-md border border-slate-800/60">
           [ 360° Drag to Orbit · Scroll to Zoom · Solid 3D Model ]
         </div>
-
-        <!-- Pure Native WebGL Canvas (Zero External CDN Dependencies) -->
         <canvas id="webgl-canvas" class="w-full h-full block"></canvas>
       </div>
 
-      <!-- Viewport Bottom HUD Overlay -->
       <div class="bg-black/60 px-4 py-2 border-t border-slate-800 flex items-center justify-between text-xs font-mono text-slate-400">
         <div class="flex items-center gap-3">
           <span class="text-amber-400">💍 Solitaire Engagement Ring</span>
@@ -266,9 +250,8 @@
       </div>
     </div>
 
-    <!-- VIEW 2: VIRAL RETRO ASCII TERMINAL ARTWORK (Toggled via Switcher) -->
+    <!-- VIEW 2: VIRAL RETRO ASCII TERMINAL ARTWORK -->
     <div id="ascii-panel" class="hidden w-full flex flex-col md:flex-row gap-5 items-stretch justify-center">
-      <!-- Line Tracker Sidebar -->
       <aside class="w-full md:w-56 bg-[#0c1017] border border-slate-800/80 rounded-xl p-3 flex flex-col gap-2 shrink-0 text-xs">
         <div class="flex items-center justify-between pb-2 border-b border-slate-800">
           <span class="font-mono font-semibold text-slate-300">art.py Tracker</span>
@@ -278,11 +261,9 @@
           Instagram Reel algorithm verbatim execution.
         </div>
         <div id="line-list" class="flex flex-col gap-1 font-mono text-[11px] overflow-y-auto max-h-80 pr-1">
-          <!-- Populated by JS -->
         </div>
       </aside>
 
-      <!-- Terminal Output Screen -->
       <div class="flex-1 crt-box crt-scanlines rounded-2xl border border-slate-800 overflow-hidden flex flex-col relative min-h-[500px]">
         <div class="bg-[#0f1420] px-4 py-2 border-b border-slate-800 flex items-center justify-between text-xs font-mono text-slate-400 z-20">
           <div class="flex items-center gap-2">
@@ -301,7 +282,6 @@
 
   </main>
 
-  <!-- Share Toast Notification -->
   <div id="toast" class="fixed bottom-6 right-6 z-50 bg-slate-900 border border-amber-500/60 shadow-2xl rounded-xl px-4 py-2.5 text-xs text-amber-200 font-mono transform translate-y-20 opacity-0 transition duration-300 flex items-center gap-2">
     <span>✨</span>
     <span id="toast-msg">Link copied to clipboard!</span>
@@ -310,36 +290,15 @@
   <script>
     const TAU = 2 * Math.PI;
 
-    // ==========================================
-    // AUDIO SYNTHESIZER (Spatial Chimes & Forge)
-    // ==========================================
+    // AUDIO SYNTHESIZER
     class CrystalAudio {
-      constructor() {
-        this.ctx = null;
-        this.enabled = false;
-      }
+      constructor() { this.ctx = null; this.enabled = false; }
       init() {
         if (!this.ctx) {
           const AudioContext = window.AudioContext || window.webkitAudioContext;
           if (AudioContext) this.ctx = new AudioContext();
         }
-        if (this.ctx && this.ctx.state === "suspended") {
-          this.ctx.resume();
-        }
-      }
-      playChime(freq, vol = 0.12) {
-        if (!this.enabled || !this.ctx) return;
-        const now = this.ctx.currentTime;
-        const osc = this.ctx.createOscillator();
-        const gain = this.ctx.createGain();
-        osc.type = "sine";
-        osc.frequency.setValueAtTime(freq, now);
-        gain.gain.setValueAtTime(vol, now);
-        gain.gain.exponentialRampToValueAtTime(0.0001, now + 1.2);
-        osc.connect(gain);
-        gain.connect(this.ctx.destination);
-        osc.start(now);
-        osc.stop(now + 1.3);
+        if (this.ctx && this.ctx.state === "suspended") this.ctx.resume();
       }
       playForge(vol = 0.15) {
         if (!this.enabled || !this.ctx) return;
@@ -359,9 +318,7 @@
     }
     const audio = new CrystalAudio();
 
-    // ==========================================
-    // 4X4 MATRIX MATH (Pure Vanilla JS, 0 dependencies)
-    // ==========================================
+    // 4X4 MATRIX MATH
     const Mat4 = {
       create: () => new Float32Array([1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]),
       perspective: (out, fovy, aspect, near, far) => {
@@ -440,16 +397,14 @@
       }
     };
 
-    // ==========================================
-    // 3D SOLID JEWELRY MESH GENERATION
-    // ==========================================
-
+    // MESH BUILDERS
     function buildBandData() {
-      const positions = [], normals = [], indices = [];
+      const positions = [], normals = [], formVals = [], indices = [];
       const nT = 120, nP = 24;
       for (let i = 0; i <= nT; i++) {
         const t = (i / nT) * TAU, sx = Math.sin(t), sy = Math.cos(t);
         const angFromBot = Math.abs(Math.PI - t);
+        const formProgressVal = angFromBot / Math.PI;
         const topF = Math.max(0.0, (angFromBot - 2.1) / (Math.PI - 2.1));
         const rBand = 1.05 + 0.08 * (topF * topF);
         const rX = 0.16 + 0.05 * topF, rZ = 0.19 + 0.05 * topF;
@@ -459,6 +414,7 @@
           const radOff = (cp < 0 ? cp * 0.85 : cp * 1.15) * rX;
           positions.push((rBand + radOff) * sx, (rBand + radOff) * sy, sp * rZ);
           normals.push(cp * sx, cp * sy, sp);
+          formVals.push(formProgressVal);
         }
       }
       for (let i = 0; i < nT; i++) {
@@ -468,19 +424,21 @@
           indices.push(a, b, d, b, c, d);
         }
       }
-      return { positions: new Float32Array(positions), normals: new Float32Array(normals), indices: new Uint16Array(indices) };
+      return { positions: new Float32Array(positions), normals: new Float32Array(normals), formVals: new Float32Array(formVals), indices: new Uint16Array(indices) };
     }
 
     function buildGalleryData() {
-      const positions = [], normals = [], indices = [];
+      const positions = [], normals = [], formVals = [], indices = [];
       const nT = 64, nP = 12;
       for (let i = 0; i <= nT; i++) {
         const t = (i / nT) * TAU, ct = Math.cos(t), st = Math.sin(t);
         const gx = 0.38 * ct, gz = 0.38 * st;
+        const formVal = Math.abs(Math.PI - t) / Math.PI;
         for (let j = 0; j <= nP; j++) {
           const p = (j / nP) * TAU, cp = Math.cos(p), sp = Math.sin(p);
           positions.push(gx + 0.028 * cp * ct, 1.25 + 0.028 * sp, gz + 0.028 * cp * st);
           normals.push(cp * ct, sp, cp * st);
+          formVals.push(formVal);
         }
       }
       for (let i = 0; i < nT; i++) {
@@ -490,11 +448,11 @@
           indices.push(a, b, d, b, c, d);
         }
       }
-      return { positions: new Float32Array(positions), normals: new Float32Array(normals), indices: new Uint16Array(indices) };
+      return { positions: new Float32Array(positions), normals: new Float32Array(normals), formVals: new Float32Array(formVals), indices: new Uint16Array(indices) };
     }
 
     function buildProngsData() {
-      const positions = [], normals = [], indices = [];
+      const positions = [], normals = [], formVals = [], indices = [];
       let baseIdx = 0;
       for (let k = 0; k < 4; k++) {
         const a = TAU * (k + 0.5) / 4, ca = Math.cos(a), sa = Math.sin(a);
@@ -508,6 +466,7 @@
             const th = 0.030 * (1.0 - 0.25 * frac);
             positions.push(r * ca - sa * th * cp, y + th * sp, r * sa + ca * th * cp);
             normals.push(-sa * cp, sp, ca * cp);
+            formVals.push(frac);
           }
         }
         for (let u = 0; u < nSteps; u++) {
@@ -521,24 +480,20 @@
         }
         baseIdx += (nSteps + 1) * (nPhi + 1);
       }
-      return { positions: new Float32Array(positions), normals: new Float32Array(normals), indices: new Uint16Array(indices) };
+      return { positions: new Float32Array(positions), normals: new Float32Array(normals), formVals: new Float32Array(formVals), indices: new Uint16Array(indices) };
     }
 
     function buildDiamondData() {
-      const positions = [], normals = [], facetIds = [];
+      const positions = [], normals = [], facetIds = [], formVals = [];
       const TABLE_Y = 1.62, TABLE_R = 0.36;
       const STAR_Y = 1.50, STAR_R = 0.46;
       const GIRDLE_Y_TOP = 1.38, GIRDLE_Y_BOT = 1.34, GIRDLE_R = 0.56;
       const CULET_Y = 1.08;
 
       const tablePts = [];
-      for (let i = 0; i < 8; i++) {
-        tablePts.push([TABLE_R * Math.cos(i * TAU / 8), TABLE_Y, TABLE_R * Math.sin(i * TAU / 8)]);
-      }
+      for (let i = 0; i < 8; i++) tablePts.push([TABLE_R * Math.cos(i * TAU / 8), TABLE_Y, TABLE_R * Math.sin(i * TAU / 8)]);
       const starPts = [];
-      for (let i = 0; i < 8; i++) {
-        starPts.push([STAR_R * Math.cos((i + 0.5) * TAU / 8), STAR_Y, STAR_R * Math.sin((i + 0.5) * TAU / 8)]);
-      }
+      for (let i = 0; i < 8; i++) starPts.push([STAR_R * Math.cos((i + 0.5) * TAU / 8), STAR_Y, STAR_R * Math.sin((i + 0.5) * TAU / 8)]);
       const girdleTop = [];
       const girdleBot = [];
       for (let i = 0; i < 16; i++) {
@@ -547,7 +502,7 @@
       }
       const culet = [0.0, CULET_Y, 0.0];
 
-      function addTri(p0, p1, p2, fid) {
+      function addTri(p0, p1, p2, fid, fval) {
         let v0 = p0, v1 = p1, v2 = p2;
         const ax = v1[0] - v0[0], ay = v1[1] - v0[1], az = v1[2] - v0[2];
         const bx = v2[0] - v0[0], by = v2[1] - v0[1], bz = v2[2] - v0[2];
@@ -566,57 +521,45 @@
         positions.push(...v0, ...v1, ...v2);
         normals.push(nx, ny, nz, nx, ny, nz, nx, ny, nz);
         facetIds.push(fid, fid, fid);
+        formVals.push(fval, fval, fval);
       }
 
-      for (let i = 1; i < 7; i++) {
-        addTri(tablePts[0], tablePts[i], tablePts[i+1], 0);
-      }
-      for (let i = 0; i < 8; i++) {
-        addTri(tablePts[i], tablePts[(i+1)%8], starPts[i], i + 1);
-      }
+      for (let i = 1; i < 7; i++) addTri(tablePts[0], tablePts[i], tablePts[i+1], 0, 1.0);
+      for (let i = 0; i < 8; i++) addTri(tablePts[i], tablePts[(i+1)%8], starPts[i], i + 1, 0.85);
       for (let i = 0; i < 8; i++) {
         const gMain = girdleTop[2 * i];
         const spPrev = starPts[(i - 1 + 8) % 8];
         const spCurr = starPts[i];
-        addTri(tablePts[i], spPrev, gMain, i + 9);
-        addTri(tablePts[i], gMain, spCurr, i + 9);
+        addTri(tablePts[i], spPrev, gMain, i + 9, 0.70);
+        addTri(tablePts[i], gMain, spCurr, i + 9, 0.70);
 
         const gHalf = girdleTop[(2 * i + 1) % 16];
-        addTri(spCurr, gMain, gHalf, i + 17);
+        addTri(spCurr, gMain, gHalf, i + 17, 0.65);
         const gNextMain = girdleTop[(2 * i + 2) % 16];
-        addTri(spCurr, gHalf, gNextMain, i + 25);
+        addTri(spCurr, gHalf, gNextMain, i + 25, 0.65);
       }
       for (let i = 0; i < 16; i++) {
         const next = (i + 1) % 16;
-        addTri(girdleTop[i], girdleBot[i], girdleTop[next], 33);
-        addTri(girdleTop[next], girdleBot[i], girdleBot[next], 33);
+        addTri(girdleTop[i], girdleBot[i], girdleTop[next], 33, 0.50);
+        addTri(girdleTop[next], girdleBot[i], girdleBot[next], 33, 0.50);
       }
       const pavMains = [];
-      for (let i = 0; i < 8; i++) {
-        pavMains.push([0.38 * Math.cos((i + 0.5) * TAU / 8), 1.22, 0.38 * Math.sin((i + 0.5) * TAU / 8)]);
-      }
+      for (let i = 0; i < 8; i++) pavMains.push([0.38 * Math.cos((i + 0.5) * TAU / 8), 1.22, 0.38 * Math.sin((i + 0.5) * TAU / 8)]);
       for (let i = 0; i < 8; i++) {
         const g0 = girdleBot[2 * i];
         const g1 = girdleBot[(2 * i + 2) % 16];
         const gh = girdleBot[(2 * i + 1) % 16];
         const pm = pavMains[i];
-        addTri(g0, gh, pm, i + 34);
-        addTri(gh, g1, pm, i + 34);
-        addTri(g0, pm, culet, i + 42);
-        addTri(pm, g1, culet, i + 42);
+        addTri(g0, gh, pm, i + 34, 0.35);
+        addTri(gh, g1, pm, i + 34, 0.35);
+        addTri(g0, pm, culet, i + 42, 0.15);
+        addTri(pm, g1, culet, i + 42, 0.15);
       }
 
-      return {
-        positions: new Float32Array(positions),
-        normals: new Float32Array(normals),
-        facetIds: new Float32Array(facetIds),
-        count: positions.length / 3
-      };
+      return { positions: new Float32Array(positions), normals: new Float32Array(normals), facetIds: new Float32Array(facetIds), formVals: new Float32Array(formVals), count: positions.length / 3 };
     }
 
-    // ==========================================
-    // PURE WEBGL INITIALIZATION (0 EXTERNAL CDNS)
-    // ==========================================
+    // WEBGL SETUP
     const canvas = document.getElementById("webgl-canvas");
     const canvasContainer = document.getElementById("canvas-container");
 
@@ -631,20 +574,28 @@
       attribute vec3 aPos;
       attribute vec3 aNormal;
       attribute float aFacet;
+      attribute float aFormVal;
 
       uniform mat4 uMVP;
       uniform mat4 uModel;
+      uniform float uHoverY;
+      uniform float uScale;
 
       varying vec3 vWorldPos;
       varying vec3 vNormal;
       varying float vFacet;
+      varying float vFormVal;
 
       void main() {
-        vec4 wPos = uModel * vec4(aPos, 1.0);
+        vec3 p = aPos;
+        p = vec3(p.x * uScale, (p.y - 1.36) * uScale + 1.36 + uHoverY, p.z * uScale);
+
+        vec4 wPos = uModel * vec4(p, 1.0);
         vWorldPos = wPos.xyz;
         vNormal = normalize((uModel * vec4(aNormal, 0.0)).xyz);
         vFacet = aFacet;
-        gl_Position = uMVP * vec4(aPos, 1.0);
+        vFormVal = aFormVal;
+        gl_Position = uMVP * vec4(p, 1.0);
       }
     `;
 
@@ -654,14 +605,21 @@
       varying vec3 vWorldPos;
       varying vec3 vNormal;
       varying float vFacet;
+      varying float vFormVal;
 
       uniform vec3 uEye;
       uniform vec3 uColor;
       uniform float uMetalness;
       uniform bool uIsGem;
       uniform float uTime;
+      uniform float uProgress;
+      uniform float uFirePower;
 
       void main() {
+        if (vFormVal > uProgress) {
+          discard;
+        }
+
         vec3 N = normalize(vNormal);
         if (!gl_FrontFacing) N = -N;
 
@@ -672,6 +630,13 @@
         vec3 L3 = normalize(vec3(0.0, -3.0, 3.0));
 
         if (!uIsGem) {
+          float edgeDist = abs(vFormVal - uProgress);
+          if (edgeDist < 0.035 && uProgress < 0.99 && uProgress > 0.01) {
+            vec3 weldGlow = vec3(1.0, 0.85, 0.35) * (1.0 + (0.035 - edgeDist) * 30.0);
+            gl_FragColor = vec4(weldGlow, 1.0);
+            return;
+          }
+
           float d1 = max(dot(N, L1), 0.0);
           float d2 = max(dot(N, L2), 0.0);
           vec3 H1 = normalize(L1 + V);
@@ -702,8 +667,8 @@
 
           vec3 body = mix(uColor * 0.45, vec3(0.96, 0.98, 1.0), 0.72);
           vec3 internalReflect = body * (0.38 + 0.58 * NdotV);
-          vec3 dispersion = fireCol * glint * 2.1;
-          vec3 starBurst = vec3(1.0) * spec * 2.8;
+          vec3 dispersion = fireCol * glint * (2.1 * uFirePower);
+          vec3 starBurst = vec3(1.0) * spec * (2.8 * uFirePower);
           vec3 edgeGlow = vec3(0.88, 0.96, 1.0) * fresnel * 0.95;
 
           gl_FragColor = vec4(internalReflect + dispersion + starBurst + edgeGlow, 0.97);
@@ -730,6 +695,7 @@
     const aPos = gl.getAttribLocation(prog, "aPos");
     const aNormal = gl.getAttribLocation(prog, "aNormal");
     const aFacet = gl.getAttribLocation(prog, "aFacet");
+    const aFormVal = gl.getAttribLocation(prog, "aFormVal");
     gl.enableVertexAttribArray(aPos);
     gl.enableVertexAttribArray(aNormal);
 
@@ -740,6 +706,10 @@
     const uMetalness = gl.getUniformLocation(prog, "uMetalness");
     const uIsGem = gl.getUniformLocation(prog, "uIsGem");
     const uTime = gl.getUniformLocation(prog, "uTime");
+    const uProgress = gl.getUniformLocation(prog, "uProgress");
+    const uFirePower = gl.getUniformLocation(prog, "uFirePower");
+    const uHoverY = gl.getUniformLocation(prog, "uHoverY");
+    const uScale = gl.getUniformLocation(prog, "uScale");
 
     const bandData = buildBandData();
     const galData = buildGalleryData();
@@ -755,6 +725,13 @@
       gl.bindBuffer(gl.ARRAY_BUFFER, normBuf);
       gl.bufferData(gl.ARRAY_BUFFER, data.normals, gl.STATIC_DRAW);
 
+      let formBuf = null;
+      if (data.formVals) {
+        formBuf = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, formBuf);
+        gl.bufferData(gl.ARRAY_BUFFER, data.formVals, gl.STATIC_DRAW);
+      }
+
       let idxBuf = null;
       if (data.indices) {
         idxBuf = gl.createBuffer();
@@ -769,7 +746,7 @@
         gl.bufferData(gl.ARRAY_BUFFER, data.facetIds, gl.STATIC_DRAW);
       }
 
-      return { posBuf, normBuf, idxBuf, facetBuf, count: data.indices ? data.indices.length : data.count };
+      return { posBuf, normBuf, formBuf, idxBuf, facetBuf, count: data.indices ? data.indices.length : data.count };
     }
 
     const bandGPU = createMeshBuffers(bandData);
@@ -777,16 +754,15 @@
     const prongsGPU = createMeshBuffers(prongsData);
     const diamondGPU = createMeshBuffers(diamondData);
 
-    // ==========================================
-    // INTERACTION & 90-DEGREE PRESETS
-    // ==========================================
-    let rotX = 0.0, rotY = 0.0, camDist = 4.8;
+    // CONTROLS & STATE
+    const TOTAL_DURATION = 12.0;
+    let animTime = 0.0; // Starts from 0.0s to form slowly on load!
+    let speedMult = 0.5; // Default 0.5x Extra Slow
     let isPlaying = true;
-    let animTime = 8.07;
-    let speedMult = 1.0;
-    const formationDuration = 8.07;
     let isScrubbing = false;
-    let currentStage = 5;
+    let holdDuration = 3.0;
+
+    let rotX = 0.0, rotY = 0.0, camDist = 4.8;
 
     const METALS = {
       gold: { name: "18K YELLOW GOLD", color: [1.0, 0.82, 0.30], metal: 0.95 },
@@ -824,8 +800,9 @@
     const btnShare = document.getElementById("btn-share-link");
     const toast = document.getElementById("toast");
     const toastMsg = document.getElementById("toast-msg");
+    const cbLoop = document.getElementById("cb-loop");
 
-    // 90-DEGREE ANGLE BUTTONS
+    // 90° View Presets
     const btn90Upright = document.getElementById("btn-angle-upright");
     const btn90Profile = document.getElementById("btn-angle-profile");
     const btn90Overhead = document.getElementById("btn-angle-overhead");
@@ -857,9 +834,6 @@
         angleIndicator.textContent = "Showcase 26°";
         btnShowcase.className = "px-2.5 py-1 rounded bg-amber-500 text-slate-950 font-bold border border-amber-400 font-mono text-xs shadow-sm";
       }
-      isPlaying = false;
-      playIcon.textContent = "▶";
-      playLabel.textContent = "Play";
     }
 
     btn90Upright.addEventListener("click", () => setCameraAngle("upright"));
@@ -878,18 +852,6 @@
       currentGemKey = e.target.value;
     });
 
-    function updateFormation(t) {
-      const normT = Math.min(1.0, t / formationDuration);
-      currentStage = 1 + Math.floor(normT * 4.99);
-
-      let stageName = "1. Band Cast";
-      if (normT >= 0.85) stageName = "Stage 5: Brilliance Locked";
-      else if (normT >= 0.70) stageName = "Stage 4: 4 Claws Crimp";
-      else if (normT >= 0.50) stageName = "Stage 3: Gallery Rail Mount";
-      else if (normT >= 0.25) stageName = "Stage 2: Cathedral Shoulders";
-      stageBadge.textContent = stageName;
-    }
-
     btnPlay.addEventListener("click", () => {
       isPlaying = !isPlaying;
       playIcon.textContent = isPlaying ? "⏸" : "▶";
@@ -905,6 +867,17 @@
       audio.playForge();
     });
 
+    const speedButtons = document.querySelectorAll(".speed-btn");
+    speedButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        speedMult = parseFloat(btn.dataset.speed);
+        speedButtons.forEach(b => {
+          b.className = "speed-btn px-2 py-0.5 rounded bg-slate-800 text-slate-300 hover:bg-slate-700";
+        });
+        btn.className = "speed-btn px-2 py-0.5 rounded bg-amber-500 text-slate-950 font-bold";
+      });
+    });
+
     btnSound.addEventListener("click", () => {
       audio.init();
       audio.enabled = !audio.enabled;
@@ -917,18 +890,8 @@
     scrubber.addEventListener("input", (e) => {
       isScrubbing = true;
       animTime = parseFloat(e.target.value);
-      updateFormation(animTime);
-      scrubberLabel.textContent = `${animTime.toFixed(2)}s (${Math.round((animTime/formationDuration)*100)}%)`;
     });
     scrubber.addEventListener("change", () => isScrubbing = false);
-
-    document.querySelectorAll(".stage-nav-btn").forEach(btn => {
-      btn.addEventListener("click", () => {
-        animTime = parseFloat(btn.dataset.time);
-        scrubber.value = animTime;
-        updateFormation(animTime);
-      });
-    });
 
     inputMessage.addEventListener("input", (e) => {
       hudDedication.textContent = e.target.value || "@jin_22ee · 2026";
@@ -954,11 +917,10 @@
       const dataUrl = canvas.toDataURL("image/png");
       const a = document.createElement("a");
       a.href = dataUrl;
-      a.download = `real-diamond-ring-90deg-${Date.now()}.png`;
+      a.download = `real-diamond-ring-slow-${Date.now()}.png`;
       a.click();
     });
 
-    // VIEW MODE SWITCHER: 3D REAL RING VS ASCII REEL
     const btnReal3D = document.getElementById("view-mode-real3d");
     const btnAscii = document.getElementById("view-mode-ascii");
     const real3dPanel = document.getElementById("real3d-panel");
@@ -1007,9 +969,6 @@
       camDist = Math.max(2.4, Math.min(8.5, camDist + e.deltaY * 0.003));
     }, { passive: false });
 
-    // ==========================================
-    // RENDER LOOP (60 FPS)
-    // ==========================================
     gl.enable(gl.DEPTH_TEST);
     gl.enable(gl.BLEND);
     gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
@@ -1054,13 +1013,41 @@
 
       if (isPlaying && !isScrubbing) {
         animTime += dt * speedMult;
-        if (animTime > formationDuration) {
-          animTime = formationDuration; // Lock at stage 5 when complete
+        if (animTime > TOTAL_DURATION + holdDuration) {
+          if (cbLoop.checked) {
+            animTime = 0.0;
+          } else {
+            animTime = TOTAL_DURATION;
+          }
         }
-        rotY += 0.014 * speedMult;
-        scrubber.value = animTime;
-        scrubberLabel.textContent = `${animTime.toFixed(2)}s (${Math.min(100, Math.round((animTime/formationDuration)*100))}%)`;
-        updateFormation(animTime);
+        scrubber.value = Math.min(TOTAL_DURATION, animTime).toFixed(2);
+      }
+
+      const curT = Math.min(TOTAL_DURATION, animTime);
+      const progressPercent = Math.min(100, Math.round((curT / TOTAL_DURATION) * 100));
+      scrubberLabel.textContent = `${curT.toFixed(2)}s (${progressPercent}%)`;
+
+      const pBand = Math.min(1.0, Math.max(0.0, curT / 3.8));
+      const pGallery = Math.min(1.0, Math.max(0.0, (curT - 3.8) / 2.4));
+      const pProngs = Math.min(1.0, Math.max(0.0, (curT - 6.2) / 2.4));
+      const pDiamond = Math.min(1.0, Math.max(0.0, (curT - 8.6) / 2.4));
+      const pFire = Math.min(1.0, Math.max(0.0, (curT - 11.0) / 1.0));
+
+      if (curT < 3.8) {
+        stageBadge.textContent = `Stage 1: Molten Band (${Math.round(pBand*100)}%)`;
+        stageBadge.className = "px-2 py-0.5 rounded bg-amber-950 text-amber-300 border border-amber-800 text-[10px] font-semibold";
+      } else if (curT < 6.2) {
+        stageBadge.textContent = `Stage 2: Cathedral & Rail (${Math.round(pGallery*100)}%)`;
+        stageBadge.className = "px-2 py-0.5 rounded bg-amber-950 text-amber-300 border border-amber-800 text-[10px] font-semibold";
+      } else if (curT < 8.6) {
+        stageBadge.textContent = `Stage 3: Prongs Rising (${Math.round(pProngs*100)}%)`;
+        stageBadge.className = "px-2 py-0.5 rounded bg-amber-950 text-amber-300 border border-amber-800 text-[10px] font-semibold";
+      } else if (curT < 11.0) {
+        stageBadge.textContent = `Stage 4: Diamond Descent (${Math.round(pDiamond*100)}%)`;
+        stageBadge.className = "px-2 py-0.5 rounded bg-amber-950 text-amber-300 border border-amber-800 text-[10px] font-semibold";
+      } else {
+        stageBadge.textContent = `Stage 5: Brilliance Locked (100%)`;
+        stageBadge.className = "px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800 text-[10px] font-semibold";
       }
 
       gl.clearColor(0.04, 0.06, 0.09, 1.0);
@@ -1091,43 +1078,81 @@
         gl.vertexAttrib1f(aFacet, 0.0);
       }
 
-      // 1. Draw Gold Band
-      if (currentStage >= 1) {
+      gl.uniform1f(uHoverY, 0.0);
+      gl.uniform1f(uScale, 1.0);
+      gl.uniform1f(uFirePower, 0.0);
+
+      // 1. Draw Gold Band with continuous smooth arc growth
+      if (pBand > 0.001) {
         gl.uniform3fv(uColor, metal.color);
         gl.uniform1f(uMetalness, metal.metal);
         gl.uniform1i(uIsGem, 0);
+        gl.uniform1f(uProgress, pBand);
 
         gl.bindBuffer(gl.ARRAY_BUFFER, bandGPU.posBuf);
         gl.vertexAttribPointer(aPos, 3, gl.FLOAT, false, 0, 0);
         gl.bindBuffer(gl.ARRAY_BUFFER, bandGPU.normBuf);
         gl.vertexAttribPointer(aNormal, 3, gl.FLOAT, false, 0, 0);
+
+        if (aFormVal !== -1) {
+          gl.enableVertexAttribArray(aFormVal);
+          gl.bindBuffer(gl.ARRAY_BUFFER, bandGPU.formBuf);
+          gl.vertexAttribPointer(aFormVal, 1, gl.FLOAT, false, 0, 0);
+        }
+
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, bandGPU.idxBuf);
         gl.drawElements(gl.TRIANGLES, bandGPU.count, gl.UNSIGNED_SHORT, 0);
       }
 
       // 2. Draw Gallery Wire
-      if (currentStage >= 3) {
+      if (pGallery > 0.001) {
+        gl.uniform1f(uProgress, pGallery);
+
         gl.bindBuffer(gl.ARRAY_BUFFER, galGPU.posBuf);
         gl.vertexAttribPointer(aPos, 3, gl.FLOAT, false, 0, 0);
         gl.bindBuffer(gl.ARRAY_BUFFER, galGPU.normBuf);
         gl.vertexAttribPointer(aNormal, 3, gl.FLOAT, false, 0, 0);
+
+        if (aFormVal !== -1) {
+          gl.enableVertexAttribArray(aFormVal);
+          gl.bindBuffer(gl.ARRAY_BUFFER, galGPU.formBuf);
+          gl.vertexAttribPointer(aFormVal, 1, gl.FLOAT, false, 0, 0);
+        }
+
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, galGPU.idxBuf);
         gl.drawElements(gl.TRIANGLES, galGPU.count, gl.UNSIGNED_SHORT, 0);
       }
 
       // 3. Draw 4 Claw Prongs
-      if (currentStage >= 4) {
+      if (pProngs > 0.001) {
+        gl.uniform1f(uProgress, pProngs);
+
         gl.bindBuffer(gl.ARRAY_BUFFER, prongsGPU.posBuf);
         gl.vertexAttribPointer(aPos, 3, gl.FLOAT, false, 0, 0);
         gl.bindBuffer(gl.ARRAY_BUFFER, prongsGPU.normBuf);
         gl.vertexAttribPointer(aNormal, 3, gl.FLOAT, false, 0, 0);
+
+        if (aFormVal !== -1) {
+          gl.enableVertexAttribArray(aFormVal);
+          gl.bindBuffer(gl.ARRAY_BUFFER, prongsGPU.formBuf);
+          gl.vertexAttribPointer(aFormVal, 1, gl.FLOAT, false, 0, 0);
+        }
+
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, prongsGPU.idxBuf);
         gl.drawElements(gl.TRIANGLES, prongsGPU.count, gl.UNSIGNED_SHORT, 0);
       }
 
       // 4. Draw Brilliant Cut Diamond
-      if (currentStage >= 5) {
+      if (pDiamond > 0.001) {
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
+
+        const hoverY = (1.0 - pDiamond) * 0.90;
+        const gemScale = 0.35 + 0.65 * pDiamond;
+
+        gl.uniform1f(uHoverY, hoverY);
+        gl.uniform1f(uScale, gemScale);
+        gl.uniform1f(uProgress, 1.0);
+        gl.uniform1f(uFirePower, pFire);
 
         gl.uniform3fv(uColor, gem.color);
         gl.uniform1f(uMetalness, 0.0);
@@ -1137,6 +1162,11 @@
         gl.vertexAttribPointer(aPos, 3, gl.FLOAT, false, 0, 0);
         gl.bindBuffer(gl.ARRAY_BUFFER, diamondGPU.normBuf);
         gl.vertexAttribPointer(aNormal, 3, gl.FLOAT, false, 0, 0);
+
+        if (aFormVal !== -1) {
+          gl.disableVertexAttribArray(aFormVal);
+          gl.vertexAttrib1f(aFormVal, 0.0);
+        }
 
         if (aFacet !== -1) {
           gl.enableVertexAttribArray(aFacet);
@@ -1153,7 +1183,6 @@
       }
     }
 
-    // Default to 90° Upright
     setCameraAngle("upright");
     requestAnimationFrame(render);
   </script>
